@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 
-class Company extends Model
+class Admin extends Model
 {
     use HasApiTokens, HasFactory;
 
     protected $fillable = [
         'name',
-        'cnpj',
         'password'
     ];
 
