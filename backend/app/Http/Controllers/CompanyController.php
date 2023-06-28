@@ -44,7 +44,7 @@ class CompanyController extends Controller
 
         } catch(ModelNotFoundException $exception) {
 
-            $message = 'Esta empresa não foi encontrada!';
+            $message = 'Esta empresa não existe.';
 
             return response()->json(['message' => $message, 404]);
 
@@ -68,7 +68,7 @@ class CompanyController extends Controller
 
         } catch(ModelNotFoundException $exception) {
 
-            $message = 'Esta empresa não foi encontrada!';
+            $message = 'Esta empresa não existe.';
 
             return response()->json(['message' => $message, 404]);
 
@@ -88,7 +88,7 @@ class CompanyController extends Controller
 
         } catch(ModelNotFoundException $exception) {
 
-            $message = 'Esta empresa não foi encontrada!';
+            $message = 'Esta empresa não existe';
 
             return response()->json(['message' => $message, 404]);
 
