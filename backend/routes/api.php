@@ -13,13 +13,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/companies', CompanyController::class);
 
     Route::apiResource('/goals', GoalsController::class);
-    Route::get('/companies/goals/{id}', [GoalsController::class, 'showCompanyGoals']);
+    Route::get('/company/{id}/goals', [GoalsController::class, 'showCompanyGoals']);
 
     Route::apiResource('/actions', ActionController::class);
-    Route::get('/goals/actions/{id}', [ActionController::class, 'showGoalActions']);
+    Route::get('/goal/{id}/actions', [ActionController::class, 'showGoalActions']);
 
     Route::apiResource('/stages', StageController::class);
-    Route::get('/actions/stages/{id}', [ActionController::class, 'showGoalActions']);
+    Route::get('/action/{id}/stages', [StageController::class, 'showActionStages']);
 
 });
 
