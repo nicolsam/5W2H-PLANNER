@@ -45,6 +45,13 @@ class ActionsResource extends JsonResource
                     'area' => $this->goal->area,
                     'created_at' => $this->goal->created_at,
                     'updated_at' => $this->goal->updated_at
+                ],
+                'responsible' => [
+                    'id' => $this->responsible->id,
+                    'name' => $this->responsible->name,
+                    'description' => $this->responsible->description,
+                    'created_at' => $this->responsible->created_at,
+                    'updated_at' => $this->responsible->updated_at
                 ]
             ]
         ];

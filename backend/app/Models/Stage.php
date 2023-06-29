@@ -11,13 +11,13 @@ class Stage extends Model
 
     protected $fillable = [
         'action_id',
+        'responsible_id',
         'name',
         'area',
         'what',
         'how',
         'start_at',
         'end_at',
-        'responsible',
         'value',
         'value_status',
         'status',

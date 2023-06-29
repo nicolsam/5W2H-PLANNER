@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Action;
+use App\Models\Responsible;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Stage>
@@ -26,7 +27,7 @@ class StageFactory extends Factory
             'how' => $this->faker->text(),
             'start_at' => $this->faker->date('Y-m-d H:i:s'),
             'end_at' => $this->faker->date('Y-m-d H:i:s'),
-            'responsible' => $this->faker->words(2, true),
+            'responsible_id' => Responsible::all()->random()->id,
             'value' => $this->faker->numberBetween(0, 1000),
             'value_status' => $this->faker->randomElement([
                 'Solicitar Orçamento',

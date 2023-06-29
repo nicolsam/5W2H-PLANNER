@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('goal_id');
+            $table->unsignedBigInteger('responsible_id')->nullable();
             $table->string('name');
             $table->string('area');
             $table->string('what'); // WHAT
             $table->string('how'); // HOW
             $table->date('start_at'); // WHEN
             $table->date('end_at'); // WHEN
-            $table->string('responsible');
             $table->decimal('value');
             $table->enum('value_status', [
                 'Solicitar Orçamento',
@@ -46,6 +46,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('goals')
                 ->onDelete('cascade');
+            $table->foreign('responsible_id')
+                ->references('id')
+                ->on('responsibles')
+                ->onDelete('set null');
             $table->timestamps();
         });
     }

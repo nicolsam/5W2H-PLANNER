@@ -11,13 +11,13 @@ class Action extends Model
 
     protected $fillable = [
         'goal_id',
+        'responsible_id',
         'name',
         'area',
         'what',
         'how',
         'start_at',
         'end_at',
-        'responsible',
         'value',
         'value_status',
         'status',
@@ -28,6 +28,11 @@ class Action extends Model
     public function goal() {
         return $this->belongsTo(Goal::class);
     }
+
+    public function responsible() {
+        return $this->belongsTo(Responsible::class);
+    }
+
 
 
 }
