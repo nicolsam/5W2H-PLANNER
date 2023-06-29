@@ -7,7 +7,9 @@ use App\Models\Admin;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AdminAuthController extends Controller
 {
@@ -51,7 +53,7 @@ class AdminAuthController extends Controller
 
         }
 
-        $token = $admin->createToken('adminToken')->plainTextToken;
+        $token = $admin->createToken('API Token: admin', ['admin'])->plainTextToken;
 
         $response =  [
             'admin' => $admin,
@@ -62,7 +64,33 @@ class AdminAuthController extends Controller
 
     }
 
-    public function logout() {
+    public function logout(Request $request)
+    {
+
+        $accessToken = $request->bearerToken();
+
+        // Get access token from database
+        $token = PersonalAccessToken::findToken($accessToken);
+
+        try {
+
+            // Revoke token
+            $token->delete();
+
+            return response()->json([
+                'message' => 'Você foi deslogado com sucesso.'
+            ], 200);
+
+            throw new Exception();
+
+        } catch(Exception $e) {
+
+            return response()->json([
+            'message' => 'Você não foi deslogado com sucesso.'
+            ], 404);
+
+        }
+
 
     }
 }
