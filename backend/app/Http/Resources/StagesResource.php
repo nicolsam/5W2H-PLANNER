@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,9 @@ class StagesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $end = Carbon::parse($this->end_at, 'America/Sao_Paulo');
+        $now = Carbon::parse(now(), 'America/Sao_Paulo');
+
         return [
             'id' => $this->id,
             'attributes' => [
@@ -23,6 +27,7 @@ class StagesResource extends JsonResource
                 'how' => $this->how,
                 'start_at' => $this->start_at,
                 'end_at' => $this->end_at,
+                'remaining_days' => $end->diffInDays($now, true) + 1,
                 'responsible' => $this->responsible,
                 'value' => $this->value,
                 'value_status' => $this->value_status,
