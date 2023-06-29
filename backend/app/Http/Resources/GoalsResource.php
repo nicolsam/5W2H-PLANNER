@@ -25,6 +25,7 @@ class GoalsResource extends JsonResource
             'relationships' => [
                 'company' => [
                     'id' => $this->company->id,
+                    'name' => $this->company->name,
                     'cnpj' => $this->company->cnpj,
                     'created_at' => $this->company->created_at,
                     'updated_at' => $this->company->updated_at

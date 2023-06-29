@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateGoalRequest;
 use App\Http\Resources\GoalsResource;
 use App\Models\Company;
 use App\Models\Goal;
+use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,19 +24,28 @@ class GoalsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateGoalRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message, 404]);
+
+        }
+
+
+        $goal = Goal::create($data);
+
+        return new GoalsResource($goal);
     }
 
     /**
@@ -50,7 +61,7 @@ class GoalsController extends Controller
 
             $message = 'Esta meta não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -70,7 +81,7 @@ class GoalsController extends Controller
 
             $message = 'Esta empresa não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -78,19 +89,39 @@ class GoalsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateGoalRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            $goal = Goal::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta meta não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $goal->update($data);
+
+        return new GoalsResource($goal);
     }
 
     /**
@@ -98,6 +129,20 @@ class GoalsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+
+            $goal = Goal::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta meta não existe';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $goal->delete();
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
