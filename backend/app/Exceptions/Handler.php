@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +28,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e) {
+        if($e instanceof MissingAbilityException) {
+            return response()->json([
+                'message' => 'Você não tem permissão para executar esta ação.'
+            ], 403);
+        }
     }
 }
