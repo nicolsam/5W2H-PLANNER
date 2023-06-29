@@ -62,8 +62,7 @@ class ActionController extends Controller
 
             Goal::findOrFail($goal_id);
 
-            $action = Action::where('goal_id', $goal_id)->get();
-
+            $actions = Action::where('goal_id', $goal_id)->get();
 
         } catch(ModelNotFoundException $exception) {
 
@@ -73,7 +72,7 @@ class ActionController extends Controller
 
         }
 
-        return ActionsResource::collection($action);
+        return ActionsResource::collection($actions);
     }
 
     /**
@@ -99,4 +98,5 @@ class ActionController extends Controller
     {
         //
     }
+
 }
