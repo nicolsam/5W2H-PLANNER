@@ -21,6 +21,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/stages', StageController::class);
     Route::get('/action/{id}/stages', [StageController::class, 'showActionStages']);
 
+    Route::get('/count', [CompanyController::class, 'statusCount']);
+
 });
 
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
