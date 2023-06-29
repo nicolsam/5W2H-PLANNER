@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('responsibles', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('description');
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
