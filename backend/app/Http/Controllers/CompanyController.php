@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\CreateUpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
-
+use App\Models\Action;
 use App\Models\Company;
-
+use App\Models\Stage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 
@@ -100,4 +100,30 @@ class CompanyController extends Controller
 
     }
 
+    public function statusCount() {
+
+        $actionCompletedCount = Action::where('status', 'Finalizado')->count();
+        $actionToStartCount = Action::where('status', 'A Iniciar')->count();
+        $actionInProgressCount = Action::where('status', 'Em Andamento')->count();
+
+        $stageCompletedCount = Stage::where('status', 'Finalizado')->count();
+        $stageToStartCount = Stage::where('status', 'A Iniciar')->count();
+        $stageInProgressCount = Stage::where('status', 'Em Andamento')->count();
+
+        return [
+            'data' => [
+                'action' => [
+                    'completed' => $actionCompletedCount,
+                    'toStart' => $actionToStartCount,
+                    'inProgress' => $actionInProgressCount,
+                ],
+                'stage' => [
+                    'completed' => $stageCompletedCount,
+                    'toStart' => $stageToStartCount,
+                    'inProgress' => $stageInProgressCount,
+                ]
+            ]
+        ];
+
+    }
 }
