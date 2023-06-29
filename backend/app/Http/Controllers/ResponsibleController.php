@@ -6,7 +6,9 @@ use App\Http\Requests\StoreUpdateResponsibleRequest;
 use App\Http\Resources\ResponsiblesResource;
 use App\Models\Responsible;
 use App\Traits\HttpResponses;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 
 
@@ -66,6 +68,20 @@ class ResponsibleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+
+            $responsible = Responsible::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe';
+
+            return response()->json(['message' => $message, 404]);
+
+        }
+
+        $responsible->delete();
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
