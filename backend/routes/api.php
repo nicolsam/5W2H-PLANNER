@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyAuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GoalsController;
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\ResponsibleController;
 use App\Http\Controllers\StageController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -91,6 +92,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin']);
 
         Route::delete('/{id}', [StageController::class, 'destroy'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+    });
+
+    Route::prefix('/responsibles')->group(function () {
+
+        Route::get('/', [ResponsibleController::class, 'index'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+
+        Route::post('/', [ResponsibleController::class, 'store'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+        Route::get('/{id}', [ResponsibleController::class, 'show'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+
+        Route::patch('/{id}', [ResponsibleController::class, 'update'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+        Route::delete('/{id}', [ResponsibleController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
 
     });
