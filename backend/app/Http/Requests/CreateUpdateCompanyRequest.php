@@ -42,7 +42,7 @@ class CreateUpdateCompanyRequest extends FormRequest
                     'required',
                     'min:18',
                     'max:18',
-                    Rule::unique('companies')->ignore($this->route('company')),
+                    Rule::unique('companies')->ignore($this->id),
                 ],
                 'password' => 'nullable|min:8|max:100',
             ];
