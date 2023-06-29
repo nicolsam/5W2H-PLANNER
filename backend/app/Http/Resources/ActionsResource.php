@@ -29,7 +29,6 @@ class ActionsResource extends JsonResource
                 'start_at' => $this->start_at,
                 'end_at' => $this->end_at,
                 'remaining_days' => $end->diffInDays($now, true) + 1,
-                'responsible' => $this->responsible,
                 'value' => $this->value,
                 'value_status' => $this->value_status,
                 'status' => $this->status,
@@ -46,13 +45,16 @@ class ActionsResource extends JsonResource
                     'created_at' => $this->goal->created_at,
                     'updated_at' => $this->goal->updated_at
                 ],
-                'responsible' => [
-                    'id' => $this->responsible->id,
-                    'name' => $this->responsible->name,
-                    'description' => $this->responsible->description,
-                    'created_at' => $this->responsible->created_at,
-                    'updated_at' => $this->responsible->updated_at
-                ]
+                'responsible' => $this->when($this->responsible, function () {
+                    return [
+                        'id' => $this->responsible->id,
+                        'company_id' => $this->responsible->company_id,
+                        'name' => $this->responsible->name,
+                        'description' => $this->responsible->description,
+                        'created_at' => $this->responsible->created_at,
+                        'updated_at' => $this->responsible->updated_at
+                    ];
+                })
             ]
         ];
     }

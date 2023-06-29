@@ -48,7 +48,17 @@ class StagesResource extends JsonResource
                     'end_at' => $this->action->end_at,
                     'created_at' => $this->action->created_at,
                     'updated_at' => $this->action->updated_at
-                ]
+                ],
+                'responsible' => $this->when($this->responsible, function () {
+                    return [
+                        'id' => $this->responsible->id,
+                        'company_id' => $this->responsible->company_id,
+                        'name' => $this->responsible->name,
+                        'description' => $this->responsible->description,
+                        'created_at' => $this->responsible->created_at,
+                        'updated_at' => $this->responsible->updated_at
+                    ];
+                })
             ]
         ];
     }
