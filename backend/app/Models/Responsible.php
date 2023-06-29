@@ -11,7 +11,12 @@ class Responsible extends Model
     use HasApiTokens, HasFactory;
 
     protected $fillable = [
+        'company_id',
         'name',
         'description'
     ];
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
 }

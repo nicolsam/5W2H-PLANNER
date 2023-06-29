@@ -22,6 +22,7 @@ class StoreUpdateResponsibleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'company_id' => 'required',
             'name' => 'required|min:3|max:100|string|unique:responsibles',
             'description' => 'required|string'
         ];
@@ -30,6 +31,7 @@ class StoreUpdateResponsibleRequest extends FormRequest
     public function messages()
     {
         return [
+            'company_id.required' => 'O ID da empresa deve ser preenchido.',
             'name.required' => 'O campo nome é obrigatório.',
             'name.unique' => 'Este nome já existe.',
             'description.required' => 'O campo descrição é obrigatório.',

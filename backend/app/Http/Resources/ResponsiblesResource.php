@@ -19,6 +19,15 @@ class ResponsiblesResource extends JsonResource
             'attributes' => [
                 'name' => $this->name,
                 'description' => $this->description,
+            ],
+            'relationships' => [
+                'company' => [
+                    'id' => $this->company->id,
+                    'name' => $this->company->name,
+                    'cnpj' => $this->company->cnpj,
+                    'created_at' => $this->company->created_at,
+                    'updated_at' => $this->company->updated_at
+                ]
             ]
         ];
     }

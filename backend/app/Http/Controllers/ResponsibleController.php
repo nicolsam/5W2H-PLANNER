@@ -44,7 +44,19 @@ class ResponsibleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+
+            $responsible = Responsible::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe.';
+
+            return response()->json(['message' => $message, 404]);
+
+        }
+
+        return new ResponsiblesResource($responsible);
     }
 
     /**
