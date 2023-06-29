@@ -34,15 +34,18 @@ class CreateUpdateCompanyRequest extends FormRequest
             'password' => 'required|min:8|max:100'
         ];
 
-        if($this->method() === 'PUT') {
-            $rules['cnpj'] = [
-                'required',
-                'min:18',
-                'max:18',
-                Rule::unique('companies')->ignore($this->id),
-            ];
+        if($this->method() === 'PATCH') {
 
-            $rules['password'] = 'nullable|min:8|max:100';
+            $rules = [
+                'name' => 'required|min:3|max:255',
+                'cnpj' => [
+                    'required',
+                    'min:18',
+                    'max:18',
+                    Rule::unique('companies')->ignore($this->route('company')),
+                ],
+                'password' => 'nullable|min:8|max:100',
+            ];
         }
 
         return $rules;
