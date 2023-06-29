@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUpdateResponsibleRequest extends FormRequest
@@ -21,11 +22,23 @@ class StoreUpdateResponsibleRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+
+        $rules = [
             'company_id' => 'required',
             'name' => 'required|min:3|max:100|string|unique:responsibles',
             'description' => 'required|string'
         ];
+
+        if($this->method() === 'PATCH') {
+
+            $rules['name'] = [
+                'required',
+                'min:3',
+                'max:100',
+                Rule::unique('responsibles')->ignore($this->id),
+            ];
+        }
+        return $rules;
     }
 
     public function messages()
