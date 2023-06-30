@@ -41,7 +41,7 @@ return new class extends Migration
                 'Média',
                 'Baixa'
             ]);
-            $table->string('observation');
+            $table->string('observation')->nullable();
             $table->foreign('goal_id')
                 ->references('id')
                 ->on('goals')
