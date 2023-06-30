@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateActionRequest;
 use App\Http\Resources\ActionsResource;
 use App\Models\Action;
 use App\Models\Company;
 use App\Models\Goal;
+use App\Models\Responsible;
+use App\Traits\HttpResponses;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ActionController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -21,19 +27,40 @@ class ActionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateActionRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            Goal::findOrFail($request->goal_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta meta não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Responsible::findOrFail($request->responsible_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+
+        $action = Action::create($data);
+
+        return new ActionsResource($action);
     }
 
     /**
@@ -49,7 +76,7 @@ class ActionController extends Controller
 
             $message = 'Esta ação não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -68,7 +95,7 @@ class ActionController extends Controller
 
             $message = 'Esta meta não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -76,19 +103,51 @@ class ActionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateActionRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            $action = Action::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta ação não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Goal::findOrFail($request->goal_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta meta não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Responsible::findOrFail($request->responsible_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $action->update($data);
+
+        return new ActionsResource($action);
     }
 
     /**
@@ -96,7 +155,21 @@ class ActionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+
+            $action = Action::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta ação não existe';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $action->delete();
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 
 }
