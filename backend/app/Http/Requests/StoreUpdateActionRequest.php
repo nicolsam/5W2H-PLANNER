@@ -55,7 +55,7 @@ class StoreUpdateActionRequest extends FormRequest
     public function messages()
     {
         return [
-            'goal_id.required' => 'O ID da empresa deve ser preenchido.',
+            'goal_id.required' => 'O ID da meta deve ser preenchido.',
             'responsible_id.required' => 'O campo nome é obrigatório.',
             'name.unique' => 'Este nome já existe.',
             'name.min' => 'O campo nome deve possuir pelo 5 caracteres.',
