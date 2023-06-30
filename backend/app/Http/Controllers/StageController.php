@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateStageRequest;
 use App\Http\Resources\StagesResource;
+use App\Models\Action;
+use App\Models\Responsible;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class StageController extends Controller
 {
@@ -18,19 +22,40 @@ class StageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUpdateStageRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            action::findOrFail($request->action_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta ação não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Responsible::findOrFail($request->responsible_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+
+        $stage = Stage::create($data);
+
+        return new StagesResource($stage);
     }
 
     /**
@@ -74,19 +99,51 @@ class StageController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateStageRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+
+            $stage = Stage::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta etapa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Action::findOrFail($request->action_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta ação não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        try {
+
+            Responsible::findOrFail($request->responsible_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Este responsável não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $stage->update($data);
+
+        return new StagesResource($stage);
     }
 
     /**
@@ -94,6 +151,20 @@ class StageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+
+            $stage = Stage::findOrFail($id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta etapa não existe';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        $stage->delete();
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
