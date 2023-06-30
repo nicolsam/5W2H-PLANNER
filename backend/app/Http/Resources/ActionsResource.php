@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Action;
+use App\Models\ActionsResponsibles;
+use App\Models\Responsible;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -45,17 +48,27 @@ class ActionsResource extends JsonResource
                     'created_at' => $this->goal->created_at,
                     'updated_at' => $this->goal->updated_at
                 ],
-                'responsible' => $this->when($this->responsible, function () {
-                    return [
-                        'id' => $this->responsible->id,
-                        'company_id' => $this->responsible->company_id,
-                        'name' => $this->responsible->name,
-                        'description' => $this->responsible->description,
-                        'created_at' => $this->responsible->created_at,
-                        'updated_at' => $this->responsible->updated_at
-                    ];
+                'responsibles' => $this->when(ActionsResponsibles::where('action_id', '=', $this->id)->count() > 0, function () {
+                    $responsibles = ActionsResponsibles::where('action_id', '=', $this->id)->get('responsible_id');
+                    return $this->customFormatResponsibles($responsibles);
                 })
             ]
         ];
+    }
+
+    private function customFormatResponsibles($responsibles)
+    {
+
+        $responsiblesFormat = [];
+
+        foreach($responsibles as $responsible) {
+
+            $responsible = Responsible::where('id', '=', $responsible['responsible_id'])->get();
+
+            array_push($responsiblesFormat, $responsible[0]);
+
+        }
+
+        return $responsiblesFormat;
     }
 }

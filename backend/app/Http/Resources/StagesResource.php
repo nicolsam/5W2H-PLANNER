@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Responsible;
+use App\Models\Stage;
+use App\Models\StagesResponsibles;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -49,17 +52,27 @@ class StagesResource extends JsonResource
                     'created_at' => $this->action->created_at,
                     'updated_at' => $this->action->updated_at
                 ],
-                'responsible' => $this->when($this->responsible, function () {
-                    return [
-                        'id' => $this->responsible->id,
-                        'company_id' => $this->responsible->company_id,
-                        'name' => $this->responsible->name,
-                        'description' => $this->responsible->description,
-                        'created_at' => $this->responsible->created_at,
-                        'updated_at' => $this->responsible->updated_at
-                    ];
+                'responsibles' => $this->when(StagesResponsibles::where('stage_id', '=', $this->id)->count() > 0, function () {
+                    $responsibles = StagesResponsibles::where('stage_id', '=', $this->id)->get('responsible_id');
+                    return $this->customFormatResponsibles($responsibles);
                 })
             ]
         ];
+    }
+
+    private function customFormatResponsibles($responsibles)
+    {
+
+        $responsiblesFormat = [];
+
+        foreach($responsibles as $responsible) {
+
+            $responsible = Responsible::where('id', '=', $responsible['responsible_id'])->get();
+
+            array_push($responsiblesFormat, $responsible[0]);
+
+        }
+
+        return $responsiblesFormat;
     }
 }

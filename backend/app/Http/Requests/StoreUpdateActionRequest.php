@@ -25,8 +25,13 @@ class StoreUpdateActionRequest extends FormRequest
 
         $rules = [
             'goal_id' => 'required',
-            'responsible_id' => 'required',
-            'name' => 'required|min:5|max:300|unique:actions',
+            'responsible_id' => 'required|array',
+            'name' => [
+                'required',
+                'min:5' ,
+                'max:300',
+                Rule::unique('actions')
+            ],
             'area' => 'required',
             'what' => 'required',
             'how' => 'required',
@@ -56,7 +61,8 @@ class StoreUpdateActionRequest extends FormRequest
     {
         return [
             'goal_id.required' => 'O ID da meta deve ser preenchido.',
-            'responsible_id.required' => 'O campo nome é obrigatório.',
+            'responsible_id.required' => 'O ID dos responsáveis é obrigatório.',
+            'responsible_id.array' => 'O ID dos responsáveis deve ser um Array de itens.',
             'name.unique' => 'Este nome já existe.',
             'name.min' => 'O campo nome deve possuir pelo 5 caracteres.',
             'area.required' => 'O campo área é obrigatório.',

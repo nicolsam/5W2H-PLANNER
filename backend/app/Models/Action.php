@@ -11,7 +11,6 @@ class Action extends Model
 
     protected $fillable = [
         'goal_id',
-        'responsible_id',
         'name',
         'area',
         'what',

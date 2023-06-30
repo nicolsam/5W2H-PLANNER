@@ -7,6 +7,7 @@ use App\Http\Resources\StagesResource;
 use App\Models\Action;
 use App\Models\Responsible;
 use App\Models\Stage;
+use App\Models\StagesResponsibles;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,7 +31,7 @@ class StageController extends Controller
 
         try {
 
-            action::findOrFail($request->action_id);
+            Action::findOrFail($request->action_id);
 
         } catch(ModelNotFoundException $exception) {
 
@@ -42,7 +43,9 @@ class StageController extends Controller
 
         try {
 
-            Responsible::findOrFail($request->responsible_id);
+            foreach($request->responsible_id as $responsible_id) {
+                Responsible::findOrFail($responsible_id);
+            }
 
         } catch(ModelNotFoundException $exception) {
 
@@ -52,8 +55,16 @@ class StageController extends Controller
 
         }
 
-
         $stage = Stage::create($data);
+
+        foreach($request->responsible_id as $responsible_id) {
+
+            StagesResponsibles::create([
+                'stage_id' => $stage->id,
+                'responsible_id' => $responsible_id
+            ]);
+
+        }
 
         return new StagesResource($stage);
     }
@@ -131,7 +142,11 @@ class StageController extends Controller
 
         try {
 
-            Responsible::findOrFail($request->responsible_id);
+            foreach($request->responsible_id as $responsible_id) {
+                Responsible::findOrFail($responsible_id);
+            }
+
+            unset($data['responsible_id']);
 
         } catch(ModelNotFoundException $exception) {
 
@@ -142,6 +157,18 @@ class StageController extends Controller
         }
 
         $stage->update($data);
+
+        StagesResponsibles::where('stage_id', '=', $id)->delete();
+
+        foreach($request->responsible_id as $responsible_id) {
+
+
+            StagesResponsibles::create([
+                'stage_id' => $stage->id,
+                'responsible_id' => $responsible_id
+            ]);
+
+        }
 
         return new StagesResource($stage);
     }

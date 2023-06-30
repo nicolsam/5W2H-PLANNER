@@ -19,4 +19,8 @@ class Responsible extends Model
     public function company() {
         return $this->belongsTo(Company::class);
     }
+
+    public function action() {
+        return $this->hasMany(Action::class);
+    }
 }

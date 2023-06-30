@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateActionRequest;
 use App\Http\Resources\ActionsResource;
 use App\Models\Action;
+use App\Models\ActionsResponsibles;
 use App\Models\Company;
 use App\Models\Goal;
 use App\Models\Responsible;
@@ -47,7 +48,9 @@ class ActionController extends Controller
 
         try {
 
-            Responsible::findOrFail($request->responsible_id);
+            foreach($request->responsible_id as $responsible_id) {
+                Responsible::findOrFail($responsible_id);
+            }
 
         } catch(ModelNotFoundException $exception) {
 
@@ -57,8 +60,16 @@ class ActionController extends Controller
 
         }
 
-
         $action = Action::create($data);
+
+        foreach($request->responsible_id as $responsible_id) {
+
+            ActionsResponsibles::create([
+                'action_id' => $action->id,
+                'responsible_id' => $responsible_id
+            ]);
+
+        }
 
         return new ActionsResource($action);
     }
@@ -135,7 +146,11 @@ class ActionController extends Controller
 
         try {
 
-            Responsible::findOrFail($request->responsible_id);
+            foreach($request->responsible_id as $responsible_id) {
+                Responsible::findOrFail($responsible_id);
+            }
+
+            unset($data['responsible_id']);
 
         } catch(ModelNotFoundException $exception) {
 
@@ -146,6 +161,18 @@ class ActionController extends Controller
         }
 
         $action->update($data);
+
+        ActionsResponsibles::where('action_id', '=', $id)->delete();
+
+        foreach($request->responsible_id as $responsible_id) {
+
+
+            ActionsResponsibles::create([
+                'action_id' => $action->id,
+                'responsible_id' => $responsible_id
+            ]);
+
+        }
 
         return new ActionsResource($action);
     }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('goal_id');
-            $table->unsignedBigInteger('responsible_id')->nullable();
             $table->string('name');
             $table->string('area');
             $table->string('what'); // WHAT
@@ -46,10 +45,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('goals')
                 ->onDelete('cascade');
-            $table->foreign('responsible_id')
-                ->references('id')
-                ->on('responsibles')
-                ->onDelete('set null');
             $table->timestamps();
         });
     }
