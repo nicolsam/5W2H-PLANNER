@@ -49,7 +49,12 @@ const Login = () => {
                 }
             })
 
-            toast('Logado com sucesso');
+            toast('Logado com sucesso', {
+              type: 'success',
+              isLoading: false,
+              autoClose: 3000,
+              closeButton: true,
+            });
 
             navigate('/companies');
 
