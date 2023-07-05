@@ -46,7 +46,7 @@ class CompanyController extends Controller
 
             $message = 'Esta empresa não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -70,7 +70,7 @@ class CompanyController extends Controller
 
             $message = 'Esta empresa não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -90,7 +90,7 @@ class CompanyController extends Controller
 
             $message = 'Esta empresa não existe';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 

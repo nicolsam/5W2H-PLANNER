@@ -38,7 +38,7 @@ class GoalsController extends Controller
 
             $message = 'Esta empresa não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 

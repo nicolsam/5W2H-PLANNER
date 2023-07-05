@@ -102,7 +102,7 @@ class StageController extends Controller
 
             $message = 'Esta meta não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 

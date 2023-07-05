@@ -52,7 +52,7 @@ class ResponsibleController extends Controller
 
             $message = 'Este responsável não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -75,7 +75,7 @@ class ResponsibleController extends Controller
 
             $message = 'Este responsável não existe.';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
@@ -97,7 +97,7 @@ class ResponsibleController extends Controller
 
             $message = 'Este responsável não existe';
 
-            return response()->json(['message' => $message, 404]);
+            return response()->json(['message' => $message], 404);
 
         }
 
