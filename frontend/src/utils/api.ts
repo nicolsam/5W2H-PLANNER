@@ -73,14 +73,35 @@ const api = {
                     throw new Error(response.data.message);
                 }
                 
-                console.log(response.data.data)
+                return ApiResponse(true, response.data.data, response.data.message);
 
+            } catch(error: any) {
+                return ApiResponse(false, [], error.message); 
+            }
+        },
+        store: async (name: string, cnpj: string, password: string) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const payload = {
+                    'name': name,
+                    'cnpj': cnpj,
+                    'password': password
+                }
+                const response: AxiosResponse = await https.post('/companies', payload, { headers })
+
+                if(response.data[0] == 401) {
+                    throw new Error(response.data.message);
+                }
+                
                 return ApiResponse(true, response.data.data, response.data.message);
 
             } catch(error: any) {
                 return ApiResponse(false, [], error.message); 
             }
         }
+
 
     }
 }
