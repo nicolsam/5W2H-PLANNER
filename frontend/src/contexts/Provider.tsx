@@ -6,8 +6,9 @@ type Props = {
     children: JSX.Element
 }
 
+
 const companyInitialValue: CompanyType = {
-    id: null,
+    id: -1,
     attributes: {
         name: '',
         cnpj: '',
