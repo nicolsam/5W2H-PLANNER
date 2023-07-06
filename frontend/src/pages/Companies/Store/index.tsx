@@ -1,4 +1,3 @@
-
 import { DevTool } from '@hookform/devtools';
 import { useForm } from "react-hook-form";
 import { IMaskInput } from 'react-imask';
@@ -8,10 +7,12 @@ import { toast } from 'react-toastify';
 
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 
+import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
 import Main from "@components/Layout/Main";
 
 import BusinessIcon from '@mui/icons-material/Business';
+import HttpsIcon from '@mui/icons-material/Https';
 import CompanyCnpj from '@public/icons/company-cnpj.svg';
 
 import api from '@utils/api';
@@ -63,11 +64,14 @@ const StoreCompany = () => {
     return (
         <Main>
             <Header description="Complete as informações abaixo para cadastrar uma nova empresa.">
-                Nova empresa
+                Cadastro de nova empresa
             </Header>
+
+            <BackButton />
+
             <form
                 method="POST"
-                className="bg-main-color p-8 rounded"
+                className="bg-main-color p-8 rounded relative"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <Stack spacing={2} direction={'column'}>
@@ -136,7 +140,7 @@ const StoreCompany = () => {
                         InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
-                            <BusinessIcon />
+                                <HttpsIcon />
                             </InputAdornment>
                         ),
                         }}
@@ -145,14 +149,16 @@ const StoreCompany = () => {
                         }}
                     />
 
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        disableElevation
-                        className="w-fit"
-                    >
-                        <span className="text-2xl p-1 uppercase">Criar</span>
-                    </Button>
+                    <div className="flex justify-end">
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            disableElevation
+                            className="w-fit"
+                        >
+                            <span className="text-lg px-5 py-2 uppercase">Criar</span>
+                        </Button>
+                    </div>
                         
                 </Stack>
             </form>
