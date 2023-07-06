@@ -1,30 +1,75 @@
-import { IconButton, Stack } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Button, Divider, IconButton, Menu, MenuItem } from "@mui/material";
+
+import {
+    bindMenu,
+    bindTrigger,
+    usePopupState,
+} from 'material-ui-popup-state/hooks';
 
 type Props = {
     children: string | JSX.Element;
+    description?: string;
     key: string | number;
+    click: () => void;
     actions: Action[];
 };
 
 type Action = {
+    name: string;
     ariaLabel?: string;
     icon: JSX.Element,
-    onClick: () => void;
+    click: () => void;
 }
 
-const Item = ({ children, key, actions }: Props) => {
-  return (
-    <div key={key} className="rounded p-4 bg-secondary-color flex flex-row justify-between items-center hover:cursor-pointer">
-        <Stack>
-            <h2 className="text-white text-2xl font-semibold">{children}</h2>
-        </Stack>
-        <Stack spacing={1} direction={"row"} className="bg-main-color rounded p-1">
-            {actions.map((action, index: number) => (
-                <IconButton key={index} aria-label={action.ariaLabel} className="w-fit" onClick={action.onClick}>{action.icon}</IconButton>
-            ))}
-        </Stack>
-    </div>
-  )
+const Item = ({ children, description, key, click, actions }: Props) => {
+    const popupState = usePopupState({
+        variant: 'popover',
+        popupId: 'options',
+    });
+
+    return (
+        <div
+            key={key} 
+            className="rounded bg-secondary-color flex flex-row justify-between items-center"
+        >
+            <Button 
+                variant="list" 
+                className="w-full h-full rounded p-4 bg-secondary-color"
+                onClick={click}
+            >
+                <div className="flex flex-col items-start">
+                    <h2 className="text-white text-2xl font-semibold normal-case">{children}</h2>
+                    {description && (
+                        <p className="text-white text-base font-normal normal-case">{description}</p>
+                    )}
+                </div>
+            </Button>
+
+            <Divider orientation="vertical" variant="middle" flexItem />
+
+            <div className="p-4 w-fit">
+                <IconButton {...bindTrigger(popupState)} size="large" sx={{ backgroundColor: '#585858'}}>
+                    <MoreVertIcon className="text-white" fontSize="inherit" />
+                </IconButton>
+                
+                <Menu {...bindMenu(popupState)} >
+                
+                {popupState && actions.map((action, index: number) => (
+                    <MenuItem
+                        key={index}
+                        onClick={action.click}
+                        className="flex gap-2"
+                    >
+                        {action.icon}
+                        {action.name}
+                    </MenuItem>
+                ))}
+                </Menu>
+            </div>
+
+        </div>
+    )
 }
 
 export default Item
