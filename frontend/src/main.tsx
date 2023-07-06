@@ -26,7 +26,7 @@ const theme = createTheme({
           }
         },
         {
-          props: { variant: "create" },
+          props: { variant: "main" },
           style: {
             backgroundColor: '#585858',
             color: 'white',
@@ -35,7 +35,18 @@ const theme = createTheme({
               backgroundColor: '#444344',
             }
           }
-        }
+        },
+        {
+          props: { variant: "secondary" },
+          style: {
+            backgroundColor: '#585858',
+            color: 'white',
+            padding: ".5rem 1rem",
+            "&:hover": {
+              backgroundColor: '#444344',
+            }
+          }
+        },
       ]
     }
   }

@@ -10,8 +10,8 @@ const BackButton = () => {
     return (
         <Button 
             className="w-fit"
-            variant='contained'
-            size='large'
+            variant="secondary"
+            size="medium"
             disableElevation
             onClick={() => navigate(-1)}
             startIcon={<ArrowBackIosIcon />}
