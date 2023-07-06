@@ -19,7 +19,6 @@ class CompanyResource extends JsonResource
             'attributes' => [
                 'name' => $this->name,
                 'cnpj' => $this->cnpj,
-                'password' => $this->password,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
             ],

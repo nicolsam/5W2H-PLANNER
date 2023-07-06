@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{id}/goals', [GoalsController::class, 'showCompanyGoals'])
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
+        Route::get('/{id}/responsibles', [ResponsibleController::class, 'showCompanyResponsibles'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+
     });
 
     Route::prefix('/goals')->group(function () {

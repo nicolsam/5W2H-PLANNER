@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateResponsibleRequest;
 use App\Http\Resources\ResponsiblesResource;
+use App\Models\Company;
 use App\Models\Responsible;
 use App\Traits\HttpResponses;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,6 +58,26 @@ class ResponsibleController extends Controller
         }
 
         return new ResponsiblesResource($responsible);
+    }
+
+    public function showCompanyResponsibles(string $company_id)
+    {
+        try {
+
+            Company::findOrFail($company_id);
+
+            $responsible = Responsible::where('company_id', $company_id)->get();
+
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        return ResponsiblesResource::collection($responsible);
     }
 
     /**
