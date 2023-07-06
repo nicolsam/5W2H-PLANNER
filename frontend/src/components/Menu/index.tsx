@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import { FC, useContext, useState } from 'react';
 
+import { GlobalContext } from '@contexts/Context';
+
+import Loading from '@components/Loading';
 import MenuItem from '@components/Menu/Item';
 import MenuItems from './items';
 
@@ -29,6 +32,9 @@ const variants = {
 };
 
 const Menu: FC = () => {
+
+    const { company } = useContext(GlobalContext)
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,18 +50,13 @@ const Menu: FC = () => {
 
     async function logout() {
 
-        return;
-
-        // if (isLoggedOut) {
         toast.error('Deslogado com sucesso', {
             isLoading: false,
             autoClose: 3000,
             closeButton: true,
         });
-        // }
 
-        // resetCompany();
-        navigate('/login');
+        navigate('/companies');
     }
 
     function back() {
@@ -69,17 +70,17 @@ const Menu: FC = () => {
         setLocation(currLocation[1]);
     }, [location.pathname]);
 
-    if (location.pathname === '/login') return null;
+    if (location.pathname === '/' || location.pathname === '/login') return null;
 
     return (
-        <div className="h-screen fixed top-0 lg:sticky z-30">
+    <div className="h-screen fixed top-0 lg:sticky z-30">
         <div className="top-5 left-2 cursor-pointer bg-main-color rounded-full absolute p-1.5 z-10 lg:hidden">
             <MenuIcon
             className="text-4xl cursor-pointer sticky p-0 fill-white"
             onClick={handleToggleMenu}
             />
         </div>
-        <div className="hidden lg:block box-border z-20 h-screen bg-main-color p-5 top-0 sticky flex flex-col items-center gap-4">
+        <div className="max-w-xs hidden lg:block box-border z-20 h-screen bg-main-color p-5 top-0 sticky flex flex-col items-center gap-4">
             <div className="h-4/5">
             <div className="lg:hidden w-full flex mb-5">
                 <div className="cursor-pointer bg-secondary-color rounded-full p-2">
@@ -129,24 +130,22 @@ const Menu: FC = () => {
             ) : (
                 <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
                 <div>
-                    {/* {company.name ? (
-                    <p className="px-3 py-2 text-white font-semibold text-base">
-                        {company.name}
+                    {company.attributes.name ? (
+                    <p className="px-3 py-2 text-white font-semibold text-base text-center break-words">
+                        {company.attributes.name}
                     </p>
-                    ) : ( */}
-                    <div className="px-3 py-2">
-                        <LoopIcon className="animate-spin text-2xl fill-white" />
-                    </div>
-                    {/* )} */}
+                    ) : (
+                    <Loading color="white" />
+                    )}
                 </div>
 
                 <button
                     className="flex flex-row items-center gap-2 px-5 py-2 rounded uppercase text-lg text-white bg-danger hover:bg-danger-hover"
-                    // onClick={user.role == 1 ? back : logout}
+                    onClick={logout}
                 >
                     <LogoutIcon className="text-2xl" />
 
-                    {/* {user.role == 1 ? <p>Voltar</p> : <p>Sair</p>} */}
+                    <p>Sair</p>
                 </button>
                 </div>
             )}
@@ -213,9 +212,9 @@ const Menu: FC = () => {
                         {company.name}
                         </p>
                     ) : ( */}
-                        <div className="px-3 py-2">
-                        <LoopIcon className="animate-spin text-2xl fill-white" />
-                        </div>
+                        
+                        <Loading color="white" />
+
                     {/* )} */}
                     </div>
                     <button
