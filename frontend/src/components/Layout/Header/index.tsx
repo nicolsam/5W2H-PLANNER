@@ -4,7 +4,7 @@ import { To, useNavigate } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 type Props = {
-    children: JSX.Element | string;
+    children: JSX.Element | string | undefined;
     description?: string;
     storeButton?: boolean;
     storeText?: string;
@@ -22,8 +22,8 @@ const Header = ({ description, storeButton, storeText, redirect, children }: Pro
     return (
         <header className="flex justify-between flex-col md:flex-row">
             <Stack spacing={0} direction={"column"}>
-                <h1 className="text-3xl font-medium">{children}</h1>
-                <p className="text-xl">{description}</p>
+                <h1 className="xl:text-4xl font-medium">{children}</h1>
+                <p className="xl:text-xl">{description}</p>
             </Stack>
             {storeButton && redirect && (
                 
