@@ -1,10 +1,9 @@
 export type CompanyType = {
-    id: number;
+    id: number | null;
     attributes: {
         name: string;
         cnpj: string;
-        password?: string;
-        create_at: string;
+        created_at: string;
         updated_at: string;
     }
 }
