@@ -27,7 +27,7 @@ const Header = ({ description, storeButton, storeText, redirect, children }: Pro
             </Stack>
             {storeButton && redirect && (
                 
-                <Button className="h-fit" sx={{padding: 2}} variant="create" startIcon={<AddCircleIcon />} disableElevation onClick={navigateToRedirect}>
+                <Button className="h-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={navigateToRedirect}>
                     {storeText}
                 </Button>
                 
