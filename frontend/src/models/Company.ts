@@ -1,5 +1,5 @@
 export type CompanyType = {
-    id: number | null;
+    id: number;
     attributes: {
         name: string;
         cnpj: string;
