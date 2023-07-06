@@ -1,18 +1,17 @@
-import axios, { AxiosResponse } from "axios";
+import ResponseType from "@models/Api";
+import CompanyType from "@models/Company";
+import GoalType from "@models/Goal";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
+import getCookie from "./getCookie";
 
 const https = axios.create({
     baseURL: import.meta.env.VITE_API_URL 
 })
 
-type Response = {
-    success: boolean,
-    data: any,
-    message?: string
-}
-
-function ApiResponse(success: boolean, data:any, message?: string): Response {
+function ApiResponse(success: boolean, data: CompanyType | GoalType | [], message?: string) {
     
-    const response = {
+    const response: ResponseType = {
         'success': success,
         'message': message,
         'data': data
@@ -20,22 +19,6 @@ function ApiResponse(success: boolean, data:any, message?: string): Response {
 
     return response;
 
-}
-
-function getCookie(cname:string) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
 }
 
 const api = {
@@ -49,14 +32,18 @@ const api = {
 
                 const response: AxiosResponse = await https.post('/admin/login', payload);
 
-                if(response.data[0] == 401) {
-                    throw new Error(response.data.message);
-                }
-                
                 return ApiResponse(true, response.data, response.data.message);
 
             } catch(error: any) {
-                return ApiResponse(false, [], error.message); 
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
             }
         }
     },
@@ -69,14 +56,39 @@ const api = {
 
                 const response: AxiosResponse = await https.get('/companies', { headers })
 
-                if(response.data[0] == 401) {
-                    throw new Error(response.data.message);
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
                 }
+            }
+        },
+        show: async (id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/companies/${id}`, { headers })
                 
                 return ApiResponse(true, response.data.data, response.data.message);
 
             } catch(error: any) {
-                return ApiResponse(false, [], error.message); 
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
             }
         },
         store: async (name: string, cnpj: string, password: string) => {
@@ -90,18 +102,69 @@ const api = {
                     'password': password
                 }
                 const response: AxiosResponse = await https.post('/companies', payload, { headers })
-
-                if(response.data[0] == 401) {
-                    throw new Error(response.data.message);
-                }
                 
                 return ApiResponse(true, response.data.data, response.data.message);
 
             } catch(error: any) {
-                return ApiResponse(false, [], error.message); 
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
             }
-        }
+        },
+        update: async (company_id: string | number, name: string, cnpj: string, password: string): Promise<ResponseType | undefined> => {
+            try {
 
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const payload = {
+                    'name': name,
+                    'cnpj': cnpj,
+                    'password': password
+                }
+                
+                const response: AxiosResponse = await https.patch(`/companies/${company_id}`, payload, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        delete: async (company_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.delete(`/companies/${company_id}`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
 
     }
 }
