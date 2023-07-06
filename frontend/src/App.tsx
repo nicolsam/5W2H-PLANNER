@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Menu from '@components/Menu';
 
 import Companies from '@pages/Companies';
+import EditCompany from '@pages/Companies/Edit';
 import StoreCompany from '@pages/Companies/Store';
 import Dashboard from '@pages/Dashboard';
 import Error404 from '@pages/Error/404';
@@ -55,6 +56,15 @@ function App() {
           element={
             <RequireAuth loginPath="/login">
               <StoreCompany />
+            </RequireAuth>
+          }
+        />
+        
+        <Route
+          path="/companies/edit/:company_id"
+          element={
+            <RequireAuth loginPath="/login">
+              <EditCompany />
             </RequireAuth>
           }
         />
