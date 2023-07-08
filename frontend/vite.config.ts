@@ -14,7 +14,11 @@ export default defineConfig({
       { find: "@components", replacement: path.resolve(__dirname, './src/components')},
       { find: "@contexts", replacement: path.resolve(__dirname, './src/contexts')},
       { find: "@models", replacement: path.resolve(__dirname, './src/models')},
-      { find: "@pages", replacement: path.resolve(__dirname, './src/pages')}
+      { find: "@pages", replacement: path.resolve(__dirname, './src/pages')},
+      { find: "@hooks", replacement: path.resolve(__dirname, './src/hooks')}
     ]
+  },
+  optimizeDeps: {
+    include: ['@emotion/styled'],
   }
 })
