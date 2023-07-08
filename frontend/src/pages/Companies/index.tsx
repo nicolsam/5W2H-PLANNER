@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { GlobalContext } from '@contexts/Context';
+import { useContext, useEffect, useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -13,14 +15,24 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import api from "@utils/api";
 
+import ListContainer from '@components/Layout/List';
 import Loading from '@components/Loading';
 import CompanyType from '@models/Company';
 
 const Companies = () => {
 
+    const { setCompany } = useContext(GlobalContext)
+
     const navigate = useNavigate();
 
     const [companies, setCompanies] = useState<CompanyType[] | null>(null);
+
+    const select = (company: CompanyType) => {
+
+        setCompany(company);
+
+        navigate('/dashboard')
+    }
 
     const show = async () => {
 
@@ -74,19 +86,22 @@ const Companies = () => {
                 redirect='companies/store'
             >Olá, Administrador.</Header>
 
-            <Stack spacing={1} direction={"column"} className="mt-20 bg-main-color p-8 rounded h-full">
+            <ListContainer>
                 {companies ? companies.map((company: CompanyType, index: number) => (
                     <Item 
+                        click={() => select(company)}
                         actions={[
                             {
+                                name: 'Editar',
                                 ariaLabel: 'editar',
-                                icon: <EditIcon className="text-white" />,
-                                onClick: () => editCompany(company.id)
+                                icon: <EditIcon className="text-main-color" />,
+                                click: () => editCompany(company.id)
                             },
                             {
+                                name: 'Deletar',
                                 ariaLabel: 'deletar',
                                 icon: <DeleteIcon className="text-danger" />,
-                                onClick: () => deleteCompany(company.id)
+                                click: () => deleteCompany(company.id)
                             }
                         ]} 
                         key={index}
@@ -94,9 +109,13 @@ const Companies = () => {
                         {company.attributes.name}
                     </Item>
                 )) 
-                    : <Loading />
+                    : (
+                        <div className="w-full flex justify-center">
+                            <Loading color="white" />
+                        </div>
+                    )
                 }
-            </Stack>
+            </ListContainer>
         </Main>
     )
 }
