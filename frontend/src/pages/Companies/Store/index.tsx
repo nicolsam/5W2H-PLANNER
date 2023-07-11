@@ -1,11 +1,12 @@
 import { DevTool } from '@hookform/devtools';
+import useShowPassword from '@hooks/useShowPassword';
 import { useForm } from "react-hook-form";
 import { IMaskInput } from 'react-imask';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 
 import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
@@ -38,6 +39,7 @@ const StoreCompany = () => {
 
     const { register, control, handleSubmit, formState } = form
     const { errors } = formState;
+    const { showPasswordIcon, showPasswordType, handleClickShowPassword } = useShowPassword();
 
     const onSubmit = async (data: StoreCompanyFormValues) => {
         try {
@@ -128,7 +130,7 @@ const StoreCompany = () => {
                     <TextField
                         id="password-login"
                         className="rounded text-xl"
-                        type="password"
+                        type={showPasswordType}
                         {...register('password', {
                         required: 'Senha é obrigatório.',
                         })}
@@ -138,11 +140,21 @@ const StoreCompany = () => {
                         variant="filled"
                         color="primary"
                         InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <HttpsIcon />
-                            </InputAdornment>
-                        ),
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <HttpsIcon />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="alterar visibilidade da senha"
+                                        onClick={handleClickShowPassword}
+                                    >
+                                        {showPasswordIcon}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
                         }}
                         sx={{
                         backgroundColor: '#F4F4F4',
