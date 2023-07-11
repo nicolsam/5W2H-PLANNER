@@ -1,4 +1,4 @@
-import React from "react";
+import useShowPassword from "@hooks/useShowPassword";
 import { useSignIn } from 'react-auth-kit';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import HttpsIcon from '@mui/icons-material/Https';
 import PersonIcon from '@mui/icons-material/Person';
 
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 
 import api from "@utils/api";
 
@@ -21,6 +21,11 @@ const Login = () => {
 
     const navigate = useNavigate();
     const signIn = useSignIn(); 
+    const { 
+        showPasswordIcon, 
+        showPasswordType, 
+        handleClickShowPassword 
+    } = useShowPassword();
 
     const form = useForm<LoginFormValues>({
         defaultValues: {
@@ -104,7 +109,7 @@ const Login = () => {
                         <TextField 
                             id="password-login" 
                             className="rounded text-xl"
-                            type="password"
+                            type={showPasswordType}
                             {...register("password", {
                                 required: "Senha é obrigatório."
                             })}
@@ -114,11 +119,22 @@ const Login = () => {
                             variant="filled" 
                             color="primary" 
                             InputProps={{
-                            startAdornment: (
+                                startAdornment: (
                                     <InputAdornment position="start">
                                         <HttpsIcon />
                                     </InputAdornment>
                                 ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="alterar visibilidade da senha"
+                                            onClick={handleClickShowPassword}
+                                        >
+                                            {showPasswordIcon}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                                
                             }}
                             sx={{
                                 backgroundColor: '#F4F4F4',
@@ -130,11 +146,11 @@ const Login = () => {
                     </Stack>
                 </Stack>
             </form>
-            
+                            
             <div>
                 v{import.meta.env.VITE_APP_VERSION}
             </div>
-
+            
         </div>
     );
 }
