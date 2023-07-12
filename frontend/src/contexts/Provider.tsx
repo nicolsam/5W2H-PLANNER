@@ -5,6 +5,9 @@ import api from "@utils/api";
 import { useEffect, useState } from "react";
 import { GlobalContext } from "./Context";
 
+import { useSignOut } from 'react-auth-kit';
+
+
 type Props = {
     children: JSX.Element
 }
@@ -34,7 +37,11 @@ const goalInitialValue: GoalType = {
 
 
 export const GlobalProvider = ({ children }: Props) => {
-    
+
+    const signOut = useSignOut();
+
+    const [isAdminAccess, setIsAdminAccess] = useState(false);
+    const [isCompanyAccess, setIsCompanyAccess] = useState(false);
     const [company, setCompany] = useState<CompanyType>(companyInitialValue);
     const [currentGoal, setGoal] = useState<GoalType>(goalInitialValue);
     const [contextResponsibles, setContextResponsibles] = useState<ResponsibleType[] | []>([]);
@@ -53,15 +60,29 @@ export const GlobalProvider = ({ children }: Props) => {
 
     }
 
+    function logout() {
+
+        setIsAdminAccess(false);
+        setIsCompanyAccess(false);
+
+        signOut();
+
+    }
+
     return (
         <GlobalContext.Provider
             value={{
+                isAdminAccess,
+                setIsAdminAccess,
+                isCompanyAccess,
+                setIsCompanyAccess,
                 company,
                 setCompany,
                 currentGoal,
                 setGoal,
                 contextResponsibles,
-                setContextResponsibles
+                setContextResponsibles,
+                logout
             }}
         >
             { children }
