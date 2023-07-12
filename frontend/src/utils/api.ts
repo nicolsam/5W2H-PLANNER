@@ -49,12 +49,35 @@ const api = {
         }
     },
     companies: {
+        
+        login: async(cnpj: string, password: string) => {
+            try {
+                const payload = {
+                    'cnpj': cnpj,
+                    'password': password
+                }
 
+                const response: AxiosResponse = await https.post('/company/login', payload);
+
+                return ApiResponse(true, response.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
         index: async () => {
             try {
 
                 const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
-
+                console.log(getCookie('_auth'))
                 const response: AxiosResponse = await https.get('/companies', { headers })
 
                 return ApiResponse(true, response.data.data, response.data.message);
