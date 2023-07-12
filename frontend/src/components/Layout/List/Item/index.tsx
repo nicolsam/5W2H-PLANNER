@@ -8,9 +8,9 @@ import {
 } from 'material-ui-popup-state/hooks';
 
 type Props = {
+    id: number;
     children: string | JSX.Element;
     description?: string;
-    key: string | number;
     click: () => void;
     actions: Action[];
 };
@@ -22,7 +22,7 @@ type Action = {
     click: () => void;
 }
 
-const Item = ({ children, description, key, click, actions }: Props) => {
+const Item = ({ id, children, description, click, actions }: Props) => {
     const popupState = usePopupState({
         variant: 'popover',
         popupId: 'options',
@@ -30,7 +30,7 @@ const Item = ({ children, description, key, click, actions }: Props) => {
 
     return (
         <div
-            key={key} 
+            key={id} 
             className="rounded bg-secondary-color flex flex-row justify-between items-center"
         >
             <Button 
