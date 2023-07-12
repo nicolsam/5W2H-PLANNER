@@ -6,15 +6,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Menu from '@components/Menu';
 
+import RequireAdminAccess from '@components/Authentication/Admin';
 import Actions from '@pages/Action';
 import EditAction from '@pages/Action/Edit';
 import ShowAction from '@pages/Action/Show';
 import StoreAction from '@pages/Action/Store';
 import Companies from '@pages/Companies';
 import EditCompany from '@pages/Companies/Edit';
+import CompanyLogin from '@pages/Companies/Login';
 import StoreCompany from '@pages/Companies/Store';
 import Dashboard from '@pages/Dashboard';
 import Error404 from '@pages/Error/404';
+import Forbidden from '@pages/Error/Forbidden';
 import Goals from '@pages/Goals';
 import EditGoal from '@pages/Goals/Edit';
 import StoreGoal from '@pages/Goals/Store';
@@ -40,12 +43,15 @@ function App() {
           }
         />
 
-        <Route path="/login" element={<Login />} errorElement={<Error404 />} />
+        <Route path="/admin/login" element={<Login />} errorElement={<Error404 />} />
+        <Route path="/company/login" element={<CompanyLogin />} errorElement={<Error404 />} />
+
+        <Route path="/forbidden" element={<Forbidden />} />
 
         <Route
-          path="/dasboard"
+          path="/dashboard"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <Dashboard />
             </RequireAuth>
           }
@@ -55,8 +61,10 @@ function App() {
         <Route
           path="/companies"
           element={
-            <RequireAuth loginPath="/login">
-              <Companies />
+            <RequireAuth loginPath="/company/login">
+              <RequireAdminAccess>
+                <Companies />
+              </RequireAdminAccess>
             </RequireAuth>
           }
           errorElement={<Error404 />}
@@ -65,7 +73,7 @@ function App() {
         <Route
           path="/companies/store"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <StoreCompany />
             </RequireAuth>
           }
@@ -74,7 +82,7 @@ function App() {
         <Route
           path="/companies/edit/:company_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <EditCompany />
             </RequireAuth>
           }
@@ -83,7 +91,7 @@ function App() {
         <Route
           path="/planning"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <Goals />
             </RequireAuth>
           }
@@ -93,7 +101,7 @@ function App() {
         <Route
           path="/planning/store"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <StoreGoal />
             </RequireAuth>
           }
@@ -102,7 +110,7 @@ function App() {
         <Route
           path="/planning/edit/:goal_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <EditGoal />
             </RequireAuth>
           }
@@ -111,7 +119,7 @@ function App() {
         <Route
           path="/action/:goal_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <Actions />
             </RequireAuth>
           }
@@ -121,7 +129,7 @@ function App() {
         <Route
           path="/action/show/:action_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <ShowAction />
             </RequireAuth>
           }
@@ -130,7 +138,7 @@ function App() {
         <Route
           path="/action/store"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <StoreAction />
             </RequireAuth>
           }
@@ -139,7 +147,7 @@ function App() {
         <Route
           path="/action/edit/:action_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <EditAction />
             </RequireAuth>
           }
@@ -148,7 +156,7 @@ function App() {
         <Route
           path="/responsibles"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <Responsibles />
             </RequireAuth>
           }
@@ -158,7 +166,7 @@ function App() {
         <Route
           path="/responsibles/:responsible_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <ShowResponsible />
             </RequireAuth>
           }
@@ -167,7 +175,7 @@ function App() {
         <Route
           path="/responsibles/store"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <StoreResponsible />
             </RequireAuth>
           }
@@ -176,7 +184,7 @@ function App() {
         <Route
           path="/responsibles/edit/:responsible_id"
           element={
-            <RequireAuth loginPath="/login">
+            <RequireAuth loginPath="/company/login">
               <EditResponsible />
             </RequireAuth>
           }
