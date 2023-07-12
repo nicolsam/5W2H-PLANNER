@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('/companies')->group(function () {
 
         Route::get('/', [CompanyController::class, 'index'])
-            ->middleware(['auth:sanctum', 'ability:admin,company']);
+            ->middleware(['auth:sanctum', 'ability:admin']);
 
         Route::post('/', [CompanyController::class, 'store'])
             ->middleware(['auth:sanctum', 'ability:admin']);
