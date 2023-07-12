@@ -70,7 +70,7 @@ const Menu: FC = () => {
         setLocation(currLocation[1]);
     }, [location.pathname]);
 
-    if (location.pathname === '/' || location.pathname === '/login') return null;
+    if (location.pathname === '/' || location.pathname === '/company/login' || location.pathname === '/admin/login') return null;
 
     return (
     <div className="h-screen fixed top-0 lg:sticky z-30">
