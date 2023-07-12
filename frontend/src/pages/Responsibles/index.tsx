@@ -22,7 +22,7 @@ import ResponsibleType from '@models/Responsible';
 
 const Responsibles = () => {
 
-    const { company, setContextResponsibles } = useContext(GlobalContext)
+    const { company } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -40,7 +40,6 @@ const Responsibles = () => {
         let response = await api.companies.responsibles(company.id);
 
         setResponsibles(response.data);
-        setContextResponsibles(response.data);
 
         return response;
     }
