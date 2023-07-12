@@ -1,5 +1,5 @@
 import { GlobalContext } from '@contexts/Context';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -21,7 +21,7 @@ import CompanyType from '@models/Company';
 
 const Companies = () => {
 
-    const { setCompany } = useContext(GlobalContext)
+    const { setCompany, isAdminAccess, logout } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -36,10 +36,15 @@ const Companies = () => {
 
     const show = async () => {
 
-        let response = await api.companies.index();
+        try {
+            let response = await api.companies.index();
 
-        setCompanies(response.data);
-        return response;
+            setCompanies(response.data);
+            console.log(response.data)
+        } catch(error: any) {
+            console.log(error.message)
+        }
+        
     }
 
     const deleteCompany = async (company_id: number) => {
@@ -89,6 +94,7 @@ const Companies = () => {
             <ListContainer>
                 {companies ? companies.map((company: CompanyType, index: number) => (
                     <Item 
+                        id={company.id}
                         click={() => select(company)}
                         actions={[
                             {
