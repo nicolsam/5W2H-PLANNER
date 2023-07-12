@@ -1,4 +1,6 @@
+import { GlobalContext } from "@contexts/Context";
 import useShowPassword from "@hooks/useShowPassword";
+import { useContext } from "react";
 import { useSignIn } from 'react-auth-kit';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +38,7 @@ const Login = () => {
 
     const { register, handleSubmit, formState } = form
     const { errors } = formState;
+    const { setIsAdminAccess } = useContext(GlobalContext);
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
@@ -45,7 +48,7 @@ const Login = () => {
                 throw new Error(response.message)
             }
 
-            signIn({
+            const isSignin = signIn({
                 token: response.data.token,
                 expiresIn: 3600,
                 tokenType: "Bearer",
@@ -54,14 +57,20 @@ const Login = () => {
                 }
             })
 
-            toast('Logado com sucesso', {
-              type: 'success',
-              isLoading: false,
-              autoClose: 3000,
-              closeButton: true,
-            });
+            if(isSignin) {
+                setIsAdminAccess(true);
 
-            navigate('/companies');
+                toast('Logado com sucesso', {
+                    type: 'success',
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                });
+
+                navigate('/companies');
+            }
+
+            
 
         } catch(error:any) {
             toast(error.message);
