@@ -74,21 +74,21 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <AuthProvider 
+      authType='cookie'
+      authName='_auth'
+      cookieDomain={window.location.hostname}
+      cookieSecure={window.location.protocol === 'https'}
+    >
       <GlobalProvider>
         <ThemeProvider theme={theme}>
-          <AuthProvider 
-            authType='cookie'
-            authName='_auth'
-            cookieDomain={window.location.hostname}
-            cookieSecure={window.location.protocol === 'https'}
-          >
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='en-gb'>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter> 
-            </LocalizationProvider>
-          </AuthProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='en-gb'>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter> 
+          </LocalizationProvider>
         </ThemeProvider>
       </GlobalProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
