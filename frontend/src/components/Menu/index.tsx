@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { useEffect } from 'react';
+import { useSignOut } from 'react-auth-kit';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import BusinessIcon from '@mui/icons-material/Business';
@@ -33,10 +34,11 @@ const variants = {
 
 const Menu: FC = () => {
 
-    const { company } = useContext(GlobalContext)
+    const { company, isAdminAccess, setIsAdminAccess, setIsCompanyAccess } = useContext(GlobalContext)
 
     const navigate = useNavigate();
     const location = useLocation();
+    const signOut = useSignOut();
 
     let currLocation;
 
@@ -50,19 +52,31 @@ const Menu: FC = () => {
 
     async function logout() {
 
+        setIsAdminAccess(false);
+        setIsCompanyAccess(false);
+
+        signOut();
+
         toast.error('Deslogado com sucesso', {
             isLoading: false,
             autoClose: 3000,
             closeButton: true,
         });
 
-        navigate('/companies');
+        navigate('/company/login');
     }
 
+
+
     function back() {
+        console.log('Admin access:', isAdminAccess)
         // resetCompany();
-        navigate('/companies');
-        setActive('/dashboard');
+        if(isAdminAccess) {
+            navigate('/companies');
+            setActive('/dashboard');
+        } else {
+            logout();
+        }
     }
 
     useEffect(() => {
@@ -122,10 +136,12 @@ const Menu: FC = () => {
             <div className="h-1/5 flex items-end">
             {location.pathname === '/companies' ? (
                 <button
-                className="w-full p-3 uppercase text-2xl text-white bg-danger"
-                onClick={logout}
+                    className="w-full flex flex-row items-center justify-center gap-2 py-3 rounded uppercase text-2xl text-white bg-danger hover:bg-danger-hover"
+                    onClick={logout}
                 >
-                Sair
+                    <LogoutIcon className="text-2xl" />
+
+                    <p>Sair</p>
                 </button>
             ) : (
                 <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
@@ -141,7 +157,7 @@ const Menu: FC = () => {
 
                 <button
                     className="flex flex-row items-center gap-2 px-5 py-2 rounded uppercase text-lg text-white bg-danger hover:bg-danger-hover"
-                    onClick={logout}
+                    onClick={back}
                 >
                     <LogoutIcon className="text-2xl" />
 
