@@ -1,5 +1,7 @@
+import Badge from '@components/Badge';
+import { BadgeStatusType } from '@components/Badge/styles';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Button, Divider, IconButton, Menu, MenuItem } from "@mui/material";
+import { Button, Divider, IconButton, Menu, MenuItem, Stack } from "@mui/material";
 
 import {
     bindMenu,
@@ -13,6 +15,8 @@ type Props = {
     description?: string;
     click: () => void;
     actions: Action[];
+    firstBadgeSpacing: boolean;
+    badges?: Badge[];
 };
 
 type Action = {
@@ -22,7 +26,13 @@ type Action = {
     click: () => void;
 }
 
-const Item = ({ id, children, description, click, actions }: Props) => {
+type Badge = {
+    name: string,
+    count: number,
+    status?: BadgeStatusType;
+}
+
+const Item = ({ id, children, description, click, actions, firstBadgeSpacing = false, badges }: Props) => {
     const popupState = usePopupState({
         variant: 'popover',
         popupId: 'options',
@@ -43,6 +53,12 @@ const Item = ({ id, children, description, click, actions }: Props) => {
                     {description && (
                         <p className="text-white text-base font-normal normal-case">{description}</p>
                     )}
+
+                    <Stack sx={{ mt: 1 }} spacing={1} direction={"row"}>
+                    {badges && badges.map((badge: Badge) => (
+                        <Badge firstBadgeSpacing={firstBadgeSpacing} showCount count={badge.count} status={badge.status ? badge.status : 'neutral'}>{badge.name}</Badge>
+                    ))}
+                    </Stack>
                 </div>
             </Button>
 
