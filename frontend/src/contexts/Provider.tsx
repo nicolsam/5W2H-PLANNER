@@ -48,7 +48,9 @@ export const GlobalProvider = ({ children }: Props) => {
 
     useEffect(() => {
 
-        company.id != -1 ?? getCompanyResponsibles();
+        if(company.id != -1) { 
+            getCompanyResponsibles(); 
+        }
 
     }, [company]);
 
