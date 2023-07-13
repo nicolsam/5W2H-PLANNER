@@ -37,8 +37,8 @@ function App() {
         <Route
           path="/"
           element={
-            <RequireAuth loginPath="/login">
-              <Login />
+            <RequireAuth loginPath="/company/login">
+              <CompanyLogin />
             </RequireAuth>
           }
         />
@@ -117,7 +117,7 @@ function App() {
         />
         
         <Route
-          path="/action/:goal_id"
+          path="/planning/action/:goal_id"
           element={
             <RequireAuth loginPath="/company/login">
               <Actions />
@@ -127,7 +127,7 @@ function App() {
         />  
         
         <Route
-          path="/action/show/:action_id"
+          path="/planning/action/show/:action_id"
           element={
             <RequireAuth loginPath="/company/login">
               <ShowAction />
@@ -136,7 +136,7 @@ function App() {
         />
 
         <Route
-          path="/action/store"
+          path="/planning/action/store"
           element={
             <RequireAuth loginPath="/company/login">
               <StoreAction />
@@ -145,7 +145,7 @@ function App() {
         />
         
         <Route
-          path="/action/edit/:action_id"
+          path="/planning/action/edit/:action_id"
           element={
             <RequireAuth loginPath="/company/login">
               <EditAction />
