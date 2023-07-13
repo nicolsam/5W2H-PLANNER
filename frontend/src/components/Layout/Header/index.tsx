@@ -28,7 +28,7 @@ const Header = ({ description, storeButton, storeText, redirect, children }: Pro
             {storeButton && redirect && (
                 
                 <Button className="h-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={navigateToRedirect}>
-                    {storeText}
+                    <span className="2xl:text-xl">{storeText}</span>
                 </Button>
                 
             )}
