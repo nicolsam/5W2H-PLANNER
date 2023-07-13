@@ -8,7 +8,7 @@ import Header from '@components/Layout/Header';
 import Item from '@components/Layout/List/Item';
 import Main from '@components/Layout/Main';
 
-import { Stack } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -92,7 +92,8 @@ const Companies = () => {
             >Olá, Administrador.</Header>
 
             <ListContainer>
-                {companies ? companies.map((company: CompanyType, index: number) => (
+                {companies ? 
+                    companies.length > 0 ? companies.map((company: CompanyType, index: number) => (
                     <Item 
                         id={company.id}
                         click={() => select(company)}
@@ -115,11 +116,18 @@ const Companies = () => {
                         {company.attributes.name}
                     </Item>
                 )) 
-                    : (
-                        <div className="w-full flex justify-center">
-                            <Loading color="white" />
-                        </div>
-                    )
+                : (
+                    <Alert severity="warning">
+                        <AlertTitle>Nenhuma empresa foi cadastrada</AlertTitle>
+                        Utilize o botão acima para cadastrar sua primeira empresa.
+                    </Alert>
+                    
+                )
+                : (
+                    <div className="w-full flex justify-center">
+                        <Loading color="white" />
+                    </div>
+                )
                 }
             </ListContainer>
         </Main>
