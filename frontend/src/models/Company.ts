@@ -6,6 +6,9 @@ export type CompanyType = {
         created_at: string;
         updated_at: string;
     }
+    count: {
+        goals: number;
+    }
 }
 
 export default CompanyType;

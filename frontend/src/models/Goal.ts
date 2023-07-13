@@ -7,6 +7,14 @@ export type GoalType =  {
         created_at: string;
         updated_at: string;
     }
+    count: {
+        actions: {
+            total: number;
+            completed: number;
+            developing: number;
+            start: number
+        }
+    }
 }
 
 export default GoalType;

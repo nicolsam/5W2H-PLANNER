@@ -1,6 +1,14 @@
 export type ActionType = {
     id: number;
     attributes: ActionAttributes; 
+    count: {
+        stages: {
+            total: number;
+            completed: number;
+            developing: number;
+            start: number
+        }
+    }
 };
 
 export type ActionAttributes = {
