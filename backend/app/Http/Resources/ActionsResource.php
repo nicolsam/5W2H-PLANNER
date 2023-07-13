@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Action;
 use App\Models\ActionsResponsibles;
 use App\Models\Responsible;
+use App\Models\Stage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -52,6 +53,14 @@ class ActionsResource extends JsonResource
                     $responsibles = ActionsResponsibles::where('action_id', '=', $this->id)->get('responsible_id');
                     return $this->customFormatResponsibles($responsibles);
                 })
+            ],
+            'count' => [
+                'stages' => [
+                    'total' => Stage::where('action_id', '=', $this->id)->get()->count(),
+                    'completed' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'Finalizado']])->get()->count(),
+                    'developing' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'Em Desenvolvimento']])->get()->count(),
+                    'start' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'A Iniciar']])->get()->count()
+                ]
             ]
         ];
     }

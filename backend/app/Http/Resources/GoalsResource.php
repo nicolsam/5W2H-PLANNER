@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Action;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,14 @@ class GoalsResource extends JsonResource
                     'cnpj' => $this->company->cnpj,
                     'created_at' => $this->company->created_at,
                     'updated_at' => $this->company->updated_at
+                ]
+            ],
+            'count' => [
+                'actions' => [
+                    'total' => Action::where('goal_id', '=', $this->id)->get()->count(),
+                    'completed' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'Finalizado']])->get()->count(),
+                    'developing' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'Em Desenvolvimento']])->get()->count(),
+                    'start' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'A Iniciar']])->get()->count()
                 ]
             ]
         ];
