@@ -30,7 +30,7 @@ const Actions = () => {
 
     const select = (action_id: number) => {
 
-        navigate(`/action/show/${action_id}`)
+        navigate(`/planning/action/show/${action_id}`)
     }
 
     const show = async () => {
@@ -68,7 +68,7 @@ const Actions = () => {
     }
 
     const editGoal = (company_id: number) => {
-        navigate(`/action/edit/${company_id}`);
+        navigate(`/planning/action/edit/${company_id}`);
     }
 
     useEffect(() => {
@@ -87,7 +87,7 @@ const Actions = () => {
                 description='Cadastre, edite e acompanhe as ações desta meta.'
                 storeButton
                 storeText='Ação'
-                redirect='action/store'
+                redirect='planning/action/store'
             >{currentGoal.attributes.name}</Header>
 
             <ListContainer>
