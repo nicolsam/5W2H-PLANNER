@@ -33,7 +33,18 @@ class ActionController extends Controller
     public function store(StoreUpdateActionRequest $request)
     {
         $data = $request->validated();
+        
+        try {
 
+            Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
         try {
 
             Goal::findOrFail($request->goal_id);
@@ -112,14 +123,43 @@ class ActionController extends Controller
 
         return ActionsResource::collection($actions);
     }
+    
+    public function showCompanyActions(string $company_id)
+    {
+        try {
 
+            Company::findOrFail($company_id);
+
+            $actions = Action::where('company_id', $company_id)->get();
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        return ActionsResource::collection($actions);
+    }
     /**
      * Update the specified resource in storage.
      */
     public function update(StoreUpdateActionRequest $request, string $id)
     {
         $data = $request->validated();
+        
+        try {
 
+            $company = Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta ação não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
         try {
 
             $action = Action::findOrFail($id);

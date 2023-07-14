@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('goal_id');
             $table->string('name');
             $table->string('area');
@@ -41,6 +42,10 @@ return new class extends Migration
                 'Baixa'
             ]);
             $table->string('observation')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onDelete('cascade');
             $table->foreign('goal_id')
                 ->references('id')
                 ->on('goals')

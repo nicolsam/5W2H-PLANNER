@@ -10,6 +10,7 @@ class Action extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'goal_id',
         'name',
         'area',
@@ -23,6 +24,10 @@ class Action extends Model
         'priority',
         'observation',
     ];
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
 
     public function goal() {
         return $this->belongsTo(Goal::class);

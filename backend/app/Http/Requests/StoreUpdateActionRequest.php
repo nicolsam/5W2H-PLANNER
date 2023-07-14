@@ -24,6 +24,7 @@ class StoreUpdateActionRequest extends FormRequest
     {
 
         $rules = [
+            'company_id' => 'required',
             'goal_id' => 'required',
             'responsible_id' => 'required|array',
             'name' => [
@@ -60,6 +61,7 @@ class StoreUpdateActionRequest extends FormRequest
     public function messages()
     {
         return [
+            'company_id.required' => 'O ID da empresa deve ser preenchido.',
             'goal_id.required' => 'O ID da meta deve ser preenchido.',
             'responsible_id.required' => 'O ID dos responsáveis é obrigatório.',
             'responsible_id.array' => 'O ID dos responsáveis deve ser um Array de itens.',
