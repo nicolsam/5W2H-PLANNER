@@ -4,6 +4,7 @@ import GoalType from "@models/Goal";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import ActionAttributes from "@models/Action";
+import { StageAttributes } from "@models/Stage";
 import getCookie from "./getCookie";
 
 const https = axios.create({
@@ -73,6 +74,29 @@ const api = {
                 }
             }
         },
+        
+        count: async (company_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/count/${company_id}`, { headers })
+
+                return ApiResponse(true, response.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+
         index: async () => {
             try {
 
@@ -196,6 +220,28 @@ const api = {
                 const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
                 
                 const response: AxiosResponse = await https.get(`/companies/${company_id}/goals`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+
+        actions: async (company_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/companies/${company_id}/actions`, { headers })
                 
                 return ApiResponse(true, response.data.data, response.data.message);
 
@@ -576,7 +622,7 @@ const api = {
                 }
             }
         },
-        update: async (action_id: number, company_id: number, stage_id: number, data: any): Promise<ResponseType | undefined> => {
+        update: async (stage_id: number, company_id: number, action_id: number, data: any): Promise<ResponseType | undefined> => {
             try {
 
                 const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
@@ -585,8 +631,8 @@ const api = {
                 const end_at =  data.end_at.$d;
                 
                 const payload = {
-                    "action_id": action_id,
                     "company_id": company_id,
+                    "action_id": action_id,
                     "name": data.name,
                     "area": data.area,
                     "value": data.value,
