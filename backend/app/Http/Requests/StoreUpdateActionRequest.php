@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -31,7 +32,7 @@ class StoreUpdateActionRequest extends FormRequest
                 'required',
                 'min:5' ,
                 'max:300',
-                Rule::unique('actions')
+                Rule::unique('actions')->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ],
             'area' => 'required',
             'what' => 'required',
@@ -51,7 +52,7 @@ class StoreUpdateActionRequest extends FormRequest
                 'required',
                 'min:5',
                 'max:300',
-                Rule::unique('actions')->ignore($this->id)
+                Rule::unique('actions')->ignore($this->id)->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ];
 
         }

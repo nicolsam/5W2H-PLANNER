@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,13 @@ class StoreUpdateResponsibleRequest extends FormRequest
 
         $rules = [
             'company_id' => 'required',
-            'name' => 'required|min:3|max:100|string|unique:responsibles',
+            'name' => [
+                'required',
+                'min:3',
+                'max:100',
+                'string',
+                Rule::unique('responsibles')->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
+            ],
             'description' => 'required|string'
         ];
 
@@ -35,7 +42,7 @@ class StoreUpdateResponsibleRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:100',
-                Rule::unique('responsibles')->ignore($this->id),
+                Rule::unique('responsibles')->ignore($this->id)->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ];
         }
         return $rules;

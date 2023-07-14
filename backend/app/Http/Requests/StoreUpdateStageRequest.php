@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,12 @@ class StoreUpdateStageRequest extends FormRequest
             'company_id' => 'required',
             'action_id' => 'required',
             'responsible_id' => 'required',
-            'name' => 'required|min:5|max:300|unique:actions',
+            'name' => [
+                'required',
+                'min:5',
+                'max:300',
+                Rule::unique('stages')->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
+            ],
             'area' => 'required',
             'what' => 'required',
             'how' => 'required',
@@ -46,7 +52,7 @@ class StoreUpdateStageRequest extends FormRequest
                 'required',
                 'min:5',
                 'max:300',
-                Rule::unique('stages')->ignore($this->id)
+                Rule::unique('stages')->ignore($this->id)->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ];
 
         }

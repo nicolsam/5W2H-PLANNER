@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,12 @@ class StoreUpdateGoalRequest extends FormRequest
 
         $rules = [
             'company_id' => 'required',
-            'name' => 'required|min:5|max:100|unique:goals',
+            'name' => [
+                'required',
+                'min:5',
+                'max:100',
+                Rule::unique('goals')->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
+            ],
             'area' => 'required'
         ];
 
@@ -35,7 +41,7 @@ class StoreUpdateGoalRequest extends FormRequest
                 'required',
                 'min:5',
                 'max:100',
-                Rule::unique('goals')->ignore($this->id),
+                Rule::unique('goals')->ignore($this->id)->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ];
         }
         return $rules;
