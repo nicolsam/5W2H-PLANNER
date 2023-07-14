@@ -12,11 +12,12 @@ import {
 } from 'material-ui-popup-state/hooks';
 
 type Props = {
-    id: number;
     children: string | JSX.Element;
     description?: string;
     showCount?: boolean;
     color: 'primary' | 'secondary';
+    accordionButton?: boolean;
+    handleAccordionButton?: any;
     click: () => void;
     actions: Action[];
     firstBadgeSpacing?: boolean;
@@ -45,11 +46,12 @@ type Accordion = {
 }
 
 const Item = ({ 
-    id, 
     children, 
     description, 
     showCount = false,
     color,
+    accordionButton = false,
+    handleAccordionButton,
     click, 
     actions, 
     firstBadgeSpacing = false, 
@@ -62,7 +64,7 @@ const Item = ({
     });
 
     return (
-        <Stack direction={"column"} spacing={0} key={id} className="rounded bg-secondary-color" sx={{ backgroundColor: color != "primary" ? '#585858' : "#444344" }}> 
+        <Stack direction={"column"} spacing={0} className="rounded bg-secondary-color" sx={{ backgroundColor: color != "primary" ? '#585858' : "#444344" }}> 
             <div className="flex flex-row justify-between items-center">
                 <Tooltip 
                     title={
@@ -155,9 +157,11 @@ const Item = ({
                         >
                             <span className="2xl:text-lg font-normal font-sans">{accordion.name}</span>
                         </AccordionSummary>
-                        <Button className="h-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={() => {}}>
-                            <span className="2xl:text-base font-normal">ETAPA</span>
-                        </Button>
+                        {accordionButton && (
+                            <Button className="h-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={handleAccordionButton}>
+                                <span className="2xl:text-base font-normal">ETAPA</span>
+                            </Button>
+                        )}
                     </Stack>
                     <AccordionDetails
                         sx={{
