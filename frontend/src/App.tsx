@@ -26,6 +26,7 @@ import Responsibles from '@pages/Responsibles';
 import EditResponsible from '@pages/Responsibles/Edit';
 import ShowResponsible from '@pages/Responsibles/Show';
 import StoreResponsible from '@pages/Responsibles/Store';
+import ShowStage from '@pages/Stage/Show';
 
 function App() {
 
@@ -125,7 +126,7 @@ function App() {
           }
           errorElement={<Error404 />}
         />  
-        
+
         <Route
           path="/planning/action/show/:action_id"
           element={
@@ -143,6 +144,7 @@ function App() {
             </RequireAuth>
           }
         />
+
         
         <Route
           path="/planning/action/edit/:action_id"
@@ -153,6 +155,35 @@ function App() {
           }
         />
         
+
+        <Route
+          path="/planning/stage/show/:stage_id"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <ShowStage />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/planning/stage/store"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <StoreAction />
+            </RequireAuth>
+          }
+        />
+
+        
+        <Route
+          path="/planning/stage/edit/:stage_id"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <EditAction />
+            </RequireAuth>
+          }
+        />
+
         <Route
           path="/responsibles"
           element={
