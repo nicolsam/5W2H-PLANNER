@@ -21,7 +21,7 @@ import CompanyType from '@models/Company';
 
 const Companies = () => {
 
-    const { setCompany, isAdminAccess, logout } = useContext(GlobalContext)
+    const { setCompany } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -95,6 +95,8 @@ const Companies = () => {
                 {companies ? 
                     companies.length > 0 ? companies.map((company: CompanyType, index: number) => (
                     <Item 
+                        color="primary"
+                        showCount
                         id={company.id}
                         click={() => select(company)}
                         actions={[
@@ -111,6 +113,12 @@ const Companies = () => {
                                 click: () => deleteCompany(company.id)
                             }
                         ]} 
+                        badges={[
+                            {
+                                name: 'Metas',
+                                count: company.count.goals
+                            },
+                        ]}
                         key={index}
                     >
                         {company.attributes.name}
