@@ -24,6 +24,7 @@ class StoreUpdateStageRequest extends FormRequest
     {
 
         $rules = [
+            'company_id' => 'required',
             'action_id' => 'required',
             'responsible_id' => 'required',
             'name' => 'required|min:5|max:300|unique:actions',
@@ -55,6 +56,7 @@ class StoreUpdateStageRequest extends FormRequest
     public function messages()
     {
         return [
+            'company_id.required' => 'O ID da empresa deve ser preenchido.',
             'action_id.required' => 'O ID da ação deve ser preenchido.',
             'responsible_id.required' => 'O campo nome é obrigatório.',
             'name.unique' => 'Este nome já existe.',

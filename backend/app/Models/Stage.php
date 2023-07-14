@@ -10,6 +10,7 @@ class Stage extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'action_id',
         'name',
         'area',
@@ -23,6 +24,10 @@ class Stage extends Model
         'priority',
         'observation',
     ];
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
 
     public function action() {
         return $this->belongsTo(Action::class);

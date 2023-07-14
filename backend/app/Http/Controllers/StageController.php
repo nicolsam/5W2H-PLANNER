@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateStageRequest;
 use App\Http\Resources\StagesResource;
 use App\Models\Action;
+use App\Models\Company;
 use App\Models\Responsible;
 use App\Models\Stage;
 use App\Models\StagesResponsibles;
@@ -28,6 +29,18 @@ class StageController extends Controller
     public function store(StoreUpdateStageRequest $request)
     {
         $data = $request->validated();
+        
+        try {
+
+            Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
 
         try {
 
@@ -108,14 +121,44 @@ class StageController extends Controller
 
         return StagesResource::collection($stage);
     }
+    
+    public function showCompanyStages(string $company_id)
+    {
+        try {
 
+            Company::findOrFail($company_id);
+
+            $stages = Stage::where('company_id', $company_id)->get();
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+        }
+
+        return StagesResource::collection($stages);
+    }
     /**
      * Update the specified resource in storage.
      */
     public function update(StoreUpdateStageRequest $request, string $id)
     {
         $data = $request->validated();
+        
+        try {
 
+            Company::findOrFail($request->company_id);
+
+        } catch(ModelNotFoundException $exception) {
+
+            $message = 'Esta empresa não existe.';
+
+            return response()->json(['message' => $message], 404);
+
+
+        }
         try {
 
             $stage = Stage::findOrFail($id);
