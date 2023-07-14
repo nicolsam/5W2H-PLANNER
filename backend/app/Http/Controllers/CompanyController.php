@@ -8,6 +8,7 @@ use App\Http\Requests\CreateUpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Action;
 use App\Models\Company;
+use App\Models\Goal;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
@@ -100,28 +101,34 @@ class CompanyController extends Controller
 
     }
 
-    public function statusCount() {
+    public function statusCount(string $company_id) {
+        $goalTotalCount = Goal::where('company_id', '=', $company_id)->count();
 
+        $actionTotalCount = Action::where('company_id', '=', $company_id)->count();
         $actionCompletedCount = Action::where('status', 'Finalizado')->count();
         $actionToStartCount = Action::where('status', 'A Iniciar')->count();
         $actionInProgressCount = Action::where('status', 'Em Andamento')->count();
 
+        $stageTotalCount = Stage::where('company_id', '=', $company_id)->count();
         $stageCompletedCount = Stage::where('status', 'Finalizado')->count();
         $stageToStartCount = Stage::where('status', 'A Iniciar')->count();
         $stageInProgressCount = Stage::where('status', 'Em Andamento')->count();
 
         return [
-            'data' => [
-                'action' => [
-                    'completed' => $actionCompletedCount,
-                    'toStart' => $actionToStartCount,
-                    'inProgress' => $actionInProgressCount,
-                ],
-                'stage' => [
-                    'completed' => $stageCompletedCount,
-                    'toStart' => $stageToStartCount,
-                    'inProgress' => $stageInProgressCount,
-                ]
+            'goal' => [
+                'total' => $goalTotalCount,
+            ],
+            'action' => [
+                'total' => $actionTotalCount,
+                'completed' => $actionCompletedCount,
+                'toStart' => $actionToStartCount,
+                'inProgress' => $actionInProgressCount,
+            ],
+            'stage' => [
+                'total' => $stageTotalCount,
+                'completed' => $stageCompletedCount,
+                'toStart' => $stageToStartCount,
+                'inProgress' => $stageInProgressCount,
             ]
         ];
 
