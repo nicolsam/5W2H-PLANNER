@@ -1,6 +1,17 @@
+import { StageAttributes } from './Stage';
 export type ActionType = {
     id: number;
     attributes: ActionAttributes; 
+    relationships: {
+        goal: {
+            id: number;
+            name: string;
+            area: string;
+            created_at: string;
+            updated_at: string;
+        }   
+        stages: (StageAttributes & StageAnnoyingType)[]
+    }
     count: {
         stages: {
             total: number;
@@ -26,6 +37,11 @@ export type ActionAttributes = {
     observation: string;
     created_at: string;
     updated_at: string;
+}
+
+type StageAnnoyingType = {
+    id: number;
+    action_id: number;
 }
 
 export default ActionType;
