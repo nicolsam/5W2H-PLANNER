@@ -5,6 +5,7 @@ import api from "@utils/api";
 import { useEffect, useState } from "react";
 import { GlobalContext } from "./Context";
 
+import ActionType from "@models/Action";
 import { useSignOut } from 'react-auth-kit';
 
 
@@ -34,6 +35,26 @@ const goalInitialValue: GoalType = {
     }
 }
 
+const actionInitialValue: ActionType = {
+    id: -1,
+    attributes: {
+        name: "",
+        area: "",
+        what: "",
+        how: "",
+        start_at: "",
+        end_at: "",
+        remaining_days: 0,
+        value: "",
+        value_status: 'Não definido',
+        status: 'Finalizado',
+        priority: 'Baixa',
+        observation: "",
+        created_at: "",
+        updated_at: "",
+    }
+}
+
 
 
 export const GlobalProvider = ({ children }: Props) => {
@@ -44,6 +65,8 @@ export const GlobalProvider = ({ children }: Props) => {
     const [isCompanyAccess, setIsCompanyAccess] = useState(false);
     const [company, setCompany] = useState<CompanyType>(companyInitialValue);
     const [currentGoal, setGoal] = useState<GoalType>(goalInitialValue);
+    const [currentAction, setAction] = useState<ActionType>(actionInitialValue);
+
     const [contextResponsibles, setContextResponsibles] = useState<ResponsibleType[] | []>([]);
 
     useEffect(() => {
@@ -82,6 +105,8 @@ export const GlobalProvider = ({ children }: Props) => {
                 setCompany,
                 currentGoal,
                 setGoal,
+                currentAction,
+                setAction,
                 contextResponsibles,
                 setContextResponsibles,
                 logout
