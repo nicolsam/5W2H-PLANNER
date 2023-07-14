@@ -22,7 +22,7 @@ import ActionType from '@models/Action';
 
 const Actions = () => {
 
-    const { company, currentGoal } = useContext(GlobalContext)
+    const { company, currentGoal, setAction } = useContext(GlobalContext)
 
     const navigate = useNavigate();
     const { goal_id } = useParams<{goal_id: any}>();
@@ -102,8 +102,14 @@ const Actions = () => {
         navigate(`/planning/action/edit/${action_id}`);
     }
     
-    const editStage = (stage_id: number) => {
+    const editStage = (action: ActionType, stage_id: number) => {
+        setAction(action);
         navigate(`/planning/stage/edit/${stage_id}`);
+    }
+    
+    const handleAccordionButton = (action: ActionType) => {
+        setAction(action);
+        navigate('/planning/stage/store');
     }
 
     useEffect(() => {
@@ -129,10 +135,12 @@ const Actions = () => {
                 {actions ? 
                     actions.length > 0 ? actions.map((action: ActionType, index: number) => (
                         <Item 
-                            id={index}
+                            key={index}
                             color="primary"
                             showCount
                             firstBadgeSpacing
+                            accordionButton
+                            handleAccordionButton={() => handleAccordionButton(action)}
                             click={() => select(action.id)}
                             actions={[
                                 {
@@ -181,7 +189,7 @@ const Actions = () => {
                                         if (stage.status === 'Finalizado') badgeStatus = 'completed'
                                         return (
                                             <Item 
-                                                id={index}
+                                                key={index}
                                                 color="secondary"
                                                 click={() => selectStage(stage.id)}
                                                 actions={[
@@ -189,7 +197,7 @@ const Actions = () => {
                                                         name: 'Editar',
                                                         ariaLabel: 'editar',
                                                         icon: <EditIcon className="text-main-color" />,
-                                                        click: () => editStage(stage.id)
+                                                        click: () => editStage(action, stage.id)
                                                     },
                                                     {
                                                         name: 'Deletar',
@@ -220,8 +228,8 @@ const Actions = () => {
                     ))   
                     : (
                         <Alert severity="warning">
-                            <AlertTitle>Nenhuma meta foi cadastrada</AlertTitle>
-                            Utilize o botão acima para cadastrar sua primeira meta.
+                            <AlertTitle>Nenhuma ação foi cadastrada</AlertTitle>
+                            Utilize o botão acima para cadastrar sua primeira ação.
                         </Alert>
 
                     )
