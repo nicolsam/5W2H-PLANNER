@@ -30,7 +30,7 @@ const Goals = () => {
     const select = (goal: GoalType) => {
 
         setGoal(goal)
-        navigate(`/action/${goal.id}`);
+        navigate(`/planning/action/${goal.id}`);
     }
 
     const show = async () => {
@@ -93,6 +93,9 @@ const Goals = () => {
                 {goals ? 
                     goals.length > 0 ? goals.map((goal: GoalType, index: number) => (
                         <Item 
+                            color="primary"
+                            showCount
+                            firstBadgeSpacing
                             click={() => select(goal)}
                             actions={[
                                 {
@@ -108,6 +111,28 @@ const Goals = () => {
                                     click: () => deleteGoal(goal.id)
                                 }
                             ]} 
+                            badges={[
+                                {
+                                    name: 'Ações',
+                                    count: goal.count.actions.total
+                                },
+                                {
+                                    name: 'A iniciar',
+                                    count: goal.count.actions.start,
+                                    status: 'uncompleted'
+                                },
+                                {
+                                    name: 'Em desenvolvimento',
+                                    count: goal.count.actions.developing,
+                                    status: 'developing'
+                                },
+                                {
+                                    name: 'Finalizados',
+                                    count: goal.count.actions.completed,
+                                    status: 'completed'
+                                },
+                                
+                            ]}
                             key={index}
                         >
                             {goal.attributes.name}
