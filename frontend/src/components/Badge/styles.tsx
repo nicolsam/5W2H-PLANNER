@@ -59,6 +59,10 @@ export const BadgeContainer = styled.div<BadgeProps>`
     margin-right: ${({ firstBadgeSpacing }) => firstBadgeSpacing ? '.7rem' : '0' }; 
 
     font-weight: bold;
+    
+    @media (max-width: 768px) {
+        margin-bottom: ${({ firstBadgeSpacing }) => firstBadgeSpacing ? '.5rem' : '0' }; 
+    }
 `;
 
 export const Count = styled.div`

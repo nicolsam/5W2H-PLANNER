@@ -87,7 +87,7 @@ const CompanyLogin = () => {
         <div className="w-full h-screen flex flex-col gap-2 justify-center items-center">
             <form 
                 method="POST"
-                className="bg-main-color w-1/3 h-3/5 px-10 py-24 rounded" 
+                className="bg-main-color w-4/5 h-2/4 sm:w-2/3 lg:w-1/2 xl:w-1/3 2xl:h-3/5 px-7 py-10 2xl:px-10 2xl:py-24 rounded" 
                 onSubmit={handleSubmit(onSubmit)} 
             >
                 <Stack spacing={3} direction={"column"}>
@@ -147,7 +147,7 @@ const CompanyLogin = () => {
                                 backgroundColor: '#F4F4F4',
                             }}
                         />
-                        <Button type="submit" variant="contained" size="large" disableElevation>
+                        <Button type="submit" variant="action" size="large" disableElevation>
                             <span className="text-2xl p-1">Login</span>
                         </Button>
                     </Stack>

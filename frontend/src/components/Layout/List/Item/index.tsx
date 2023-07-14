@@ -76,27 +76,25 @@ const Item = ({
                 >
                     <Button
                         variant="list"
-                        className="w-full h-full rounded p-4 bg-secondary-color"
+                        className="w-full h-full rounded pr-4 pb-4 pl-4 pt-6 bg-secondary-color"
                         sx={{ backgroundColor: color != "primary" ? '#585858' : "#444344" }}
                         onClick={click}
                     >
-                        <div className="flex flex-col items-start pt-2">
-                            <h2 className="text-white text-2xl font-semibold normal-case">{children}</h2>
+                        <div className="flex flex-col items-start">
+                            <h2 className="text-white text-xl xl:text-2xl font-semibold normal-case text-left">{children}</h2>
                             {description && (
-                                <p className="text-white text-base font-normal normal-case">{description}</p>
+                                <p className="text-white text-base xl:text-lg font-normal normal-case text-left">{description}</p>
                             )}
-                            <Stack sx={{ mt: 2 }} spacing={1} direction={"row"}>
-                            {badges && badges.map((badge: Badge) => (
-                                <Badge firstBadgeSpacing={firstBadgeSpacing} showCount={showCount} count={badge.count} status={badge.status ? badge.status : 'neutral'}>{badge.name}</Badge>
+                            <div className="mt-2 grid gap-1 grid-cols-1 md:flex md:gap-1 md:flex-row">
+                            {badges && badges.map((badge: Badge, index: number) => (
+                                <Badge firstBadgeSpacing={index === 0 ?? firstBadgeSpacing} showCount={showCount} count={badge.count} status={badge.status ? badge.status : 'neutral'}>{badge.name}</Badge>
                             ))}
-                            </Stack>
+                            </div>
                         </div>
                     </Button>
                 </Tooltip>
 
-                {/* <Divider orientation="vertical" variant="middle" flexItem /> */}
-
-                <div className="p-4 w-fit">
+                <div className="p-4 w-fit h-full flex items-start xl:items-center">
                     <IconButton 
                         {...bindTrigger(popupState)} 
                         size="large" 
@@ -137,7 +135,7 @@ const Item = ({
                         paddingBottom: '1rem',
                         flexDirection: 'row' 
                     }}>
-                    <Stack spacing={1} direction="row">
+                    <Stack spacing={1} direction={{ xs: "column-reverse", sm: "row" }} className="flex flex-col pr-5 sm:flex-row">
                         <AccordionSummary
                             sx={{
                                 backgroundColor: '#585858',
@@ -158,7 +156,7 @@ const Item = ({
                             <span className="2xl:text-lg font-normal font-sans">{accordion.name}</span>
                         </AccordionSummary>
                         {accordionButton && (
-                            <Button className="h-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={handleAccordionButton}>
+                            <Button className="h-fit w-fit" sx={{padding: 2}} variant="main" startIcon={<AddCircleIcon />} disableElevation onClick={handleAccordionButton}>
                                 <span className="2xl:text-base font-normal">ETAPA</span>
                             </Button>
                         )}
