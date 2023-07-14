@@ -49,6 +49,7 @@ class ActionsResource extends JsonResource
                     'created_at' => $this->goal->created_at,
                     'updated_at' => $this->goal->updated_at
                 ],
+                'stages' => Stage::where('action_id', '=', $this->id)->get(),
                 'responsibles' => $this->when(ActionsResponsibles::where('action_id', '=', $this->id)->count() > 0, function () {
                     $responsibles = ActionsResponsibles::where('action_id', '=', $this->id)->get('responsible_id');
                     return $this->customFormatResponsibles($responsibles);
