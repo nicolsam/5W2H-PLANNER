@@ -36,7 +36,7 @@ class GoalsResource extends JsonResource
                 'actions' => [
                     'total' => Action::where('goal_id', '=', $this->id)->get()->count(),
                     'completed' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'Finalizado']])->get()->count(),
-                    'developing' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'Em Desenvolvimento']])->get()->count(),
+                    'developing' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'Em Andamento']])->get()->count(),
                     'start' => Action::where([['goal_id', '=', $this->id], ['status', '=', 'A Iniciar']])->get()->count()
                 ]
             ]

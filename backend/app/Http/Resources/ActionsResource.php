@@ -59,7 +59,7 @@ class ActionsResource extends JsonResource
                 'stages' => [
                     'total' => Stage::where('action_id', '=', $this->id)->get()->count(),
                     'completed' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'Finalizado']])->get()->count(),
-                    'developing' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'Em Desenvolvimento']])->get()->count(),
+                    'developing' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'Em Andamento']])->get()->count(),
                     'start' => Stage::where([['action_id', '=', $this->id], ['status', '=', 'A Iniciar']])->get()->count()
                 ]
             ]
