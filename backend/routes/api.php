@@ -32,6 +32,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/{id}/goals', [GoalsController::class, 'showCompanyGoals'])
             ->middleware(['auth:sanctum', 'ability:admin,company']);
+        
+        Route::get('/{id}/actions', [ActionController::class, 'showCompanyActions'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+        
+        Route::get('/{id}/stages', [StageController::class, 'showCompanyStages'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::get('/{id}/responsibles', [ResponsibleController::class, 'showCompanyResponsibles'])
             ->middleware(['auth:sanctum', 'ability:admin,company']);
@@ -118,7 +124,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     });
 
-    Route::get('/count', [CompanyController::class, 'statusCount'])
+    Route::get('/count/{company_id}', [CompanyController::class, 'statusCount'])
         ->middleware(['auth:sanctum', 'ability:admin,company']);
 
 });
