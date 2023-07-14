@@ -23,6 +23,15 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          '&:before': {
+            display: 'none',
+          },
+        },
+      },
+    },
     MuiButton: {
       variants: [
         {
@@ -41,7 +50,7 @@ const theme = createTheme({
             color: 'white',
             padding: '1rem',
             '&:hover': {
-              backgroundColor: '#444344',
+              backgroundColor: '#686768',
             },
           },
         },
