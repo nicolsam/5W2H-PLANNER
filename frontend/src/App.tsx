@@ -16,8 +16,8 @@ import EditCompany from '@pages/Companies/Edit';
 import CompanyLogin from '@pages/Companies/Login';
 import StoreCompany from '@pages/Companies/Store';
 import Dashboard from '@pages/Dashboard';
-import Error404 from '@pages/Error/404';
 import Forbidden from '@pages/Error/Forbidden';
+import NotFound from '@pages/Error/NotFound';
 import Goals from '@pages/Goals';
 import EditGoal from '@pages/Goals/Edit';
 import StoreGoal from '@pages/Goals/Store';
@@ -46,9 +46,10 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path='*' element={<NotFound />}/>
 
-        <Route path="/admin/login" element={<Login />} errorElement={<Error404 />} />
-        <Route path="/company/login" element={<CompanyLogin />} errorElement={<Error404 />} />
+        <Route path="/admin/login" element={<Login />} errorElement={<NotFound />} />
+        <Route path="/company/login" element={<CompanyLogin />} errorElement={<NotFound />} />
 
         <Route path="/forbidden" element={<Forbidden />} />
 
@@ -59,7 +60,7 @@ function App() {
               <Dashboard />
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />
 
         <Route
@@ -71,7 +72,7 @@ function App() {
               </RequireAdminAccess>
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />
 
         <Route
@@ -99,7 +100,7 @@ function App() {
               <Goals />
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />
 
         <Route
@@ -127,7 +128,7 @@ function App() {
               <Actions />
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />  
 
         <Route
@@ -194,7 +195,7 @@ function App() {
               <Responsibles />
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />
       
         <Route
@@ -204,7 +205,7 @@ function App() {
               <ShowResponsible />
             </RequireAuth>
           }
-          errorElement={<Error404 />}
+          errorElement={<NotFound />}
         />
         <Route
           path="/responsibles/store"
