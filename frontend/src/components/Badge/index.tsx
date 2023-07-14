@@ -8,7 +8,7 @@ type Props = {
     children: JSX.Element | string;
 };
 
-const Badge = ({ showCount, count, firstBadgeSpacing, status, children }: Props) => {
+const Badge = ({ showCount = false, count, firstBadgeSpacing, status, children }: Props) => {
     return (
         <BadgeContainer
             status={status}
