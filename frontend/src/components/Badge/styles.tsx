@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export type BadgeStatusType = 'neutral' | 'completed' | 'uncompleted' | 'developing'; 
+export type BadgeStatusType = 'neutral' | 'secondary' | 'completed' | 'uncompleted' | 'developing'; 
 
 export type BadgeProps = {
     firstBadgeSpacing?: boolean;
@@ -9,6 +9,10 @@ export type BadgeProps = {
 
 type BadgeVariant = {
     neutral: {
+        color?: string,
+        backgroundColor?: string
+    },
+    secondary: {
         color?: string,
         backgroundColor?: string
     },
@@ -30,6 +34,10 @@ const badgeVariant: BadgeVariant = {
     neutral: {
         color: 'white',
         backgroundColor: '#585858',
+    },
+    secondary: {
+        color: 'white',
+        backgroundColor: '#444344',
     },
     completed: {
         color: 'white',
