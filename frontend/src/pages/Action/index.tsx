@@ -15,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import api from "@utils/api";
 
+import { BadgeStatusType } from '@components/Badge/styles';
 import ListContainer from '@components/Layout/List';
 import Loading from '@components/Loading';
 import ActionType from '@models/Action';
@@ -32,6 +33,11 @@ const Actions = () => {
 
         navigate(`/planning/action/show/${action_id}`)
     }
+    
+    const selectStage = (action_id: number) => {
+
+        navigate(`/planning/stage/show/${action_id}`)
+    }
 
     const show = async () => {
 
@@ -42,7 +48,7 @@ const Actions = () => {
         return response;
     }
 
-    const deleteGoal = async (action_id: number) => {
+    const deleteAction = async (action_id: number) => {
         try {
             
             await api.actions.delete(action_id)
@@ -66,9 +72,38 @@ const Actions = () => {
         }
         
     }
+    
+    const deleteStage = async (stage_id: number) => {
+        try {
+            
+            await api.stages.delete(stage_id)
+        
+            toast('Etapa deletada com sucesso', {
+                type: 'success',
+                isLoading: false,
+                autoClose: 3000,
+                closeButton: true,
+            });
 
-    const editGoal = (company_id: number) => {
-        navigate(`/planning/action/edit/${company_id}`);
+            show();
+
+        } catch(error) {
+            toast(error.message, {
+                type: 'error',
+                isLoading: false,
+                autoClose: 3000,
+                closeButton: true,
+            });
+        }
+        
+    }
+
+    const editAction = (action_id: number) => {
+        navigate(`/planning/action/edit/${action_id}`);
+    }
+    
+    const editStage = (stage_id: number) => {
+        navigate(`/planning/stage/edit/${stage_id}`);
     }
 
     useEffect(() => {
@@ -78,7 +113,7 @@ const Actions = () => {
         }
 
         show();
-
+        
     }, [])
     
     return (
@@ -94,22 +129,91 @@ const Actions = () => {
                 {actions ? 
                     actions.length > 0 ? actions.map((action: ActionType, index: number) => (
                         <Item 
+                            id={index}
+                            color="primary"
+                            showCount
+                            firstBadgeSpacing
                             click={() => select(action.id)}
                             actions={[
                                 {
                                     name: 'Editar',
                                     ariaLabel: 'editar',
                                     icon: <EditIcon className="text-main-color" />,
-                                    click: () => editGoal(action.id)
+                                    click: () => editAction(action.id)
                                 },
                                 {
                                     name: 'Deletar',
                                     ariaLabel: 'deletar',
                                     icon: <DeleteIcon className="text-danger" />,
-                                    click: () => deleteGoal(action.id)
+                                    click: () => deleteAction(action.id)
                                 }
                             ]} 
-                            key={index}
+                            badges={[
+                                {
+                                    name: 'Etapas',
+                                    count: action.count.stages.total
+                                },
+                                {
+                                    name: 'A iniciar',
+                                    count: action.count.stages.start,
+                                    status: 'uncompleted'
+                                },
+                                {
+                                    name: 'Em desenvolvimento',
+                                    count: action.count.stages.developing,
+                                    status: 'developing'
+                                },
+                                {
+                                    name: 'Finalizados',
+                                    count: action.count.stages.completed,
+                                    status: 'completed'
+                                },
+                                
+                            ]}
+                            accordions={[
+                                {
+                                    name: "ETAPAS",
+                                    errorMessage: "Nenhuma etapa foi cadastrada",
+                                    errorDescription: "Utilize o botão acima para cadastrar sua primeira etapa.",
+                                    content: action.relationships.stages.map((stage, index: number) => {
+                                        let badgeStatus: BadgeStatusType = 'uncompleted';
+                                        if (stage.status === 'Em Andamento') badgeStatus = 'developing'
+                                        if (stage.status === 'Finalizado') badgeStatus = 'completed'
+                                        return (
+                                            <Item 
+                                                id={index}
+                                                color="secondary"
+                                                click={() => selectStage(stage.id)}
+                                                actions={[
+                                                    {
+                                                        name: 'Editar',
+                                                        ariaLabel: 'editar',
+                                                        icon: <EditIcon className="text-main-color" />,
+                                                        click: () => editStage(stage.id)
+                                                    },
+                                                    {
+                                                        name: 'Deletar',
+                                                        ariaLabel: 'deletar',
+                                                        icon: <DeleteIcon className="text-danger" />,
+                                                        click: () => deleteStage(stage.id)
+                                                    }
+                                                ]} 
+                                                badges={[
+                                                    {
+                                                        name: stage.status,
+                                                        status: badgeStatus
+                                                    }
+                                                ]}
+                                            >
+                                                <span className="ml-2">
+                                                    <span className="mr-4">{index + 1}.</span> 
+                                                    <span>{stage.name}</span>
+                                                </span>
+                                            </Item>
+                                        )
+                                    })
+                                }
+                            ]} 
                         >
                             {action.attributes.name}
                         </Item>
