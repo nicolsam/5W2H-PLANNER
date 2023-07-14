@@ -9,7 +9,7 @@ import ListContainer from '@components/Layout/List';
 import Item from '@components/Layout/List/Item';
 import Main from '@components/Layout/Main';
 
-import { Alert, AlertTitle, Stack } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -96,6 +96,7 @@ const Responsibles = () => {
                 {responsibles ? 
                     responsibles.length > 0 ? responsibles.map((responsible: ResponsibleType, index: number) => (
                         <Item 
+                            color="primary"
                             description={responsible.attributes.description}
                             click={() => select(responsible)}
                             actions={[
