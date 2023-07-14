@@ -26,8 +26,11 @@ import Responsibles from '@pages/Responsibles';
 import EditResponsible from '@pages/Responsibles/Edit';
 import ShowResponsible from '@pages/Responsibles/Show';
 import StoreResponsible from '@pages/Responsibles/Store';
+import EditStage from '@pages/Stage/Edit';
 import ShowStage from '@pages/Stage/Show';
+import StoreStage from '@pages/Stage/Store';
 
+// TODO develop a better responsive design
 function App() {
 
   return (
@@ -169,7 +172,7 @@ function App() {
           path="/planning/stage/store"
           element={
             <RequireAuth loginPath="/company/login">
-              <StoreAction />
+              <StoreStage />
             </RequireAuth>
           }
         />
@@ -179,7 +182,7 @@ function App() {
           path="/planning/stage/edit/:stage_id"
           element={
             <RequireAuth loginPath="/company/login">
-              <EditAction />
+              <EditStage />
             </RequireAuth>
           }
         />
