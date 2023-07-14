@@ -158,6 +158,11 @@ const Dashboard = () => {
         }
 
         const percent = (initial * 100) / total;
+        
+        if(percent === Infinity) {
+            return 0;
+        }
+
         return Number(percent.toFixed(0));
     };
 
