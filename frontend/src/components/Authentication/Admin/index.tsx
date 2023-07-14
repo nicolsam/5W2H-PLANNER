@@ -10,7 +10,6 @@ const RequireAdminAccess = ({children}: Props) => {
     const {isAdminAccess} = useContext(GlobalContext)
 
     useEffect(() => {
-        console.log(isAdminAccess)
         if(!isAdminAccess) { navigate('/forbidden') }
     }, [])
 

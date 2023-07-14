@@ -102,8 +102,6 @@ const StoreAction = () => {
         }
     }
 
-    useEffect(() => {console.log(responsiblesSelect)}, [responsiblesSelect])
-
     return (
         <Main>
             <Header description="Complete as informações abaixo para criar uma nova ação">

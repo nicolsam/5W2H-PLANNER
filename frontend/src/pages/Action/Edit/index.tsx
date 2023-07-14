@@ -130,8 +130,6 @@ const EditAction = () => {
                 )
             })
 
-            console.log(formatToBrazil(action.attributes.start_at))
-
             setValue('name', action.attributes.name)
             setValue('area', action.attributes.area)
             setValue('value', action.attributes.value)

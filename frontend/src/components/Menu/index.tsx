@@ -69,8 +69,7 @@ const Menu: FC = () => {
 
 
     function back() {
-        console.log('Admin access:', isAdminAccess)
-        // resetCompany();
+        
         if(isAdminAccess) {
             navigate('/companies');
             setActive('/dashboard');
@@ -84,7 +83,12 @@ const Menu: FC = () => {
         setLocation(currLocation[1]);
     }, [location.pathname]);
 
-    if (location.pathname === '/' || location.pathname === '/company/login' || location.pathname === '/admin/login') return null;
+    if (
+        location.pathname === '/' || 
+        location.pathname === '/company/login' || 
+        location.pathname === '/admin/login' ||
+        location.pathname === '/forbidden'
+    ) return null;
 
     return (
     <div className="h-screen fixed top-0 lg:sticky z-30">

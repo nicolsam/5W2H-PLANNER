@@ -108,8 +108,6 @@ const ShowStage = () => {
                 )
             })
 
-            console.log(formatToBrazil(stage.attributes.start_at))
-
             setValue('name', stage.attributes.name)
             setValue('area', stage.attributes.area)
             setValue('value', stage.attributes.value)

@@ -40,7 +40,6 @@ const Companies = () => {
             let response = await api.companies.index();
 
             setCompanies(response.data);
-            console.log(response.data)
         } catch(error: any) {
             console.log(error.message)
         }
