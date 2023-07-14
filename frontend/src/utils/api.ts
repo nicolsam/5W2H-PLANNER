@@ -509,6 +509,159 @@ const api = {
             }
         },
     },
+
+    stages: {
+        
+        show: async (id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/stages/${id}`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        
+        store: async (company_id: number, action_id: number, data: any) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const start_at = data.start_at.$d;
+                const end_at =  data.end_at.$d;
+                
+                const payload = {
+                    "action_id": action_id,
+                    "company_id": company_id,
+                    "name": data.name,
+                    "area": data.area,
+                    "value": data.value,
+                    "value_status": data.value_status,
+                    "status": data.status,
+                    "start_at": start_at.toISOString().split('T')[0],
+                    "end_at": end_at.toISOString().split('T')[0],
+                    "responsible_id": data.responsibles,
+                    "how": data.how,
+                    "what": data.what,
+                    "priority": data.priority,
+                    "observation": data.observation
+                    
+                }
+
+                const response: AxiosResponse = await https.post('/stages', payload, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        update: async (action_id: number, company_id: number, stage_id: number, data: any): Promise<ResponseType | undefined> => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const start_at = data.start_at.$d;
+                const end_at =  data.end_at.$d;
+                
+                const payload = {
+                    "action_id": action_id,
+                    "company_id": company_id,
+                    "name": data.name,
+                    "area": data.area,
+                    "value": data.value,
+                    "value_status": data.value_status,
+                    "status": data.status,
+                    "start_at": start_at.toISOString().split('T')[0],
+                    "end_at": end_at.toISOString().split('T')[0],
+                    "responsible_id": data.responsibles,
+                    "how": data.how,
+                    "what": data.what,
+                    "priority": data.priority,
+                    "observation": data.observation
+                    
+                }
+                
+                const response: AxiosResponse = await https.patch(`/stages/${stage_id}`, payload, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        delete: async (stage_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.delete(`/stages/${stage_id}`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        
+        stages: async (id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/actions/${id}/stages`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+    },
     responsibles: {
         
         show: async (id: number) => {
