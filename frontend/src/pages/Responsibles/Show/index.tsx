@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { Button, Chip, CircularProgress, InputAdornment, Skeleton, Stack, TextField } from "@mui/material";
 
 import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
@@ -20,6 +20,7 @@ import api from '@utils/api';
 
 import Loading from '@components/Loading';
 import ResponsibleType from '@models/Responsible';
+import { extractDateAndFormatToBrazil } from '@utils/formatDate';
 
 type ShowResponsibleFormValues = {
     name: string,
@@ -71,8 +72,32 @@ const ShowResponsible = () => {
     return (
         <Main>
             <Header>
-                <>Editando {responsible?.attributes.name ?? <Loading />}</>
+                <h1 className="flex flex-row items-center gap-3">Editando {responsible?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</h1>
             </Header>
+
+            {responsible ? (<Stack spacing={1}>
+                <Stack spacing={1} direction={"row"} sx={{ alignItems: 'center' }}>
+                    <h2 className="text-2xl"><span className="font-semibold">Cadastrado</span> em</h2>
+                    <Chip
+                        variant="outlined"
+                        label={extractDateAndFormatToBrazil(responsible?.attributes.created_at)}
+                        sx={{ width: 'fit-content', fontSize: '1.25rem' }}
+                    />
+                </Stack>
+                <Stack spacing={1} direction={"row"} sx={{ alignItems: 'center' }}>
+                    <h2 className="text-2xl"><span className="font-semibold">Última Atualização</span> em</h2>
+                    <Chip
+                        variant="outlined"
+                        label={extractDateAndFormatToBrazil(responsible?.attributes.updated_at)}
+                        sx={{ width: 'fit-content', fontSize: '1.25rem' }}
+                    />
+                </Stack>
+            </Stack>) : (
+                <Stack spacing={1}>
+                    <Skeleton height={30} width={350} />
+                    <Skeleton height={30} width={350} />
+                </Stack>
+            )}
 
             <BackButton />
             
