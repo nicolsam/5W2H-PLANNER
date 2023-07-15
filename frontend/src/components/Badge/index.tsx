@@ -15,7 +15,7 @@ const Badge = ({ showCount = false, count, firstBadgeSpacing, status, children }
             firstBadgeSpacing={firstBadgeSpacing}
             className="w-fit md:w-auto py-2 px-3 rounded flex gap-2 flex-row justify-center items-center"
         >
-            {showCount && (
+            {showCount && count && (
                 <Count className="bg-white px-1.5 rounded-full">
                     <p className="text-sm text-main-color">{count}</p>
                 </Count>
