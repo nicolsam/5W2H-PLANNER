@@ -16,6 +16,15 @@ import { GlobalProvider } from '@contexts/Provider';
 
 import App from './App';
 
+declare module '@mui/material/Button' {
+  interface ButtonPropsVariantOverrides {
+    list: true,
+    main: true,
+    secondary: true,
+    action: true,
+  }
+}
+
 const theme = createTheme({
   palette: {
     text: {
