@@ -53,7 +53,7 @@ const ErrorRobot = () => {
                                 c0,47.489-137.88,56.438-162.576,56.438C275.303,582.06,137.424,573.511,137.424,525.622z"></path>
                         </defs>
                         <clipPath id="SVGID_2_">
-                            <use xlink:href="#SVGID_1_" overflow="visible"></use>
+                            <use xlinkHref="#SVGID_1_" overflow="visible"></use>
                         </clipPath>
                         <path clip-path="url(#SVGID_2_)" fill="#BABEB7" d="M455.667,419c0,0-38.299,61.503-156.983,61.503
                             c-67.685,0-86.351,14.831-96.684,39.164S203.368,588,298.684,588s1.816,21.923,1.816,21.923s-198.833-42.589-198.833-43.589
