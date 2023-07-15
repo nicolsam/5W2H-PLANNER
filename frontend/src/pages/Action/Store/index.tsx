@@ -165,8 +165,8 @@ const StoreAction = () => {
                         />
                     </Stack>
 
-                    <Stack spacing={1} direction={"column"}>
-                        <Stack spacing={1} direction={"row"}>
+                    <Stack spacing={2} direction={"column"}>
+                        <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
                             <Controller
                                 name="start_at"
                                 control={control}
@@ -180,7 +180,7 @@ const StoreAction = () => {
                                             error: !!fieldState.error,
                                             helperText: fieldState.error?.message
                                         }}}
-                                        className="w-1/3"
+                                        className="rounded w-full lg:w-1/3"
                                         valueAsDate={false}
                                         {...field}
                                         sx={{
@@ -213,7 +213,7 @@ const StoreAction = () => {
                                             error: !!fieldState.error,
                                             helperText: fieldState.error?.message
                                         }}}
-                                        className="w-1/3"
+                                        className="rounded w-full lg:w-1/3"
                                         {...field}
                                         sx={{
                                             backgroundColor: '#ffffff',
@@ -240,7 +240,7 @@ const StoreAction = () => {
                                 }}
                                 render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                     <FormControl
-                                        className="rounded w-1/3"
+                                        className="rounded w-full lg:w-1/3"
                                         variant="filled"
                                         sx={{
                                             backgroundColor: '#ffffff',
@@ -271,10 +271,10 @@ const StoreAction = () => {
                             />
                         </Stack>
                         
-                        <Stack spacing={1} direction={"row"}>
+                        <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
                             <TextField
                                 id="value"
-                                className="rounded w-1/2"
+                                className="rounded w-full lg:w-1/2"
                                 {...register('value', {
                                 required: 'O preço da ação é obrigatório.',
                                 })}
@@ -303,7 +303,7 @@ const StoreAction = () => {
                                 }}
                                 render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                     <FormControl
-                                        className="rounded w-1/2"
+                                        className="rounded w-full lg:w-1/2"
                                         variant="filled"
                                         sx={{
                                             backgroundColor: '#ffffff',
@@ -407,7 +407,7 @@ const StoreAction = () => {
                             }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
-                                    className="rounded w-1/2"
+                                    className="rounded w-full lg:w-1/2"
                                     variant="filled"
                                     sx={{
                                         backgroundColor: '#ffffff',

@@ -190,8 +190,8 @@ const ShowStage = () => {
                     />
                 </Stack>
 
-                <Stack spacing={1} direction={"column"}>
-                    <Stack spacing={1} direction={"row"}>
+                <Stack spacing={2} direction={"column"}>
+                    <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
                         <Controller
                             name="start_at"
                             control={control}
@@ -205,7 +205,7 @@ const ShowStage = () => {
                                         error: !!fieldState.error,
                                         helperText: fieldState.error?.message
                                     }}}
-                                    className="w-1/3"
+                                    className="rounded w-full lg:w-1/3"
                                     disabled
                                     value={value}
                                     {...field}
@@ -245,7 +245,7 @@ const ShowStage = () => {
                                         error: !!fieldState.error,
                                         helperText: fieldState.error?.message
                                     }}}
-                                    className="w-1/3"
+                                    className="rounded w-full lg:w-1/3"
                                     disabled
                                     {...field}
                                     sx={{
@@ -274,7 +274,7 @@ const ShowStage = () => {
                             defaultValue={stage?.attributes.status}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
-                                    className="rounded w-1/3"
+                                    className="rounded w-full lg:w-1/3"
                                     disabled
                                     variant="filled"
                                     sx={{
@@ -306,10 +306,10 @@ const ShowStage = () => {
                         />
                     </Stack>
                     
-                    <Stack spacing={1} direction={"row"}>
+                    <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
                         <TextField
                             id="value"
-                            className="rounded w-1/2"
+                            className="rounded w-full lg:w-1/2"
                             disabled
                             {...register('value', {
                             required: 'O preço da ação é obrigatório.',
@@ -339,7 +339,7 @@ const ShowStage = () => {
                             }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
-                                    className="rounded w-1/2"
+                                    className="rounded w-full lg:w-1/2"
                                     variant="filled"
                                     disabled
                                     sx={{
@@ -446,7 +446,7 @@ const ShowStage = () => {
                         defaultValue=""
                         render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                             <FormControl
-                                className="rounded w-1/2"
+                                className="rounded w-full lg:w-1/2"
                                 variant="filled"
                                 disabled
                                 sx={{
