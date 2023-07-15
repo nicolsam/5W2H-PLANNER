@@ -3,7 +3,7 @@ import { BadgeStatusType } from '@components/Badge/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, AlertTitle, Button, Divider, IconButton, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Alert, AlertTitle, Button, IconButton, Menu, MenuItem, Stack, Tooltip } from "@mui/material";
 
 import {
     bindMenu,
@@ -87,7 +87,7 @@ const Item = ({
                             )}
                             <div className="mt-2 grid gap-1 grid-cols-1 md:flex md:gap-1 md:flex-row">
                             {badges && badges.map((badge: Badge, index: number) => (
-                                <Badge firstBadgeSpacing={index === 0 ?? firstBadgeSpacing} showCount={showCount} count={badge.count} status={badge.status ? badge.status : 'neutral'}>{badge.name}</Badge>
+                                <Badge firstBadgeSpacing={index === 0 ?? firstBadgeSpacing} showCount={showCount} count={badge.count ? badge.count : 0} status={badge.status ? badge.status : 'neutral'}>{badge.name}</Badge>
                             ))}
                             </div>
                         </div>
