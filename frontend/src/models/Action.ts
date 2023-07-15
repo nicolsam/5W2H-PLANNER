@@ -2,7 +2,7 @@ import { StageAttributes } from './Stage';
 export type ActionType = {
     id: number;
     attributes: ActionAttributes; 
-    relationships: {
+    relationships?: {
         goal: {
             id: number;
             name: string;
@@ -12,7 +12,7 @@ export type ActionType = {
         }   
         stages: (StageAttributes & StageAnnoyingType)[]
     }
-    count: {
+    count?: {
         stages: {
             total: number;
             completed: number;

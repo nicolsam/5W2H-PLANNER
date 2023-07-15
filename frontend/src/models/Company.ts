@@ -6,7 +6,7 @@ export type CompanyType = {
         created_at: string;
         updated_at: string;
     }
-    count: {
+    count?: {
         goals: number;
     }
 }

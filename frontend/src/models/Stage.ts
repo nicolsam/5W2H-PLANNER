@@ -1,8 +1,8 @@
 export type StageType = {
     id: number;
     action_id: number;
-    attributes: StageAttributes; 
-    count: {
+    attributes?: StageAttributes; 
+    count?: {
         stages: {
             total: number;
             completed: number;

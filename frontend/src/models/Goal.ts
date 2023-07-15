@@ -7,7 +7,7 @@ export type GoalType =  {
         created_at: string;
         updated_at: string;
     }
-    count: {
+    count?: {
         actions: {
             total: number;
             completed: number;
