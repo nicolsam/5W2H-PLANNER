@@ -64,7 +64,7 @@ const MdCard = ({ name, charts }: Props) => {
                     </tbody>
                 </table>
                 </div>
-                <CChart className="p-10 md:p-5 md:w-1/2 lg:p-10 lg:w-1/3 lg:p-2 xl:w-1/2 xl:px-4 flex justify-center sm:items-center">
+                <CChart className="p-10 md:p-5 md:w-1/2 lg:w-1/3 lg:p-2 xl:w-1/2 xl:px-4 flex justify-center sm:items-center">
                 <Doughnut data={data} options={options} />
                 </CChart>
             </div>
