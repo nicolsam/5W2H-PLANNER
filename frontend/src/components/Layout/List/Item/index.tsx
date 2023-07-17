@@ -25,7 +25,7 @@ type Props = {
     accordions?: Accordion[];
 };
 
-type Action = {
+export type Action = {
     name: string;
     ariaLabel?: string;
     icon: JSX.Element,
@@ -38,7 +38,7 @@ type Badge = {
     status?: BadgeStatusType;
 }
 
-type Accordion = {
+export type Accordion = {
     name: string,
     content: JSX.Element[] | string;
     errorMessage: string;
@@ -94,7 +94,7 @@ const Item = ({
                     </Button>
                 </Tooltip>
 
-                <div className="p-4 w-fit h-full flex items-start xl:items-center">
+                {actions.length > 0 && (<div className="p-4 w-fit h-full flex items-start xl:items-center">
                     <IconButton 
                         {...bindTrigger(popupState)} 
                         size="large" 
@@ -121,7 +121,7 @@ const Item = ({
                         </MenuItem>
                     ))}
                     </Menu>
-                </div>
+                </div>)}
             </div>
             {accordions && accordions.map((accordion: Accordion, index: number) => (
                 <Accordion 

@@ -22,12 +22,14 @@ import ActionType from '@models/Action';
 
 const Actions = () => {
 
-    const { company, currentGoal, setAction } = useContext(GlobalContext)
+    const { isAdminAccess, company, currentGoal, setAction } = useContext(GlobalContext)
 
     const navigate = useNavigate();
     const { goal_id } = useParams<{goal_id: any}>();
 
     const [actions, setActions] = useState<ActionType[] | null>(null);
+    const [userActions, setUserActions] = useState<any>([])
+    const [userAccordionActions, setUserAccordionActions] = useState<any>([]);
 
     const select = (action_id: number) => {
 
@@ -119,6 +121,38 @@ const Actions = () => {
         }
 
         show();
+
+        if(isAdminAccess) {
+            setUserActions([
+                {
+                    name: 'Editar',
+                    ariaLabel: 'editar',
+                    icon: <EditIcon className="text-main-color" />,
+                    click: () => editAction(action.id)
+                },
+                {
+                    name: 'Deletar',
+                    ariaLabel: 'deletar',
+                    icon: <DeleteIcon className="text-danger" />,
+                    click: () => deleteAction(action.id)
+                }
+            ])
+
+            setUserAccordionActions([
+                {
+                    name: 'Editar',
+                    ariaLabel: 'editar',
+                    icon: <EditIcon className="text-main-color" />,
+                    click: () => editStage(action, stage.id)
+                },
+                {
+                    name: 'Deletar',
+                    ariaLabel: 'deletar',
+                    icon: <DeleteIcon className="text-danger" />,
+                    click: () => deleteStage(stage.id)
+                }
+            ])
+        }
         
     }, [])
     
@@ -126,7 +160,7 @@ const Actions = () => {
         <Main>
             <Header 
                 description='Cadastre, edite e acompanhe as ações desta meta.'
-                storeButton
+                storeButton={isAdminAccess}
                 storeText='Ação'
                 redirect='planning/action/store'
             >{currentGoal.attributes.name}</Header>
@@ -139,23 +173,10 @@ const Actions = () => {
                             color="primary"
                             showCount
                             firstBadgeSpacing
-                            accordionButton
+                            accordionButton={isAdminAccess}
                             handleAccordionButton={() => handleAccordionButton(action)}
                             click={() => select(action.id)}
-                            actions={[
-                                {
-                                    name: 'Editar',
-                                    ariaLabel: 'editar',
-                                    icon: <EditIcon className="text-main-color" />,
-                                    click: () => editAction(action.id)
-                                },
-                                {
-                                    name: 'Deletar',
-                                    ariaLabel: 'deletar',
-                                    icon: <DeleteIcon className="text-danger" />,
-                                    click: () => deleteAction(action.id)
-                                }
-                            ]} 
+                            actions={userActions} 
                             badges={[
                                 {
                                     name: 'Etapas',
@@ -192,20 +213,7 @@ const Actions = () => {
                                                 key={index}
                                                 color="secondary"
                                                 click={() => selectStage(stage.id)}
-                                                actions={[
-                                                    {
-                                                        name: 'Editar',
-                                                        ariaLabel: 'editar',
-                                                        icon: <EditIcon className="text-main-color" />,
-                                                        click: () => editStage(action, stage.id)
-                                                    },
-                                                    {
-                                                        name: 'Deletar',
-                                                        ariaLabel: 'deletar',
-                                                        icon: <DeleteIcon className="text-danger" />,
-                                                        click: () => deleteStage(stage.id)
-                                                    }
-                                                ]} 
+                                                actions={userAccordionActions} 
                                                 badges={[
                                                     {
                                                         name: stage.status,

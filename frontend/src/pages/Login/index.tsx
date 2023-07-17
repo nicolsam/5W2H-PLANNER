@@ -81,7 +81,7 @@ const Login = () => {
         <div className="w-full h-screen flex flex-col gap-2 justify-center items-center">
             <form 
                 method="POST"
-                className="bg-main-color w-4/5 h-2/4 sm:w-2/3 lg:w-1/2 xl:w-1/3 2xl:h-3/5 px-7 py-10 2xl:px-10 2xl:py-24 rounded" 
+                className="bg-main-color w-4/5 sm:w-2/3 lg:w-1/2 xl:w-1/3 px-7 py-10 2xl:px-10 2xl:py-24 rounded" 
                 onSubmit={handleSubmit(onSubmit)} 
             >
                 <Stack spacing={3} direction={"column"}>

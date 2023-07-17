@@ -15,7 +15,7 @@ import Loading from '@components/Loading';
 
 import BusinessIcon from '@mui/icons-material/Business';
 import HttpsIcon from '@mui/icons-material/Https';
-import CompanyCnpj from '@public/icons/company-cnpj.svg';
+import CompanyCnpj from '@icons/company-cnpj.svg';
 
 import CompanyType from '@models/Company';
 import api from '@utils/api';

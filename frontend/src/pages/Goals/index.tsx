@@ -21,11 +21,12 @@ import GoalType from '@models/Goal';
 
 const Goals = () => {
 
-    const { company, setGoal } = useContext(GlobalContext)
+    const { isAdminAccess, company, setGoal } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
     const [goals, setGoals] = useState<GoalType[] | null>(null);
+    const [userActions, setUserActions] = useState<any>([])
 
     const select = (goal: GoalType) => {
 
@@ -78,13 +79,30 @@ const Goals = () => {
 
         show();
 
+        if(isAdminAccess) {
+            setUserActions([
+                {
+                    name: 'Editar',
+                    ariaLabel: 'editar',
+                    icon: <EditIcon className="text-main-color" />,
+                    click: () => editGoal(goal.id)
+                },
+                {
+                    name: 'Deletar',
+                    ariaLabel: 'deletar',
+                    icon: <DeleteIcon className="text-danger" />,
+                    click: () => deleteGoal(goal.id)
+                }
+            ])
+        }
+
     }, [])
     
     return (
         <Main>
             <Header 
                 description='Cadastre, edite e acompanhe metas.'
-                storeButton
+                storeButton={isAdminAccess}
                 storeText='Meta'
                 redirect='planning/store'
             >Planejamento</Header>
@@ -97,20 +115,7 @@ const Goals = () => {
                             showCount
                             firstBadgeSpacing
                             click={() => select(goal)}
-                            actions={[
-                                {
-                                    name: 'Editar',
-                                    ariaLabel: 'editar',
-                                    icon: <EditIcon className="text-main-color" />,
-                                    click: () => editGoal(goal.id)
-                                },
-                                {
-                                    name: 'Deletar',
-                                    ariaLabel: 'deletar',
-                                    icon: <DeleteIcon className="text-danger" />,
-                                    click: () => deleteGoal(goal.id)
-                                }
-                            ]} 
+                            actions={userActions} 
                             badges={[
                                 {
                                     name: 'Ações',

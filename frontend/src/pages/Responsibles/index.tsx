@@ -22,11 +22,12 @@ import ResponsibleType from '@models/Responsible';
 
 const Responsibles = () => {
 
-    const { company } = useContext(GlobalContext)
+    const { isAdminAccess, company } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
     const [responsibles, setResponsibles] = useState<ResponsibleType[] | null>(null);
+    const [userActions, setUserActions] = useState<any>([])
 
     const select = (responsible: ResponsibleType) => {
 
@@ -81,13 +82,30 @@ const Responsibles = () => {
 
         show();
 
+        if(isAdminAccess) {
+            setUserActions([
+                {
+                    name: 'Editar',
+                    ariaLabel: 'editar',
+                    icon: <EditIcon className="text-main-color" />,
+                    click: () => editResponsible(responsible.id)
+                },
+                {
+                    name: 'Deletar',
+                    ariaLabel: 'deletar',
+                    icon: <DeleteIcon className="text-danger" />,
+                    click: () => deleteResponsible(responsible.id)
+                }
+            ])
+        }
+
     }, [])
     
     return (
         <Main>
             <Header 
                 description='Cadastre, edite e acompanhe responsáveis.'
-                storeButton
+                storeButton={isAdminAccess}
                 storeText='Responsável'
                 redirect='responsibles/store'
             >Responsáveis</Header>
@@ -99,20 +117,7 @@ const Responsibles = () => {
                             color="primary"
                             description={responsible.attributes.description}
                             click={() => select(responsible)}
-                            actions={[
-                                {
-                                    name: 'Editar',
-                                    ariaLabel: 'editar',
-                                    icon: <EditIcon className="text-main-color" />,
-                                    click: () => editResponsible(responsible.id)
-                                },
-                                {
-                                    name: 'Deletar',
-                                    ariaLabel: 'deletar',
-                                    icon: <DeleteIcon className="text-danger" />,
-                                    click: () => deleteResponsible(responsible.id)
-                                }
-                            ]} 
+                            actions={userActions} 
                             key={index}
                         >
                             {responsible.attributes.name}
