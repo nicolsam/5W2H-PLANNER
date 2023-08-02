@@ -101,7 +101,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <GlobalProvider>
         <ThemeProvider theme={theme}>
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='en-gb'>
-            <BrowserRouter>
+            <BrowserRouter basename="/5w2h">
               <App />
             </BrowserRouter> 
           </LocalizationProvider>
