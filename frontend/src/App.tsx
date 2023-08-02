@@ -41,14 +41,11 @@ function App() {
         <Route
           path="/"
           element={
-            <RequireAuth loginPath="/company/login">
-              <CompanyLogin />
-            </RequireAuth>
+            <CompanyLogin />
           }
         />
-        <Route path='*' element={<NotFound />}/>
 
-        <Route path="/admin/login" element={<Login />} errorElement={<NotFound />} />
+        <Route path="/admin/login" element={<Login />} />
         <Route path="/company/login" element={<CompanyLogin />} errorElement={<NotFound />} />
 
         <Route path="/forbidden" element={<Forbidden />} />
@@ -224,6 +221,9 @@ function App() {
             </RequireAuth>
           }
         />
+
+
+          
       </Routes>
 
       <ToastContainer />
