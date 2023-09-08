@@ -82,23 +82,6 @@ const Responsibles = () => {
 
         show();
 
-        if(isAdminAccess) {
-            setUserActions([
-                {
-                    name: 'Editar',
-                    ariaLabel: 'editar',
-                    icon: <EditIcon className="text-main-color" />,
-                    click: () => editResponsible(responsible.id)
-                },
-                {
-                    name: 'Deletar',
-                    ariaLabel: 'deletar',
-                    icon: <DeleteIcon className="text-danger" />,
-                    click: () => deleteResponsible(responsible.id)
-                }
-            ])
-        }
-
     }, [])
     
     return (
@@ -117,7 +100,20 @@ const Responsibles = () => {
                             color="primary"
                             description={responsible.attributes.description}
                             click={() => select(responsible)}
-                            actions={userActions} 
+                            actions={isAdminAccess ? [
+                                {
+                                    name: 'Editar',
+                                    ariaLabel: 'editar',
+                                    icon: <EditIcon className="text-main-color" />,
+                                    click: () => editResponsible(responsible.id)
+                                },
+                                {
+                                    name: 'Deletar',
+                                    ariaLabel: 'deletar',
+                                    icon: <DeleteIcon className="text-danger" />,
+                                    click: () => deleteResponsible(responsible.id)
+                                }
+                            ] : []} 
                             key={index}
                         >
                             {responsible.attributes.name}

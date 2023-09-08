@@ -79,23 +79,6 @@ const Goals = () => {
 
         show();
 
-        if(isAdminAccess) {
-            setUserActions([
-                {
-                    name: 'Editar',
-                    ariaLabel: 'editar',
-                    icon: <EditIcon className="text-main-color" />,
-                    click: () => editGoal(goal.id)
-                },
-                {
-                    name: 'Deletar',
-                    ariaLabel: 'deletar',
-                    icon: <DeleteIcon className="text-danger" />,
-                    click: () => deleteGoal(goal.id)
-                }
-            ])
-        }
-
     }, [])
     
     return (
@@ -115,7 +98,21 @@ const Goals = () => {
                             showCount
                             firstBadgeSpacing
                             click={() => select(goal)}
-                            actions={userActions} 
+                            actions={isAdminAccess ? [
+                                    {
+                                        name: 'Editar',
+                                        ariaLabel: 'editar',
+                                        icon: <EditIcon className="text-main-color" />,
+                                        click: () => editGoal(goal.id)
+                                    },
+                                    {
+                                        name: 'Deletar',
+                                        ariaLabel: 'deletar',
+                                        icon: <DeleteIcon className="text-danger" />,
+                                        click: () => deleteGoal(goal.id)
+                                    }
+                                ] : []
+                            } 
                             badges={[
                                 {
                                     name: 'Ações',

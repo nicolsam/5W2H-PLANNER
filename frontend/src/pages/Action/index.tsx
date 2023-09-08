@@ -122,38 +122,6 @@ const Actions = () => {
 
         show();
 
-        if(isAdminAccess) {
-            setUserActions([
-                {
-                    name: 'Editar',
-                    ariaLabel: 'editar',
-                    icon: <EditIcon className="text-main-color" />,
-                    click: () => editAction(action.id)
-                },
-                {
-                    name: 'Deletar',
-                    ariaLabel: 'deletar',
-                    icon: <DeleteIcon className="text-danger" />,
-                    click: () => deleteAction(action.id)
-                }
-            ])
-
-            setUserAccordionActions([
-                {
-                    name: 'Editar',
-                    ariaLabel: 'editar',
-                    icon: <EditIcon className="text-main-color" />,
-                    click: () => editStage(action, stage.id)
-                },
-                {
-                    name: 'Deletar',
-                    ariaLabel: 'deletar',
-                    icon: <DeleteIcon className="text-danger" />,
-                    click: () => deleteStage(stage.id)
-                }
-            ])
-        }
-        
     }, [])
     
     return (
@@ -176,7 +144,21 @@ const Actions = () => {
                             accordionButton={isAdminAccess}
                             handleAccordionButton={() => handleAccordionButton(action)}
                             click={() => select(action.id)}
-                            actions={userActions} 
+                            actions={isAdminAccess ? [
+                                    {
+                                        name: 'Editar',
+                                        ariaLabel: 'editar',
+                                        icon: <EditIcon className="text-main-color" />,
+                                        click: () => editAction(action.id)
+                                    },
+                                    {
+                                        name: 'Deletar',
+                                        ariaLabel: 'deletar',
+                                        icon: <DeleteIcon className="text-danger" />,
+                                        click: () => deleteAction(action.id)
+                                    }
+                                ] : []
+                            } 
                             badges={[
                                 {
                                     name: 'Etapas',
@@ -213,7 +195,21 @@ const Actions = () => {
                                                 key={index}
                                                 color="secondary"
                                                 click={() => selectStage(stage.id)}
-                                                actions={userAccordionActions} 
+                                                actions={isAdminAccess ? [
+                                                        {
+                                                            name: 'Editar',
+                                                            ariaLabel: 'editar',
+                                                            icon: <EditIcon className="text-main-color" />,
+                                                            click: () => editStage(action, stage.id)
+                                                        },
+                                                        {
+                                                            name: 'Deletar',
+                                                            ariaLabel: 'deletar',
+                                                            icon: <DeleteIcon className="text-danger" />,
+                                                            click: () => deleteStage(stage.id)
+                                                        }
+                                                    ]: []
+                                                }
                                                 badges={[
                                                     {
                                                         name: stage.status,
