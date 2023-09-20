@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -152,17 +151,16 @@ const EditGoal = () => {
                     <div className="flex justify-end">
                         <Button
                             type="submit"
-                            variant="contained"
+                            variant="action"
                             disableElevation
                             className="w-fit"
                         >
-                            <span className="text-lg px-5 py-2 uppercase">Criar</span>
+                            <span className="text-lg px-5 py-2 uppercase">Editar</span>
                         </Button>
                     </div>
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
