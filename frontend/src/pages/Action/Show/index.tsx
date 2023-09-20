@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -91,28 +90,6 @@ const ShowAction = () => {
     } = form;
     const { errors } = formState;
 
-    const onSubmit = async (data: ActionAttributes) => {
-        try {
-            const response = await api.actions.update(action.id, company.id, currentGoal.id, data);
-
-            if(response.success === false) {
-                throw new Error(response.message)
-            }
-
-            toast('Ação atualizada com sucesso', {
-                type: 'success',
-                isLoading: false,
-                autoClose: 3000,
-                closeButton: true,
-            });
-
-            navigate('/planning');
-
-        } catch(error:any) {
-            toast(error.message);
-        }
-    }
-    
     const findAction = async (action_id: number) => {
         try {
 
@@ -124,11 +101,13 @@ const ShowAction = () => {
 
             let responsibles = []
 
-            action.relationships.responsibles.map((responsible: ResponsibleType) => {
-                responsibles.push(
-                    responsible.id,
-                )
-            })
+            if(action.relationships.responsibles != undefined) {
+                action.relationships.responsibles.map((responsible: ResponsibleType) => {
+                    responsibles.push(
+                        responsible.id,
+                    )
+                })
+            }
 
             setValue('name', action.attributes.name)
             setValue('area', action.attributes.area)
@@ -144,6 +123,7 @@ const ShowAction = () => {
             setValue('observation', action.attributes.observation, {shouldDirty: true})
 
         } catch(error) {
+            console.log(error)
             navigate('/planning');
         }
     }
@@ -155,7 +135,7 @@ const ShowAction = () => {
     return (
         <Main>
             <Header>
-                <h1 className="flex flex-row items-center gap-3">Visualizando {action?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</h1>
+                <span className="flex flex-row items-center gap-3">Visualizando {action?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
             </Header>
 
             <BackButton />
@@ -402,9 +382,6 @@ const ShowAction = () => {
                     <Controller
                         name="responsibles"
                         control={control}
-                        rules={{
-                            required: 'O campo de responsável é obrigatório'
-                        }}
                         render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                             <FormControl
                                 className="rounded"
@@ -584,7 +561,6 @@ const ShowAction = () => {
                 
             </Stack>
             
-            <DevTool control={control} />
         </Main>
     );
 }
