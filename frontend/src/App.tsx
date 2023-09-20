@@ -30,7 +30,6 @@ import EditStage from '@pages/Stage/Edit';
 import ShowStage from '@pages/Stage/Show';
 import StoreStage from '@pages/Stage/Store';
 
-// TODO develop a better responsive design
 function App() {
 
   return (
