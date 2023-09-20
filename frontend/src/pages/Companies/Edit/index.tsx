@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { IMaskInput } from 'react-imask';
@@ -13,9 +12,9 @@ import Header from "@components/Layout/Header";
 import Main from "@components/Layout/Main";
 import Loading from '@components/Loading';
 
+import CompanyCnpj from '@icons/company-cnpj.svg';
 import BusinessIcon from '@mui/icons-material/Business';
 import HttpsIcon from '@mui/icons-material/Https';
-import CompanyCnpj from '@icons/company-cnpj.svg';
 
 import CompanyType from '@models/Company';
 import api from '@utils/api';
@@ -188,7 +187,6 @@ const EditCompany = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
