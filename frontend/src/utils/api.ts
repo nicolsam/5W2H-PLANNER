@@ -14,9 +14,9 @@ const https = axios.create({
 function ApiResponse(success: boolean, data: CompanyType | GoalType | [], message?: string) {
     
     const response: ResponseType = {
-        'success': success,
-        'message': message,
-        'data': data
+        success,
+        data,
+        message,
     }
 
     return response;
@@ -33,7 +33,6 @@ const api = {
                 }
 
                 const response: AxiosResponse = await https.post('/admin/login', payload);
-
                 return ApiResponse(true, response.data, response.data.message);
 
             } catch(error: any) {
@@ -75,10 +74,10 @@ const api = {
             }
         },
         
-        count: async (company_id: number) => {
+        count: async (company_id: number, token: string) => {
             try {
 
-                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                const headers = { 'Authorization': `Bearer ${token}` }; // auth header with bearer token
                 
                 const response: AxiosResponse = await https.get(`/count/${company_id}`, { headers })
 
@@ -97,12 +96,13 @@ const api = {
             }
         },
 
-        index: async () => {
+        index: async (token: string) => {
             try {
 
-                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
-                console.log(getCookie('_auth'))
+                const headers = { 'Authorization': `Bearer ${token}` }; // auth header with bearer token
                 const response: AxiosResponse = await https.get('/companies', { headers })
+                
+                if(response.data.data === undefined) return;
 
                 return ApiResponse(true, response.data.data, response.data.message);
 
