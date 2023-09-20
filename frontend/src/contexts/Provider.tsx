@@ -67,7 +67,7 @@ export const GlobalProvider = ({ children }: Props) => {
     const [currentGoal, setGoal] = useState<GoalType>(goalInitialValue);
     const [currentAction, setAction] = useState<ActionType>(actionInitialValue);
 
-    const [contextResponsibles, setContextResponsibles] = useState<ResponsibleType[] | []>([]);
+    const [contextResponsibles, setContextResponsibles] = useState<ResponsibleType[]>([]);
 
     useEffect(() => {
 
@@ -78,10 +78,18 @@ export const GlobalProvider = ({ children }: Props) => {
     }, [company]);
 
     const getCompanyResponsibles = async () => {
-
-        let response = await api.companies.responsibles(company.id);
-
-        setContextResponsibles(response.data);
+        try {
+            const response = await api.companies.responsibles(company.id);
+            if(response?.success) {
+                const responsibles = response.data as ResponsibleType[];
+                setContextResponsibles(responsibles);
+            } else {
+                console.error("API call failed:", response?.message);
+            }
+        } catch (error: any) {
+            console.log("getting company responsibles on global provider error: ", error)
+        }
+        
 
     }
 
@@ -109,6 +117,7 @@ export const GlobalProvider = ({ children }: Props) => {
                 setAction,
                 contextResponsibles,
                 setContextResponsibles,
+                getCompanyResponsibles,
                 logout
             }}
         >
