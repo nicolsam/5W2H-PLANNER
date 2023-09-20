@@ -22,7 +22,7 @@ import ResponsibleType from '@models/Responsible';
 
 const Responsibles = () => {
 
-    const { isAdminAccess, company } = useContext(GlobalContext)
+    const { isAdminAccess, company, getCompanyResponsibles } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -49,7 +49,8 @@ const Responsibles = () => {
         try {
             
             await api.responsibles.delete(responsible_id)
-        
+            getCompanyResponsibles();
+
             toast('Responsável deletado com sucesso', {
                 type: 'success',
                 isLoading: false,
