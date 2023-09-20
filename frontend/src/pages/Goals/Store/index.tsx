@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
@@ -135,7 +134,6 @@ const StoreGoal = () => {
                         
                 </Stack>
             </form>
-             <DevTool control={control} />
         </Main>
     );
 }
