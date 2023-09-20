@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,7 +27,7 @@ type EditGoalFormValues = {
 
 const EditResponsible = () => {
     
-    const { company } = useContext(GlobalContext);
+    const { company, getCompanyResponsibles } = useContext(GlobalContext);
 
     const [responsible, setResponsible] = useState<ResponsibleType>();
 
@@ -50,6 +49,8 @@ const EditResponsible = () => {
             if(response?.success === false) {
                 throw new Error(response.message)
             }
+
+            getCompanyResponsibles();
 
             toast('Responsável atualizado com sucesso', {
                 type: 'success',
@@ -163,7 +164,6 @@ const EditResponsible = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
