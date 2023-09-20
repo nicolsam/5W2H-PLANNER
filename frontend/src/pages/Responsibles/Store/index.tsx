@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ type StoreResponsibleFormValues = {
 
 const StoreResponsible = () => {
     
-    const { company } = useContext(GlobalContext);
+    const { company, getCompanyResponsibles } = useContext(GlobalContext);
 
     const navigate = useNavigate();
     
@@ -43,11 +42,13 @@ const StoreResponsible = () => {
     const onSubmit = async (data: StoreCompanyFormValues) => {
         try {
             const response = await api.responsibles.store(company.id, data.name, data.description);
-
+            
             if(response.success === false) {
                 throw new Error(response.message)
             }
 
+            getCompanyResponsibles();
+            
             toast('Novo responsável criada com sucesso', {
                 type: 'success',
                 isLoading: false,
@@ -142,7 +143,6 @@ const StoreResponsible = () => {
                         
                 </Stack>
             </form>
-             <DevTool control={control} />
         </Main>
     );
 }
