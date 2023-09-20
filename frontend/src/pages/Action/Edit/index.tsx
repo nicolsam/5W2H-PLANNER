@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -91,11 +90,11 @@ const EditAction = () => {
     } = form;
     const { errors } = formState;
 
-    const onSubmit = async (data: ActionAttributes) => {
+    const onSubmit = async (data: EditActionFormValues) => {
         try {
-            const response = await api.actions.update(action.id, company.id, currentGoal.id, data);
-
-            if(response.success === false) {
+            const response = await api.actions.update(action_id, company.id, currentGoal.id, data);
+            
+            if(response?.success === false) {
                 throw new Error(response.message)
             }
 
@@ -106,7 +105,7 @@ const EditAction = () => {
                 closeButton: true,
             });
 
-            navigate('/planning');
+            navigate(`/planning/action/${currentGoal.id}`);
 
         } catch(error:any) {
             toast(error.message);
@@ -124,11 +123,13 @@ const EditAction = () => {
 
             let responsibles = []
 
-            action.relationships.responsibles.map((responsible: ResponsibleType) => {
-                responsibles.push(
-                    responsible.id,
-                )
-            })
+            if(action.relationships.responsibles != undefined) {            
+                action.relationships.responsibles.map((responsible: ResponsibleType) => {
+                    responsibles.push(
+                        responsible.id,
+                    )
+                })
+            }
 
             setValue('name', action.attributes.name)
             setValue('area', action.attributes.area)
@@ -144,7 +145,7 @@ const EditAction = () => {
             setValue('observation', action.attributes.observation, {shouldDirty: true})
 
         } catch(error) {
-            navigate('/planning');
+            navigate(`/planning/action/${currentGoal.id}`);
         }
     }
 
@@ -155,7 +156,7 @@ const EditAction = () => {
     return (
         <Main>
             <Header>
-                <h1 className="flex flex-row items-center gap-3">Editando {action?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</h1>
+                <span className="flex flex-row items-center gap-3">Editando {action?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
             </Header>
 
             <BackButton />
@@ -394,9 +395,6 @@ const EditAction = () => {
                         <Controller
                             name="responsibles"
                             control={control}
-                            rules={{
-                                required: 'O campo de responsável é obrigatório'
-                            }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
                                     className="rounded"
@@ -573,7 +571,7 @@ const EditAction = () => {
                         <Button
                             type="submit"
                             variant="action"
-                            actiondisableElevation
+                            disableElevation
                             className="w-fit"
                         >
                             <span className="text-lg px-5 py-2 uppercase">Editar</span>
@@ -582,7 +580,6 @@ const EditAction = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
