@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -72,7 +71,7 @@ const ShowResponsible = () => {
     return (
         <Main>
             <Header>
-                <h1 className="flex flex-row items-center gap-3">Editando {responsible?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</h1>
+                <span className="flex flex-row items-center gap-3">Editando {responsible?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
             </Header>
 
             {responsible ? (<Stack spacing={1}>
