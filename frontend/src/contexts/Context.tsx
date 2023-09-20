@@ -18,6 +18,7 @@ export type GlobalContextType = {
     setAction: React.Dispatch<React.SetStateAction<ActionType>>;
     contextResponsibles: ResponsibleType[],
     setContextResponsibles: React.Dispatch<React.SetStateAction<ResponsibleType[]>>;
+    getCompanyResponsibles: any;
     logout: () => void;
 }
 
