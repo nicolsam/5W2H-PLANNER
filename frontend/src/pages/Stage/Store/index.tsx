@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
@@ -99,6 +98,7 @@ const StoreStage = () => {
 
         } catch(error:any) {
             toast(error.message);
+            navigate(`/planning/action/${currentAction.id}`);
         }
     }
 
@@ -344,9 +344,6 @@ const StoreStage = () => {
                         <Controller
                             name="responsibles"
                             control={control}
-                            rules={{
-                                required: 'Defina pelo menos um responsável.'
-                            }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState: {invalid, error} }) => (
                                 <FormControl
                                     {...field}
@@ -512,7 +509,6 @@ const StoreStage = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
