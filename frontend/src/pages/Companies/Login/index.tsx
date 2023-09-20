@@ -4,14 +4,14 @@ import { useContext } from 'react';
 
 import { useSignIn } from 'react-auth-kit';
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { IMaskInput } from 'react-imask';
 
 import { toast } from 'react-toastify';
 
-import HttpsIcon from '@mui/icons-material/Https';
 import CompanyCnpj from '@icons/company-cnpj.svg';
+import HttpsIcon from '@mui/icons-material/Https';
 
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 
@@ -39,47 +39,61 @@ const CompanyLogin = () => {
 
     const { register, handleSubmit, formState } = form
     const { errors } = formState;
-
+    
     const onSubmit = async (data: LoginFormValues) => {
         try {
+            
+            const toastSubmit = toast.loading('Logando no sistema. Por favor espere um momento.');
+
             const response = await api.companies.login(data.cnpj, data.password);
 
-            if(response.success === false) {
+            if(response?.success === false) {
+                toast.update(toastSubmit, {
+                    render: 'Não foi possível fazer login. Seu usuário ou senha estão incorretos.',
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                })
                 throw new Error(response.message)
+            } else {
+                
+                setCompany({
+                    id: response?.data.company.id,
+                    attributes: {
+                        name: response?.data.company.name,
+                        cnpj: response?.data.company.cnpj,
+                        created_at: response?.data.company.created_at,
+                        updated_at: response?.data.company.updated_at
+                    }
+                });
+
+                if(signIn({
+                    token: response.data.token,
+                    expiresIn: 3600,
+                    tokenType: "Bearer",
+                    authState: { 
+                        company: response.data.company.name
+                    }
+                })) {
+
+                    setIsCompanyAccess(true);
+
+                    toast.update(toastSubmit, { 
+                        render: 'Logado com sucesso',
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 3000,
+                        closeButton: true,
+                    });
+
+                    navigate('/dashboard');
+
+                }
             }
-            
-            setCompany({
-                id: response?.data.company.id,
-                attributes: {
-                    name: response?.data.company.name,
-                    cnpj: response?.data.company.cnpj,
-                    created_at: response?.data.company.created_at,
-                    updated_at: response?.data.company.updated_at
-                }
-            });
-
-            signIn({
-                token: response.data.token,
-                expiresIn: 3600,
-                tokenType: "Bearer",
-                authState: { 
-                    company: response.data.company.name
-                }
-            })
-
-            setIsCompanyAccess(true);
-
-            toast('Logado com sucesso', {
-                type: 'success',
-                isLoading: false,
-                autoClose: 3000,
-                closeButton: true,
-            });
-
-            navigate('/dashboard');
 
         } catch(error:any) {
-            toast(error.message);
+            console.log(error.message)
         }
     }
 
@@ -150,9 +164,15 @@ const CompanyLogin = () => {
                         <Button type="submit" variant="action" size="large" disableElevation>
                             <span className="text-2xl p-1">Login</span>
                         </Button>
+                        
+                        <div className="flex justify-center">
+                            <Button variant="secondary" disableElevation className="my-2 w-fit">
+                                <Link to="/admin/login">Logar como administrador</Link>
+                            </Button>
+                        </div>
+
                     </Stack>
                 </Stack>
-
                 
             </form>
 
