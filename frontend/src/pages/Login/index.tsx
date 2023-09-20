@@ -3,7 +3,7 @@ import useShowPassword from "@hooks/useShowPassword";
 import { useContext } from "react";
 import { useSignIn } from 'react-auth-kit';
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { toast } from 'react-toastify';
 
@@ -23,6 +23,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const signIn = useSignIn(); 
+    
     const { 
         showPasswordIcon, 
         showPasswordType, 
@@ -42,38 +43,46 @@ const Login = () => {
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
-            const response = await api.admin.login(data.user, data.password);
 
-            if(response.success === false) {
+            const toastSubmit = toast.loading('Logando no sistema. Por favor espere um momento.');
+
+            const response = await api.admin.login(data.user, data.password);
+            
+            if(response?.success === false) {
+                toast.update(toastSubmit, {
+                    render: response?.message,
+                    type: 'error',
+                    isLoading: false,
+                    autoClose: 3000,
+                    closeButton: true,
+                })
                 throw new Error(response.message)
+                
             }
 
-            const isSignin = signIn({
+            if(signIn({
                 token: response.data.token,
                 expiresIn: 3600,
                 tokenType: "Bearer",
                 authState: { 
                     admin: response.data.admin.name
                 }
-            })
-
-            if(isSignin) {
+            })) {
                 setIsAdminAccess(true);
-
-                toast('Logado com sucesso', {
+                
+                navigate('/companies');
+                
+                toast.update(toastSubmit, {
+                    render: 'Logado com sucesso',
                     type: 'success',
                     isLoading: false,
                     autoClose: 3000,
                     closeButton: true,
                 });
-
-                navigate('/companies');
             }
 
-            
-
         } catch(error:any) {
-            toast(error.message);
+            console.log(error.message)
         }
     }
 
@@ -152,10 +161,16 @@ const Login = () => {
                         <Button type="submit" variant="action" size="large" disableElevation>
                             <span className="text-2xl p-1">Login</span>
                         </Button>
+                        
+                        <div className="flex justify-center">
+                            <Button variant="secondary" disableElevation className="my-2 w-fit">
+                                <Link to="/company/login">Logar como empresa</Link>
+                            </Button>
+                        </div>
                     </Stack>
                 </Stack>
             </form>
-                            
+
             <div>
                 v{import.meta.env.VITE_APP_VERSION}
             </div>
