@@ -1,4 +1,3 @@
-import { DevTool } from '@hookform/devtools';
 import useShowPassword from '@hooks/useShowPassword';
 import { useForm } from "react-hook-form";
 import { IMaskInput } from 'react-imask';
@@ -12,9 +11,9 @@ import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
 import Main from "@components/Layout/Main";
 
+import CompanyCnpj from '@icons/company-cnpj.svg';
 import BusinessIcon from '@mui/icons-material/Business';
 import HttpsIcon from '@mui/icons-material/Https';
-import CompanyCnpj from '@icons/company-cnpj.svg';
 
 import api from '@utils/api';
 
@@ -174,7 +173,6 @@ const StoreCompany = () => {
                         
                 </Stack>
             </form>
-             <DevTool control={control} />
         </Main>
     );
 }
