@@ -1,10 +1,11 @@
 import { GlobalContext } from '@contexts/Context';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { useAuthHeader } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import AlertModal from '@components/Layout/Alert';
 import Header from '@components/Layout/Header';
 import Item from '@components/Layout/List/Item';
 import Main from '@components/Layout/Main';
@@ -26,10 +27,15 @@ const Companies = () => {
     const { setCompany } = useContext(GlobalContext)
 
     const navigate = useNavigate();
-    const auth = useAuthHeader()
+    const auth = useAuthHeader();
+    const modalRef = useRef(null);
 
     const [companies, setCompanies] = useState<CompanyType[] | []>([]);
     const [loading, setLoading] = useState(true);
+
+    const openModal = () => {
+        modalRef.current.open();
+    };
 
     const select = (company: CompanyType) => {
 
@@ -105,34 +111,46 @@ const Companies = () => {
                         <Loading color="white" />
                     </div>
                 ) : companies.length > 0 ? companies.map((company: CompanyType, index: number) => (
-                    <Item 
-                        color="primary"
-                        showCount
-                        click={() => select(company)}
-                        actions={[
-                            {
-                                name: 'Editar',
-                                ariaLabel: 'editar',
-                                icon: <EditIcon className="text-main-color" />,
-                                click: () => editCompany(company.id)
-                            },
-                            {
-                                name: 'Deletar',
-                                ariaLabel: 'deletar',
-                                icon: <DeleteIcon className="text-danger" />,
-                                click: () => deleteCompany(company.id)
-                            }
-                        ]} 
-                        badges={[
-                            {
-                                name: 'Metas',
-                                count: company.count?.goals
-                            },
-                        ]}
-                        key={index}
-                    >
-                        {company.attributes.name}
-                    </Item>
+                    <div>
+                        <Item
+                            color="primary"
+                            showCount
+                            click={() => select(company)}
+                            actions={[
+                                {
+                                    name: 'Editar',
+                                    ariaLabel: 'editar',
+                                    icon: <EditIcon className="text-main-color" />,
+                                    click: () => editCompany(company.id)
+                                },
+                                {
+                                    name: 'Deletar',
+                                    ariaLabel: 'deletar',
+                                    icon: <DeleteIcon className="text-danger" />,
+                                    click: () => openModal()
+                                }
+                            ]}
+                            badges={[
+                                {
+                                    name: 'Metas',
+                                    count: company.count?.goals
+                                },
+                            ]}
+                            key={index}
+                        >
+                            {company.attributes.name}
+                        </Item>
+
+                        <AlertModal
+                            alertTitle={`Deletando ${company.attributes.name}`}
+                            alertContentText="Deseja deletar esta empresa? Esta ação é irreversível."
+                            closeText="Cancelar"
+                            execFunctionOnAccept={() => deleteCompany(company.id)}
+                            functionText="Deletar"
+                            functionButtonColor="danger"
+                            ref={modalRef}
+                        />
+                    </div>
                 ))
                 : (
                     <Alert severity="warning">
@@ -142,6 +160,8 @@ const Companies = () => {
                     
                 )}
             </ListContainer>
+
+            
         </Main>
     )
 }
