@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -102,11 +101,13 @@ const ShowStage = () => {
 
             let responsibles = []
 
-            stage.relationships.responsibles.map((responsible: ResponsibleType) => {
-                responsibles.push(
-                    responsible.id,
-                )
-            })
+            if(stage.relationships.responsibles != undefined) {
+                stage.relationships.responsibles.map((responsible: ResponsibleType) => {
+                    responsibles.push(
+                        responsible.id,
+                    )
+                })
+            }
 
             setValue('name', stage.attributes.name)
             setValue('area', stage.attributes.area)
@@ -133,7 +134,7 @@ const ShowStage = () => {
     return (
         <Main>
             <Header>
-                <h1 className="flex flex-row items-center gap-3">Visualizando {stage?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</h1>
+                <span className="flex flex-row items-center gap-3">Visualizando {stage?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
             </Header>
 
             <BackButton />
@@ -561,8 +562,6 @@ const ShowStage = () => {
                 />
                 
             </Stack>
-            
-            <DevTool control={control} />
         </Main>
     );
 }
