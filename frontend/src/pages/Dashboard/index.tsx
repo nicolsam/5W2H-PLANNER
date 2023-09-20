@@ -8,11 +8,15 @@ import { GlobalContext } from '@contexts/Context';
 import { Chart } from '@models/Chart';
 import GoalType from '@models/Goal';
 import api from '@utils/api';
+import getToken from '@utils/getToken';
 import { useContext, useEffect, useState } from 'react';
+import { useAuthHeader } from 'react-auth-kit';
 
 const Dashboard = () => {
 
     const { company } = useContext(GlobalContext);
+
+    const auth = useAuthHeader()
 
     useIsCompanySelected();
 
@@ -75,7 +79,8 @@ const Dashboard = () => {
     const handleCount = async () => {
         try {
             
-            const response = await api.companies.count(company.id)
+            const response = await api.companies.count(company.id, getToken(auth()))
+            console.log(response)
             
             setGoalCount({
                 total: response?.data.goal.total
@@ -139,8 +144,9 @@ const Dashboard = () => {
         try {
 
             const response = await api.companies.responsibles(company.id);
-
-            setResponsibleCount(response?.data.length)
+            if(response.data === undefined) return;
+            
+            setResponsibleCount(response?.data.length ? response?.data.length : 0);
 
 
         } catch(error) {
