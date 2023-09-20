@@ -1,6 +1,7 @@
 import { GlobalContext } from '@contexts/Context';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { useAuthHeader } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -14,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import api from "@utils/api";
+import getToken from '@utils/getToken';
 
 import ListContainer from '@components/Layout/List';
 import Loading from '@components/Loading';
@@ -24,8 +26,10 @@ const Companies = () => {
     const { setCompany } = useContext(GlobalContext)
 
     const navigate = useNavigate();
+    const auth = useAuthHeader()
 
-    const [companies, setCompanies] = useState<CompanyType[] | null>(null);
+    const [companies, setCompanies] = useState<CompanyType[] | []>([]);
+    const [loading, setLoading] = useState(true);
 
     const select = (company: CompanyType) => {
 
@@ -37,11 +41,17 @@ const Companies = () => {
     const show = async () => {
 
         try {
-            let response = await api.companies.index();
-
-            setCompanies(response.data);
+            const response = await api.companies.index(getToken(auth()));
+            
+            if(response?.success) {
+                const companies = response.data as CompanyType[];
+                setCompanies(companies);
+            }
+            
         } catch(error: any) {
             console.log(error.message)
+        } finally {
+            setLoading(false);
         }
         
     }
@@ -60,7 +70,7 @@ const Companies = () => {
 
             show();
 
-        } catch(error) {
+        } catch(error: any) {
             toast(error.message, {
                 type: 'success',
                 isLoading: false,
@@ -76,8 +86,7 @@ const Companies = () => {
     }
 
     useEffect(() => {
-
-        show();
+        show(); 
 
     }, [])
     
@@ -91,12 +100,14 @@ const Companies = () => {
             >Olá, Administrador.</Header>
 
             <ListContainer>
-                {companies ? 
-                    companies.length > 0 ? companies.map((company: CompanyType, index: number) => (
+                {loading ? (
+                    <div className="w-full flex justify-center">
+                        <Loading color="white" />
+                    </div>
+                ) : companies.length > 0 ? companies.map((company: CompanyType, index: number) => (
                     <Item 
                         color="primary"
                         showCount
-                        id={company.id}
                         click={() => select(company)}
                         actions={[
                             {
@@ -115,27 +126,21 @@ const Companies = () => {
                         badges={[
                             {
                                 name: 'Metas',
-                                count: company.count.goals
+                                count: company.count?.goals
                             },
                         ]}
                         key={index}
                     >
                         {company.attributes.name}
                     </Item>
-                )) 
+                ))
                 : (
                     <Alert severity="warning">
                         <AlertTitle>Nenhuma empresa foi cadastrada</AlertTitle>
                         Utilize o botão acima para cadastrar sua primeira empresa.
                     </Alert>
                     
-                )
-                : (
-                    <div className="w-full flex justify-center">
-                        <Loading color="white" />
-                    </div>
-                )
-                }
+                )}
             </ListContainer>
         </Main>
     )
