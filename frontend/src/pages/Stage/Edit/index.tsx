@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
@@ -90,7 +89,7 @@ const EditStage = () => {
     } = form;
     const { errors } = formState;
 
-    const onSubmit = async (data: StageAttributes) => {
+    const onSubmit = async (data: EditStageFormValues) => {
         try {
             
             const response = await api.stages.update(stage.id, company.id, currentAction.id, data);
@@ -106,7 +105,7 @@ const EditStage = () => {
                 closeButton: true,
             });
 
-            navigate(`/planning/action/${currentGoal.id}`);
+            navigate(`/planning/action/${currentAction.id}`);
 
         } catch(error:any) {
             toast(error.message);
@@ -124,11 +123,15 @@ const EditStage = () => {
 
             let responsibles: number[] = []
 
-            stage.relationships.responsibles.map((responsible: ResponsibleType) => {
-                responsibles.push(
-                    responsible.id,
-                )
-            })
+            if(stage.relationships.responsibles != undefined) {
+                stage.relationships.responsibles.map((responsible: ResponsibleType) => {
+                    responsibles.push(
+                        responsible.id,
+                    )
+                })
+            }
+
+            setResponsiblesSelect(responsibles)
 
             setValue('name', stage.attributes.name)
             setValue('area', stage.attributes.area)
@@ -144,7 +147,7 @@ const EditStage = () => {
             setValue('observation', stage.attributes.observation, {shouldDirty: true})
 
         } catch(error) {
-            navigate('/planning');
+            navigate(`/planning/action/${currentAction.id}`);
         }
     }
 
@@ -392,9 +395,6 @@ const EditStage = () => {
                         <Controller
                             name="responsibles"
                             control={control}
-                            rules={{
-                                required: 'O campo de responsável é obrigatório'
-                            }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
                                     className="rounded"
@@ -579,7 +579,6 @@ const EditStage = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
