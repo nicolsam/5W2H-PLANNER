@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
@@ -99,6 +98,7 @@ const StoreAction = () => {
 
         } catch(error:any) {
             toast(error.message);
+            navigate('/planning');
         }
     }
 
@@ -343,9 +343,6 @@ const StoreAction = () => {
                         <Controller
                             name="responsibles"
                             control={control}
-                            rules={{
-                                required: 'A situação do preço é obrigatória'
-                            }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
                                     className="rounded"
@@ -511,7 +508,6 @@ const StoreAction = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} />
         </Main>
     );
 }
