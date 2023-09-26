@@ -49,7 +49,7 @@ class AdminAuthController extends Controller
 
             $message = 'Usuário ou senha não estão corretos! Tente novamente.';
 
-            return response()->json(['message' => $message, 401]);
+            return response()->json(['message' => $message], 401);
 
         }
 
