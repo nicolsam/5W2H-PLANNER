@@ -53,6 +53,8 @@ const StoreStage = () => {
     const { company, currentAction, contextResponsibles } = useContext(GlobalContext);
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
+
+    const [lastSelectValue, setLastSelectValue] = useState<string>("")
     const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
 
     const navigate = useNavigate();
@@ -78,7 +80,15 @@ const StoreStage = () => {
         mode: "onChange",
     })
 
-    const { register, control, handleSubmit, formState, setValue ,watch } = form
+    const { 
+        register, 
+        control, 
+        handleSubmit, 
+        formState, 
+        setValue, 
+        getValues, 
+        watch 
+    } = form;
     const { errors } = formState;
 
     const watchValueStatus = watch("value_status");
@@ -106,7 +116,11 @@ const StoreStage = () => {
         }
     }
 
-    useEffect(() => {
+    const handleValueStatus = () => {
+        if(!isValueSelectDisabled) {
+            setLastSelectValue(getValues('value'));
+        }
+
         const selectedOption = watchValueStatus;
 
         if(selectedOption === 'Sem ônus') {
@@ -114,10 +128,13 @@ const StoreStage = () => {
             setValue("value", "0.00");
         } else {
             setIsValueSelectDisabled(false);
-            setValue("value", "");
+            setValue("value", lastSelectValue);
         }
+    }
 
-    }, [watchValueStatus])
+    useEffect(() => {
+        handleValueStatus();    
+    }, [watchValueStatus]);
 
     return (
         <Main>
@@ -292,6 +309,7 @@ const StoreStage = () => {
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
+                                type='number'
                                 {...register('value', {
                                     required: 'O preço da etapa é obrigatório.',
                                 })}

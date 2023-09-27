@@ -56,6 +56,9 @@ const EditAction = () => {
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
     const [action, setAction] = useState<ActionType>();
 
+    const [lastSelectValue, setLastSelectValue] = useState<string>("")
+    const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
+
     const { action_id } = useParams<{action_id: any}>();
 
     const navigate = useNavigate();
@@ -87,8 +90,12 @@ const EditAction = () => {
         handleSubmit,
         formState,
         setValue,
+        getValues,
+        watch
     } = form;
     const { errors } = formState;
+
+    const watchValueStatus = watch("value_status");
 
     const onSubmit = async (data: EditActionFormValues) => {
         try {
@@ -111,7 +118,7 @@ const EditAction = () => {
             toast(error.message);
         }
     }
-    
+
     const findAction = async (action_id: number) => {
         try {
 
@@ -133,7 +140,10 @@ const EditAction = () => {
 
             setValue('name', action.attributes.name)
             setValue('area', action.attributes.area)
-            setValue('value', action.attributes.value)
+
+            setValue('value', action.attributes.value);
+            setLastSelectValue(action.attributes.value);
+
             setValue('value_status', action.attributes.value_status)
             setValue('status', action.attributes.status)
             setValue('priority', action.attributes.priority)
@@ -149,6 +159,26 @@ const EditAction = () => {
         }
     }
 
+    const handleValueStatus = () => {
+        if(!isValueSelectDisabled) {
+            setLastSelectValue(getValues('value'));
+        }
+
+        const selectedOption = watchValueStatus;
+
+        if(selectedOption === 'Sem ônus') {
+            setIsValueSelectDisabled(true);
+            setValue("value", "0.00");
+        } else {
+            setIsValueSelectDisabled(false);
+            setValue("value", lastSelectValue);
+        }
+    }
+
+    useEffect(() => {
+        handleValueStatus();    
+    }, [watchValueStatus]);
+    
     useEffect(() => {
         findAction(action_id)
     }, [])
@@ -327,9 +357,11 @@ const EditAction = () => {
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
+                                type='number'
                                 {...register('value', {
-                                required: 'O preço da ação é obrigatório.',
+                                    required: 'O preço da ação é obrigatório.',
                                 })}
+                                disabled={isValueSelectDisabled}
                                 error={!!errors.value}
                                 helperText={errors.value?.message}
                                 label="Preço"
