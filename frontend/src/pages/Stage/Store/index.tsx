@@ -1,6 +1,7 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
+import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +53,7 @@ const StoreStage = () => {
     const { company, currentAction, contextResponsibles } = useContext(GlobalContext);
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
+    const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
 
     const navigate = useNavigate();
     const companySelected = useIsCompanySelected();
@@ -76,8 +78,10 @@ const StoreStage = () => {
         mode: "onChange",
     })
 
-    const { register, control, handleSubmit, formState } = form
+    const { register, control, handleSubmit, formState, setValue ,watch } = form
     const { errors } = formState;
+
+    const watchValueStatus = watch("value_status");
 
     const onSubmit = async (data: StageAttributes) => {
         try {
@@ -101,6 +105,19 @@ const StoreStage = () => {
             navigate(`/planning/action/${currentAction.id}`);
         }
     }
+
+    useEffect(() => {
+        const selectedOption = watchValueStatus;
+
+        if(selectedOption === 'Sem ônus') {
+            setIsValueSelectDisabled(true);
+            setValue("value", "0.00");
+        } else {
+            setIsValueSelectDisabled(false);
+            setValue("value", "");
+        }
+
+    }, [watchValueStatus])
 
     return (
         <Main>
@@ -278,6 +295,7 @@ const StoreStage = () => {
                                 {...register('value', {
                                     required: 'O preço da ação é obrigatório.',
                                 })}
+                                disabled={isValueSelectDisabled}
                                 error={!!errors.value}
                                 helperText={errors.value?.message}
                                 label="Preço"
@@ -308,17 +326,15 @@ const StoreStage = () => {
                                         sx={{
                                             backgroundColor: '#ffffff',
                                         }}
-                        
                                     >
                                         <InputLabel id="value_status">Situação</InputLabel>
                                         <Select
+                                            {...field}
                                             labelId="value_status"
                                             id="value_status"
                                             label="Situação"
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
-                                            {...field}
-                                            
                                             startAdornment={
                                                 <InputAdornment position="start">
                                                     <LocalOfferIcon sx={{ color: 'gray', marginRight: '10px' }} />
@@ -509,6 +525,7 @@ const StoreStage = () => {
                         
                 </Stack>
             </form>
+            <DevTool control={control} /> {/* set up the dev tool */}
         </Main>
     );
 }
