@@ -293,7 +293,7 @@ const StoreStage = () => {
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
                                 {...register('value', {
-                                    required: 'O preço da ação é obrigatório.',
+                                    required: 'O preço da etapa é obrigatório.',
                                 })}
                                 disabled={isValueSelectDisabled}
                                 error={!!errors.value}
