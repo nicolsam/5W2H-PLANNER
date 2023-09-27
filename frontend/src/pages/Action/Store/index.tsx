@@ -83,6 +83,7 @@ const StoreAction = () => {
     const { errors } = formState;
 
     const watchValueStatus = watch("value_status");
+    const watchValue = watch("value");
 
     const onSubmit = async (data: ActionAttributes) => {
         try {
@@ -106,11 +107,15 @@ const StoreAction = () => {
             navigate('/planning');
         }
     }
-    
-    const handleValueStatus = () => {
+     
+    const handleSetLastValue = () => {
         if(!isValueSelectDisabled) {
             setLastSelectValue(getValues('value'));
         }
+    }
+    const handleValueStatus = () => {
+
+        handleSetLastValue();
 
         const selectedOption = watchValueStatus;
 
@@ -126,7 +131,11 @@ const StoreAction = () => {
     useEffect(() => {
         handleValueStatus();    
     }, [watchValueStatus]);
-
+    
+    useEffect(() => {
+        handleSetLastValue();   
+    }, [watchValue]);
+    
     return (
         <Main>
             <Header description="Complete as informações abaixo para criar uma nova ação">

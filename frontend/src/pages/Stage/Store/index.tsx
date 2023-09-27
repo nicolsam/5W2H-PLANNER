@@ -92,6 +92,7 @@ const StoreStage = () => {
     const { errors } = formState;
 
     const watchValueStatus = watch("value_status");
+    const watchValue = watch("value");
 
     const onSubmit = async (data: StageAttributes) => {
         try {
@@ -116,10 +117,15 @@ const StoreStage = () => {
         }
     }
 
-    const handleValueStatus = () => {
+    const handleSetLastValue = () => {
         if(!isValueSelectDisabled) {
             setLastSelectValue(getValues('value'));
         }
+    }
+
+    const handleValueStatus = () => {
+        
+        handleSetLastValue();
 
         const selectedOption = watchValueStatus;
 
@@ -135,6 +141,10 @@ const StoreStage = () => {
     useEffect(() => {
         handleValueStatus();    
     }, [watchValueStatus]);
+    
+    useEffect(() => {
+        handleSetLastValue();   
+    }, [watchValue]);
 
     return (
         <Main>
@@ -306,6 +316,7 @@ const StoreStage = () => {
                         </Stack>
                         
                         <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
+
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
@@ -330,6 +341,7 @@ const StoreStage = () => {
                                     backgroundColor: '#ffffff',
                                 }}
                             />
+                    
                         
                             <Controller
                                 name="value_status"
