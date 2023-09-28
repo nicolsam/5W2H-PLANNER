@@ -53,6 +53,9 @@ const StoreAction = () => {
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
 
+    const [lastSelectValue, setLastSelectValue] = useState<string>("")
+    const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
+
     const navigate = useNavigate();
     const companySelected = useIsCompanySelected();
     
@@ -76,8 +79,11 @@ const StoreAction = () => {
         mode: "onChange",
     })
 
-    const { register, control, handleSubmit, formState, setValue, getValues } = form
+    const { register, control, handleSubmit, formState, setValue, getValues, watch } = form
     const { errors } = formState;
+
+    const watchValueStatus = watch("value_status");
+    const watchValue = watch("value");
 
     const onSubmit = async (data: ActionAttributes) => {
         try {
@@ -101,7 +107,35 @@ const StoreAction = () => {
             navigate('/planning');
         }
     }
+     
+    const handleSetLastValue = () => {
+        if(!isValueSelectDisabled) {
+            setLastSelectValue(getValues('value'));
+        }
+    }
+    const handleValueStatus = () => {
 
+        handleSetLastValue();
+
+        const selectedOption = watchValueStatus;
+
+        if(selectedOption === 'Sem ônus') {
+            setIsValueSelectDisabled(true);
+            setValue("value", "0.00");
+        } else {
+            setIsValueSelectDisabled(false);
+            setValue("value", lastSelectValue);
+        }
+    }
+
+    useEffect(() => {
+        handleValueStatus();    
+    }, [watchValueStatus]);
+    
+    useEffect(() => {
+        handleSetLastValue();   
+    }, [watchValue]);
+    
     return (
         <Main>
             <Header description="Complete as informações abaixo para criar uma nova ação">
@@ -275,9 +309,11 @@ const StoreAction = () => {
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
+                                type='number'
                                 {...register('value', {
-                                required: 'O preço da ação é obrigatório.',
+                                    required: 'O preço da ação é obrigatório.',
                                 })}
+                                disabled={isValueSelectDisabled}
                                 error={!!errors.value}
                                 helperText={errors.value?.message}
                                 label="Preço"

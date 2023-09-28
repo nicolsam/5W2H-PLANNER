@@ -53,6 +53,9 @@ const StoreStage = () => {
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
 
+    const [lastSelectValue, setLastSelectValue] = useState<string>("")
+    const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
+
     const navigate = useNavigate();
     const companySelected = useIsCompanySelected();
     
@@ -76,8 +79,19 @@ const StoreStage = () => {
         mode: "onChange",
     })
 
-    const { register, control, handleSubmit, formState } = form
+    const { 
+        register, 
+        control, 
+        handleSubmit, 
+        formState, 
+        setValue, 
+        getValues, 
+        watch 
+    } = form;
     const { errors } = formState;
+
+    const watchValueStatus = watch("value_status");
+    const watchValue = watch("value");
 
     const onSubmit = async (data: StageAttributes) => {
         try {
@@ -101,6 +115,35 @@ const StoreStage = () => {
             navigate(`/planning/action/${currentAction.id}`);
         }
     }
+
+    const handleSetLastValue = () => {
+        if(!isValueSelectDisabled) {
+            setLastSelectValue(getValues('value'));
+        }
+    }
+
+    const handleValueStatus = () => {
+        
+        handleSetLastValue();
+
+        const selectedOption = watchValueStatus;
+
+        if(selectedOption === 'Sem ônus') {
+            setIsValueSelectDisabled(true);
+            setValue("value", "0.00");
+        } else {
+            setIsValueSelectDisabled(false);
+            setValue("value", lastSelectValue);
+        }
+    }
+
+    useEffect(() => {
+        handleValueStatus();    
+    }, [watchValueStatus]);
+    
+    useEffect(() => {
+        handleSetLastValue();   
+    }, [watchValue]);
 
     return (
         <Main>
@@ -272,12 +315,15 @@ const StoreStage = () => {
                         </Stack>
                         
                         <Stack spacing={1} direction={{ xs: "column", md: "row" }}>
+
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
+                                type='number'
                                 {...register('value', {
-                                    required: 'O preço da ação é obrigatório.',
+                                    required: 'O preço da etapa é obrigatório.',
                                 })}
+                                disabled={isValueSelectDisabled}
                                 error={!!errors.value}
                                 helperText={errors.value?.message}
                                 label="Preço"
@@ -294,6 +340,7 @@ const StoreStage = () => {
                                     backgroundColor: '#ffffff',
                                 }}
                             />
+                    
                         
                             <Controller
                                 name="value_status"
@@ -308,17 +355,15 @@ const StoreStage = () => {
                                         sx={{
                                             backgroundColor: '#ffffff',
                                         }}
-                        
                                     >
                                         <InputLabel id="value_status">Situação</InputLabel>
                                         <Select
+                                            {...field}
                                             labelId="value_status"
                                             id="value_status"
                                             label="Situação"
                                             error={!!fieldState.error}
                                             helperText={fieldState.error?.message}
-                                            {...field}
-                                            
                                             startAdornment={
                                                 <InputAdornment position="start">
                                                     <LocalOfferIcon sx={{ color: 'gray', marginRight: '10px' }} />

@@ -55,6 +55,9 @@ const EditStage = () => {
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
     const [stage, setStage] = useState<StageType>();
 
+    const [lastSelectValue, setLastSelectValue] = useState<string>("")
+    const [isValueSelectDisabled, setIsValueSelectDisabled] = useState(false);
+
     const { stage_id } = useParams<{stage_id: any}>();
 
     const navigate = useNavigate();
@@ -86,8 +89,12 @@ const EditStage = () => {
         handleSubmit,
         formState,
         setValue,
+        getValues,
+        watch
     } = form;
     const { errors } = formState;
+
+    const watchValueStatus = watch("value_status");
 
     const onSubmit = async (data: EditStageFormValues) => {
         try {
@@ -135,7 +142,10 @@ const EditStage = () => {
 
             setValue('name', stage.attributes.name)
             setValue('area', stage.attributes.area)
+
             setValue('value', stage.attributes.value)
+            setLastSelectValue(stage.attributes.value)
+
             setValue('value_status', stage.attributes.value_status)
             setValue('status', stage.attributes.status)
             setValue('priority', stage.attributes.priority)
@@ -150,6 +160,26 @@ const EditStage = () => {
             navigate(`/planning/action/${currentAction.id}`);
         }
     }
+    
+    const handleValueStatus = () => {
+        if(!isValueSelectDisabled) {
+            setLastSelectValue(getValues('value'));
+        }
+
+        const selectedOption = watchValueStatus;
+
+        if(selectedOption === 'Sem ônus') {
+            setIsValueSelectDisabled(true);
+            setValue("value", "0.00");
+        } else {
+            setIsValueSelectDisabled(false);
+            setValue("value", lastSelectValue);
+        }
+    }
+
+    useEffect(() => {
+        handleValueStatus();    
+    }, [watchValueStatus]);
 
     useEffect(() => {
         findStage(stage_id)
@@ -328,9 +358,11 @@ const EditStage = () => {
                             <TextField
                                 id="value"
                                 className="rounded w-full lg:w-1/2"
+                                type='number'
                                 {...register('value', {
-                                required: 'O preço da ação é obrigatório.',
+                                    required: 'O preço da ação é obrigatório.',
                                 })}
+                                disabled={isValueSelectDisabled}
                                 error={!!errors.value}
                                 helperText={errors.value?.message}
                                 label="Preço"
