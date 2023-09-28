@@ -1,7 +1,6 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { DevTool } from '@hookform/devtools';
 import useIsCompanySelected from '@hooks/useIsCompanySelected';
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
@@ -555,7 +554,6 @@ const StoreStage = () => {
                         
                 </Stack>
             </form>
-            <DevTool control={control} /> {/* set up the dev tool */}
         </Main>
     );
 }
