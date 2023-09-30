@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 import ActionType from "@models/Action";
+import AreaType from "@models/Area";
 import CompanyType from "@models/Company";
 import GoalType from "@models/Goal";
 import ResponsibleType from "@models/Responsible";
@@ -19,6 +20,9 @@ export type GlobalContextType = {
     contextResponsibles: ResponsibleType[],
     setContextResponsibles: React.Dispatch<React.SetStateAction<ResponsibleType[]>>;
     getCompanyResponsibles: any;
+    contextAreas: AreaType[],
+    setContextAreas: React.Dispatch<React.SetStateAction<AreaType[]>>;
+    getCompanyAreas: any;
     logout: () => void;
 }
 

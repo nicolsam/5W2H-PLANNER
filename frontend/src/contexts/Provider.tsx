@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { GlobalContext } from "./Context";
 
 import ActionType from "@models/Action";
+import AreaType from "@models/Area";
 import { useSignOut } from 'react-auth-kit';
 
 
@@ -68,11 +69,14 @@ export const GlobalProvider = ({ children }: Props) => {
     const [currentAction, setAction] = useState<ActionType>(actionInitialValue);
 
     const [contextResponsibles, setContextResponsibles] = useState<ResponsibleType[]>([]);
+    const [contextAreas, setContextAreas] = useState<AreaType[]>([]);
 
     useEffect(() => {
 
         if(company.id != -1) { 
             getCompanyResponsibles(); 
+            getCompanyAreas();
+            console.log('areas: ', contextAreas);
         }
 
     }, [company]);
@@ -88,6 +92,22 @@ export const GlobalProvider = ({ children }: Props) => {
             }
         } catch (error: any) {
             console.log("getting company responsibles on global provider error: ", error)
+        }
+        
+
+    }
+    
+    const getCompanyAreas = async () => {
+        try {
+            const response = await api.companies.areas(company.id);
+            if(response?.success) {
+                const areas = response.data as AreaType[];
+                setContextAreas(areas);
+            } else {
+                console.error("API call failed:", response?.message);
+            }
+        } catch (error: any) {
+            console.log("getting company areas on global provider error: ", error)
         }
         
 
@@ -118,6 +138,9 @@ export const GlobalProvider = ({ children }: Props) => {
                 contextResponsibles,
                 setContextResponsibles,
                 getCompanyResponsibles,
+                contextAreas,
+                setContextAreas,
+                getCompanyAreas,
                 logout
             }}
         >
