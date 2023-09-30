@@ -279,6 +279,27 @@ const api = {
                 }
             }
         },
+        areas: async (company_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/companies/${company_id}/areas`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
     },
 
     goals: {
@@ -708,6 +729,7 @@ const api = {
             }
         },
     },
+
     responsibles: {
         
         show: async (id: number) => {
@@ -791,6 +813,104 @@ const api = {
                 const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
                 
                 const response: AxiosResponse = await https.delete(`/responsibles/${responsible_id}`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+    },
+
+    areas: {
+        
+        show: async (id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/areas/${id}`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        
+        store: async (company_id: number, name: string) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const payload = {
+                    "company_id": company_id,
+                    "name": name,
+                }
+                const response: AxiosResponse = await https.post('/areas', payload, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        update: async (area_id: string | number, company_id: number, name: string): Promise<ResponseType | undefined> => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const payload = {
+                    'company_id': company_id,
+                    'name': name,
+                }
+                
+                const response: AxiosResponse = await https.patch(`/areas/${area_id}`, payload, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        delete: async (area_id: number) => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.delete(`/areas/${area_id}`, { headers })
                 
                 return ApiResponse(true, response.data.data, response.data.message);
 
