@@ -71,7 +71,7 @@ const ShowResponsible = () => {
     return (
         <Main>
             <Header>
-                <span className="flex flex-row items-center gap-3">Editando {responsible?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
+                <span className="flex flex-row items-center gap-3">Visualizando {responsible?.attributes.name ?? <CircularProgress color="inherit" size="2rem" />}</span>
             </Header>
 
             {responsible ? (<Stack spacing={1}>
@@ -107,7 +107,7 @@ const ShowResponsible = () => {
                     className="rounded"
                     {...register('name')}
                     disabled
-                    label="Meta"
+                    label="Responsável"
                     variant="filled"
                     color="primary"
                     InputProps={{
