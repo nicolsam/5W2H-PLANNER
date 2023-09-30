@@ -27,7 +27,7 @@ type EditAreaFormValues = {
 
 const EditArea = () => {
     
-    const { company, getCompanyResponsibles } = useContext(GlobalContext);
+    const { company, getCompanyAreas } = useContext(GlobalContext);
 
     const [area, setArea] = useState<AreaType>();
 
@@ -50,7 +50,7 @@ const EditArea = () => {
                 throw new Error(response.message)
             }
 
-            getCompanyResponsibles();
+            getCompanyAreas();
 
             toast('Área atualizada com sucesso', {
                 type: 'success',
