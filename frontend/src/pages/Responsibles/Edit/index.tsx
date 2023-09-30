@@ -111,7 +111,7 @@ const EditResponsible = () => {
                         id="responsible-name"
                         className="rounded"
                         {...register('name', {
-                        required: 'O nome da meta é obrigatório.',
+                        required: 'O nome do responsável é obrigatório.',
                         })}
                         error={!!errors.name}
                         helperText={errors.name?.message}
@@ -154,11 +154,11 @@ const EditResponsible = () => {
                     <div className="flex justify-end">
                         <Button
                             type="submit"
-                            variant="contained"
+                            variant="action"
                             disableElevation
                             className="w-fit"
                         >
-                            <span className="text-lg px-5 py-2 uppercase">Criar</span>
+                            <span className="text-lg px-5 py-2 uppercase">Editar</span>
                         </Button>
                     </div>
                         
