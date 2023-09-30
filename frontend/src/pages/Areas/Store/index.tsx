@@ -23,7 +23,7 @@ type StoreAreaFormValues = {
 
 const StoreArea = () => {
     
-    const { company, getCompanyResponsibles } = useContext(GlobalContext);
+    const { company, getCompanyAreas } = useContext(GlobalContext);
 
     const navigate = useNavigate();
     
@@ -45,7 +45,7 @@ const StoreArea = () => {
                 throw new Error(response?.message)
             }
 
-            getCompanyResponsibles();
+            getCompanyAreas();
             
             toast('Nova área cadastrada com sucesso', {
                 type: 'success',
