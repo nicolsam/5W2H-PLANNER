@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Box, Button, Chip, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Chip, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import BackButton from '@components/Layout/BackButton';
@@ -23,6 +23,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import WorkIcon from '@mui/icons-material/Work';
 
+import AreaType from '@models/Area';
 import ResponsibleType from '@models/Responsible';
 import StageType, { StageAttributes } from '@models/Stage';
 import api from '@utils/api';
@@ -51,7 +52,7 @@ const ITEM_PADDING_TOP = 8;
 
 const ShowStage = () => {
     
-    const { company, currentGoal, contextResponsibles } = useContext(GlobalContext);
+    const { company, currentGoal, contextAreas, contextResponsibles } = useContext(GlobalContext);
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
     const [stage, setStage] = useState<StageType>();
@@ -82,11 +83,11 @@ const ShowStage = () => {
     })
 
     const {
-      register,
-      control,
-      handleSubmit,
-      formState,
-      setValue,
+        register,
+        control,
+        handleSubmit,
+        formState,
+        setValue,
     } = form;
     const { errors } = formState;
 
@@ -166,29 +167,59 @@ const ShowStage = () => {
                             backgroundColor: '#ffffff',
                         }}
                     />
-                    
-                    <TextField 
-                        id="formatted-cnpj-input"
-                        label="Área"
-                        variant="filled"
-                        {...register('area', {
-                            required: 'Área é obrigatório.',
-                        })}
-                        error={!!errors.area}
-                        helperText={errors.area?.message}
-                        disabled
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <WorkIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                        sx={{
-                            backgroundColor: '#ffffff',
-                        }}
 
+                    <Controller
+                        name="area"
+                        control={control}
+                        rules={{
+                            required: 'Área não existe ou foi deletada, por favor atualize esta etapa'
+                        }}
+                        defaultValue=""
+                        render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+                            <FormControl
+                                className="rounded w-full"
+                                disabled
+                                variant="filled"
+                                sx={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                            >
+                                <InputLabel id="area">Área</InputLabel>
+                                <Select
+                                    labelId="area"
+                                    id="area"
+                                    label="Área"
+                                    {...field}
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error?.message}
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
+                                        </InputAdornment>
+                                    }
+                                >
+                                    {contextAreas.length != 0 ? contextAreas.map((area: AreaType) => (
+                                        <MenuItem
+                                            key={area.id}
+                                            value={area.attributes.name}
+                                        >
+                                            {area.attributes.name}
+                                        </MenuItem>
+                                    )) : (
+                                        <MenuItem disabled>
+                                            Não foi encontrada nenhuma área cadastrada
+                                        </MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        )}
                     />
+                    {contextAreas.find((item) => item.attributes.name === stage?.attributes?.area) === undefined && (
+                        <Alert severity="warning">
+                            <AlertTitle>A área selecionada não está disponível ou foi removida. Por gentileza, atualize a área desta etapa.</AlertTitle>
+                        </Alert>
+                    )}
+                    
                 </Stack>
 
                 <Stack spacing={2} direction={"column"}>
