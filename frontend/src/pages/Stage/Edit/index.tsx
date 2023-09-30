@@ -50,7 +50,7 @@ const ITEM_PADDING_TOP = 8;
 
 const EditStage = () => {
     
-    const { company, currentGoal, currentAction, contextResponsibles } = useContext(GlobalContext);
+    const { company, currentGoal, currentAction, contextAreas, contextResponsibles } = useContext(GlobalContext);
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
     const [stage, setStage] = useState<StageType>();
@@ -224,28 +224,51 @@ const EditStage = () => {
                                 backgroundColor: '#ffffff',
                             }}
                         />
-                        
-                        <TextField 
-                            id="formatted-cnpj-input"
-                            label="Área"
-                            variant="filled"
-                            {...register('area', {
-                                required: 'Área é obrigatório.',
-                            })}
-                            error={!!errors.area}
-                            helperText={errors.area?.message}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <WorkIcon />
-                                    </InputAdornment>
-                                ),
+                        <Controller
+                            name="area"
+                            control={control}
+                            rules={{
+                                required: 'A área da meta é obrigatória'
                             }}
-                            sx={{
-                                backgroundColor: '#ffffff',
-                            }}
-
+                            render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+                                <FormControl
+                                    className="rounded w-full"
+                                    variant="filled"
+                                    sx={{
+                                        backgroundColor: '#ffffff',
+                                    }}
+                                >
+                                    <InputLabel id="area">Área</InputLabel>
+                                    <Select
+                                        labelId="area"
+                                        id="area"
+                                        label="Área"
+                                        {...field}
+                                        error={!!fieldState.error}
+                                        helperText={fieldState.error?.message}
+                                        startAdornment={
+                                            <InputAdornment position="start">
+                                                <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
+                                            </InputAdornment>
+                                        }
+                                    >
+                                        {contextAreas.length != 0 ? contextAreas.map((area: AreaType) => (
+                                            <MenuItem
+                                                key={area.id}
+                                                value={area.attributes.name}
+                                            >
+                                                {area.attributes.name}
+                                            </MenuItem>
+                                        )) : (
+                                            <MenuItem disabled>
+                                                Não foi encontrada nenhuma área cadastrada
+                                            </MenuItem>
+                                        )}
+                                    </Select>
+                                </FormControl>
+                            )}
                         />
+                        
                     </Stack>
 
                     <Stack spacing={2} direction={"column"}>

@@ -2,12 +2,12 @@ import { GlobalContext } from '@contexts/Context';
 import { useContext } from 'react';
 
 import { useEffect, useState } from 'react';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
 
 import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
@@ -17,6 +17,7 @@ import Loading from '@components/Loading';
 import BusinessIcon from '@mui/icons-material/Business';
 import WorkIcon from '@mui/icons-material/Work';
 
+import AreaType from '@models/Area';
 import GoalType from '@models/Goal';
 import api from '@utils/api';
 
@@ -27,7 +28,7 @@ type EditGoalFormValues = {
 
 const EditGoal = () => {
     
-    const { company } = useContext(GlobalContext);
+    const { company, contextAreas } = useContext(GlobalContext);
 
     const [goal, setGoal] = useState<GoalType>();
 
@@ -35,6 +36,10 @@ const EditGoal = () => {
     const { goal_id } = useParams<{goal_id: any}>();
     
     const form = useForm<EditGoalFormValues>({ 
+        defaultValues: {
+            name: '',
+            area: '',
+        },
         mode: 'onBlur' 
     });
 
@@ -125,27 +130,49 @@ const EditGoal = () => {
                             backgroundColor: '#ffffff',
                         }}
                     />
-                    
-                    <TextField 
-                        id="formatted-cnpj-input"
-                        label="Área"
-                        variant="filled"
-                        {...register('area', {
-                            required: 'Área é obrigatório.',
-                        })}
-                        error={!!errors.area}
-                        helperText={errors.area?.message}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <WorkIcon />
-                                </InputAdornment>
-                            ),
+                    <Controller
+                        name="area"
+                        control={control}
+                        rules={{
+                            required: 'A área da meta é obrigatória'
                         }}
-                        sx={{
-                            backgroundColor: '#ffffff',
-                        }}
-
+                        render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+                            <FormControl
+                                className="rounded w-full"
+                                variant="filled"
+                                sx={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                            >
+                                <InputLabel id="area">Área</InputLabel>
+                                <Select
+                                    labelId="area"
+                                    id="area"
+                                    label="Área"
+                                    {...field}
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error?.message}
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
+                                        </InputAdornment>
+                                    }
+                                >
+                                    {contextAreas.length != 0 ? contextAreas.map((area: AreaType) => (
+                                        <MenuItem
+                                            key={area.id}
+                                            value={area.attributes.name}
+                                        >
+                                            {area.attributes.name}
+                                        </MenuItem>
+                                    )) : (
+                                        <MenuItem disabled>
+                                            Não foi encontrada nenhuma área cadastrada
+                                        </MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        )}
                     />
 
                     <div className="flex justify-end">

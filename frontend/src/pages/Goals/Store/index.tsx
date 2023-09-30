@@ -1,12 +1,12 @@
 import { GlobalContext } from '@contexts/Context';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, Button, Chip, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack, TextField } from "@mui/material";
 
 import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
@@ -15,6 +15,7 @@ import Main from "@components/Layout/Main";
 import BusinessIcon from '@mui/icons-material/Business';
 import WorkIcon from '@mui/icons-material/Work';
 
+import AreaType from '@models/Area';
 import api from '@utils/api';
 
 type StoreCompanyFormValues = {
@@ -22,9 +23,12 @@ type StoreCompanyFormValues = {
     area: string
 }
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
 const StoreGoal = () => {
     
-    const { company } = useContext(GlobalContext);
+    const { company, contextAreas } = useContext(GlobalContext);
 
     const navigate = useNavigate();
     
@@ -99,26 +103,49 @@ const StoreGoal = () => {
                         }}
                     />
                     
-                    <TextField 
-                        id="formatted-cnpj-input"
-                        label="Área"
-                        variant="filled"
-                        {...register('area', {
-                            required: 'Área é obrigatório.',
-                        })}
-                        error={!!errors.area}
-                        helperText={errors.area?.message}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <WorkIcon />
-                                </InputAdornment>
-                            ),
+                    <Controller
+                        name="area"
+                        control={control}
+                        rules={{
+                            required: 'A área da meta é obrigatória'
                         }}
-                        sx={{
-                            backgroundColor: '#ffffff',
-                        }}
-
+                        render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
+                            <FormControl
+                                className="rounded w-full"
+                                variant="filled"
+                                sx={{
+                                    backgroundColor: '#ffffff',
+                                }}
+                            >
+                                <InputLabel id="area">Área</InputLabel>
+                                <Select
+                                    labelId="area"
+                                    id="area"
+                                    label="Área"
+                                    {...field}
+                                    error={!!fieldState.error}
+                                    helperText={fieldState.error?.message}
+                                    startAdornment={
+                                        <InputAdornment position="start">
+                                            <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
+                                        </InputAdornment>
+                                    }
+                                >
+                                    {contextAreas.length != 0 ? contextAreas.map((area: AreaType) => (
+                                        <MenuItem
+                                            key={area.id}
+                                            value={area.attributes.name}
+                                        >
+                                            {area.attributes.name}
+                                        </MenuItem>
+                                    )) : (
+                                        <MenuItem disabled>
+                                            Não foi encontrada nenhuma área cadastrada
+                                        </MenuItem>
+                                    )}
+                                </Select>
+                            </FormControl>
+                        )}
                     />
 
                     <div className="flex justify-end">
