@@ -11,6 +11,10 @@ import Actions from '@pages/Action';
 import EditAction from '@pages/Action/Edit';
 import ShowAction from '@pages/Action/Show';
 import StoreAction from '@pages/Action/Store';
+import Areas from '@pages/Areas';
+import EditArea from '@pages/Areas/Edit';
+import ShowArea from '@pages/Areas/Show';
+import StoreArea from '@pages/Areas/Store';
 import Companies from '@pages/Companies';
 import EditCompany from '@pages/Companies/Edit';
 import CompanyLogin from '@pages/Companies/Login';
@@ -221,7 +225,42 @@ function App() {
           }
         />
 
-
+        <Route
+          path="/areas"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <Areas />
+            </RequireAuth>
+          }
+          errorElement={<NotFound />}
+        />
+      
+        <Route
+          path="/areas/:area_id"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <ShowArea />
+            </RequireAuth>
+          }
+          errorElement={<NotFound />}
+        />
+        <Route
+          path="/areas/store"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <StoreArea />
+            </RequireAuth>
+          }
+        />
+        
+        <Route
+          path="/areas/edit/:area_id"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <EditArea />
+            </RequireAuth>
+          }
+        />
           
       </Routes>
 
