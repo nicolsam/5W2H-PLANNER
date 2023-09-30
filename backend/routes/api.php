@@ -9,6 +9,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GoalsController;
 use App\Http\Controllers\ActionController;
 use App\Http\Controllers\ResponsibleController;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\StageController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -40,6 +41,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::get('/{id}/responsibles', [ResponsibleController::class, 'showCompanyResponsibles'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+        
+        Route::get('/{id}/areas', [AreaController::class, 'showCompanyAreas'])
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
     });
@@ -120,6 +124,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin']);
 
         Route::delete('/{id}', [ResponsibleController::class, 'destroy'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+    });
+
+    Route::prefix('/areas')->group(function () {
+
+        Route::get('/', [AreaController::class, 'index'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+
+        Route::post('/', [AreaController::class, 'store'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+        Route::get('/{id}', [AreaController::class, 'show'])
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
+
+        Route::patch('/{id}', [AreaController::class, 'update'])
+            ->middleware(['auth:sanctum', 'ability:admin']);
+
+        Route::delete('/{id}', [AreaController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
 
     });
