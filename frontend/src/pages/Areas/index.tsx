@@ -22,7 +22,7 @@ import AreaType from '@models/Area';
 
 const Areas = () => {
 
-    const { isAdminAccess, company, getCompanyResponsibles } = useContext(GlobalContext)
+    const { isAdminAccess, company, getCompanyAreas } = useContext(GlobalContext)
 
     const navigate = useNavigate();
 
@@ -48,8 +48,9 @@ const Areas = () => {
     const deleteArea = async (area_id: number) => {
         try {
             
-            await api.areas.delete(area_id)
-            getCompanyResponsibles();
+            await api.areas.delete(area_id);
+            
+            getCompanyAreas();
 
             toast('Área deletada com sucesso', {
                 type: 'success',
