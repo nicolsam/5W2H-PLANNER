@@ -43,7 +43,7 @@ const Menu: FC = () => {
 
     let currLocation;
     
-    const validRoutes = ['companies', 'dashboard', 'planning', 'responsibles'];
+    const validRoutes = ['companies', 'dashboard', 'planning', 'responsibles', 'areas'];
     const isRouteValid = validRoutes.includes(location.pathname.split('/')[1]);
 
     const [active, setActive] = useState<string>('/dashboard');
