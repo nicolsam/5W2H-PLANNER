@@ -1,7 +1,7 @@
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import WorkIcon from '@mui/icons-material/Work';
 
 const MenuItems = [
     {
@@ -26,7 +26,7 @@ const MenuItems = [
         id: 4,
         title: 'Áreas',
         link: '/areas',
-        icon: <AccountBalanceIcon className="min-w-full min-h-full" />,
+        icon: <WorkIcon className="min-w-full min-h-full" />,
     },
 ];
 
