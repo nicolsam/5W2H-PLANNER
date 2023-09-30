@@ -21,7 +21,7 @@ const MenuItem = (props: Props) => {
         to={props.link}
         className="px-3 py-4 flex flex-row items-center uppercase text-2xl gap-4"
       >
-        <span>{props.icon}</span>
+        <span className="w-8 h-8 flex justify-center">{props.icon}</span>
         <h2>{props.title}</h2>
       </Link>
     </Option>
