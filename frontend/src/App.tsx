@@ -41,17 +41,17 @@ function App() {
       <Menu />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <CompanyLogin />
-          }
-        />
+        <Route path="/" element={<CompanyLogin />} />
 
         <Route path="/admin/login" element={<Login />} />
-        <Route path="/company/login" element={<CompanyLogin />} errorElement={<NotFound />} />
+        <Route
+          path="/company/login"
+          element={<CompanyLogin />}
+          errorElement={<NotFound />}
+        />
 
         <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route
           path="/dashboard"
@@ -83,7 +83,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="/companies/edit/:company_id"
           element={
@@ -111,7 +111,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="/planning/edit/:goal_id"
           element={
@@ -120,7 +120,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="/planning/action/:goal_id"
           element={
@@ -129,7 +129,7 @@ function App() {
             </RequireAuth>
           }
           errorElement={<NotFound />}
-        />  
+        />
 
         <Route
           path="/planning/action/show/:action_id"
@@ -149,7 +149,6 @@ function App() {
           }
         />
 
-        
         <Route
           path="/planning/action/edit/:action_id"
           element={
@@ -158,7 +157,6 @@ function App() {
             </RequireAuth>
           }
         />
-        
 
         <Route
           path="/planning/stage/show/:stage_id"
@@ -178,7 +176,6 @@ function App() {
           }
         />
 
-        
         <Route
           path="/planning/stage/edit/:stage_id"
           element={
@@ -197,7 +194,7 @@ function App() {
           }
           errorElement={<NotFound />}
         />
-      
+
         <Route
           path="/responsibles/:responsible_id"
           element={
@@ -215,7 +212,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="/responsibles/edit/:responsible_id"
           element={
@@ -234,7 +231,7 @@ function App() {
           }
           errorElement={<NotFound />}
         />
-      
+
         <Route
           path="/areas/:area_id"
           element={
@@ -252,7 +249,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="/areas/edit/:area_id"
           element={
@@ -261,7 +258,6 @@ function App() {
             </RequireAuth>
           }
         />
-          
       </Routes>
 
       <ToastContainer />
