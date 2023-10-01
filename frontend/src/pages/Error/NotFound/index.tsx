@@ -1,21 +1,16 @@
-import ErrorRobot from '@components/Robot/robot';
-import ErrorIcon from '@mui/icons-material/Error';
+import ErrorPage from "../Error";
 
 const NotFound = () => {
 
     return (
-        <div className="relative bg-secondary-color w-full h-screen flex flex-col justify-center items-center gap-10">
-            <div className="absolute top-1/4 flex flex-row justify-center items-center gap-7">
-                <ErrorIcon color="error" style={{ fontSize: 80 }} />
-                <div className="flex flex-col">
-                    <h1 className="text-white font-semibold text-4xl lg:text-6xl xl:text-7xl">404</h1>
-                    <p className="text-white text-xl lg:text-2xl xl:text-3xl">A página que você está procurando não existe.</p>
-                </div>
-            </div>
-            <div className="h-fit absolute top-2/3">
-                <ErrorRobot />
-            </div>
-        </div>
+        <ErrorPage  
+            code={404}
+            description="A página que você está procurando não existe."
+            button={{
+                text: "PÁGINA DE LOGIN",
+                url: "/company/login"
+            }}
+        />
     )
 }
 
