@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Box, Button, Chip, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Box, Button, Chip, FormControl, FormHelperText, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import BackButton from '@components/Layout/BackButton';
@@ -157,7 +157,11 @@ const StoreAction = () => {
                             id="action-name"
                             className="rounded"
                             {...register('name', {
-                            required: 'O nome da ação é obrigatório.',
+                                required: 'O nome da ação é obrigatório.',
+                                minLength: {
+                                    value: 3,
+                                    message: 'O campo nome deve possuir pelo 3 caracteres.'
+                                }
                             })}
                             error={!!errors.name}
                             helperText={errors.name?.message}
@@ -180,7 +184,7 @@ const StoreAction = () => {
                             name="area"
                             control={control}
                             rules={{
-                                required: 'A área da meta é obrigatória'
+                                required: 'A área da meta é obrigatória',
                             }}
                             render={({ field: { ref, onBlur, name, ...field }, fieldState }) => (
                                 <FormControl
@@ -189,6 +193,7 @@ const StoreAction = () => {
                                     sx={{
                                         backgroundColor: '#ffffff',
                                     }}
+                                    error={!!errors.area}
                                 >
                                     <InputLabel id="area">Área</InputLabel>
                                     <Select
@@ -197,7 +202,6 @@ const StoreAction = () => {
                                         label="Área"
                                         {...field}
                                         error={!!fieldState.error}
-                                        helperText={fieldState.error?.message}
                                         startAdornment={
                                             <InputAdornment position="start">
                                                 <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
@@ -217,6 +221,7 @@ const StoreAction = () => {
                                             </MenuItem>
                                         )}
                                     </Select>
+                                    {errors.area && <FormHelperText>{errors.area.message}</FormHelperText>}
                                 </FormControl>
                             )}
                         />

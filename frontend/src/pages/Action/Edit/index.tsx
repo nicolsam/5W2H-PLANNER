@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Alert, AlertTitle, Box, Button, Chip, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Chip, CircularProgress, FormControl, FormHelperText, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import BackButton from '@components/Layout/BackButton';
@@ -204,7 +204,11 @@ const EditAction = () => {
                             id="action-name"
                             className="rounded"
                             {...register('name', {
-                            required: 'O nome da ação é obrigatório.',
+                                required: 'O nome da ação é obrigatório.',
+                                minLength: {
+                                    value: 3,
+                                    message: 'O campo nome deve possuir pelo 3 caracteres.'
+                                }
                             })}
                             error={!!errors.name}
                             helperText={errors.name?.message}
@@ -236,6 +240,7 @@ const EditAction = () => {
                                     sx={{
                                         backgroundColor: '#ffffff',
                                     }}
+                                    error={!!errors.area}
                                 >
                                     <InputLabel id="area">Área</InputLabel>
                                     <Select
@@ -244,7 +249,6 @@ const EditAction = () => {
                                         label="Área"
                                         {...field}
                                         error={!!fieldState.error}
-                                        helperText={fieldState.error?.message}
                                         startAdornment={
                                             <InputAdornment position="start">
                                                 <WorkIcon sx={{ color: 'gray', marginRight: '10px' }} />
@@ -264,6 +268,7 @@ const EditAction = () => {
                                             </MenuItem>
                                         )}
                                     </Select>
+                                    {errors.area && <FormHelperText>{errors.area.message}</FormHelperText>}
                                 </FormControl>
                             )}
                         />
