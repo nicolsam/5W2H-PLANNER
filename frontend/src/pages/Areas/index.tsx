@@ -122,7 +122,7 @@ const Areas = () => {
                     ))   
                     : (
                         <Alert severity="warning">
-                            <AlertTitle>Nenhuma área foi cadastrado</AlertTitle>
+                            <AlertTitle>Nenhuma área foi cadastrada</AlertTitle>
                             Utilize o botão acima para cadastrar sua primeira área.
                         </Alert>
 
