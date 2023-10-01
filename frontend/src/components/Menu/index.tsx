@@ -156,7 +156,7 @@ const Menu: FC = () => {
                     <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
                     <div>
                         {company.attributes.name ? (
-                        <p className="px-3 py-2 text-white font-semibold text-base text-center break-words">
+                        <p className="px-3 py-2 text-white font-semibold text-lg text-center break-words">
                             {company.attributes.name}
                         </p>
                         ) : (
@@ -241,7 +241,7 @@ const Menu: FC = () => {
                     <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
                         <div>
                             {company.attributes.name ? (
-                            <p className="px-2 py-1 text-white font-semibold text-base text-center break-words">
+                            <p className="px-2 py-1 text-white font-semibold text-lg text-center break-words">
                                 {company.attributes.name}
                             </p>
                             ) : (
