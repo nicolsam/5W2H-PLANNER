@@ -16,8 +16,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import api from "@utils/api";
 
 import { BadgeStatusType } from '@components/Badge/styles';
+import BackButton from '@components/Layout/BackButton';
 import ListContainer from '@components/Layout/List';
 import Loading from '@components/Loading';
+
 import ActionType from '@models/Action';
 
 const Actions = () => {
@@ -132,6 +134,8 @@ const Actions = () => {
                 storeText='Ação'
                 redirect='planning/action/store'
             >{currentGoal.attributes.name}</Header>
+
+            <BackButton />
 
             <ListContainer>
                 {actions ? 
