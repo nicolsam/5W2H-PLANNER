@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom/client';
 import './main.css';
 
 import { createTheme, ThemeProvider } from '@mui/material';
+
+import { ptBR as corePtBr } from '@mui/material/locale';
+import { ptBR } from '@mui/x-date-pickers/locales';
+
 import { BrowserRouter } from 'react-router-dom';
 
 import { AuthProvider } from 'react-auth-kit';
@@ -25,70 +29,74 @@ declare module '@mui/material/Button' {
   }
 }
 
-const theme = createTheme({
-  palette: {
-    text: {
-      disabled: '#444344',
+const theme = createTheme(
+  {
+    palette: {
+      text: {
+        disabled: '#444344',
+      },
     },
-  },
-  components: {
-    MuiAccordion: {
-      styleOverrides: {
-        root: {
-          '&:before': {
-            display: 'none',
+    components: {
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            '&:before': {
+              display: 'none',
+            },
           },
         },
       },
-    },
-    MuiButton: {
-      variants: [
-        {
-          props: { variant: 'list' },
-          style: {
-            backgroundColor: '#444344',
-            justifyContent: 'space-between',
-            padding: '1rem',
-            zIndex: '10',
-          },
-        },
-        {
-          props: { variant: 'main' },
-          style: {
-            backgroundColor: '#585858',
-            color: 'white',
-            padding: '1rem',
-            '&:hover': {
-              backgroundColor: '#686768',
-            },
-          },
-        },
-        {
-          props: { variant: 'secondary' },
-          style: {
-            backgroundColor: '#585858',
-            color: 'white',
-            padding: '.5rem 1rem',
-            '&:hover': {
+      MuiButton: {
+        variants: [
+          {
+            props: { variant: 'list' },
+            style: {
               backgroundColor: '#444344',
+              justifyContent: 'space-between',
+              padding: '1rem',
+              zIndex: '10',
             },
           },
-        },
-        {
-          props: { variant: 'action' },
-          style: {
-            backgroundColor: '#444344',
-            color: 'white',
-            padding: '.7rem',
-            '&:hover': {
-              backgroundColor: '#343434',
+          {
+            props: { variant: 'main' },
+            style: {
+              backgroundColor: '#585858',
+              color: 'white',
+              padding: '1rem',
+              '&:hover': {
+                backgroundColor: '#686768',
+              },
             },
           },
-        },
-      ],
+          {
+            props: { variant: 'secondary' },
+            style: {
+              backgroundColor: '#585858',
+              color: 'white',
+              padding: '.5rem 1rem',
+              '&:hover': {
+                backgroundColor: '#444344',
+              },
+            },
+          },
+          {
+            props: { variant: 'action' },
+            style: {
+              backgroundColor: '#444344',
+              color: 'white',
+              padding: '.7rem',
+              '&:hover': {
+                backgroundColor: '#343434',
+              },
+            },
+          },
+        ],
+      },
     },
-  },
-});
+  }, 
+  ptBR,
+  corePtBr
+);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
