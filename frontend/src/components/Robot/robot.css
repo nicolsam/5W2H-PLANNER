@@ -1,11 +1,7 @@
 .robot svg {
-    position: absolute;
-    top: 80%;
-    left: 50%;
+    
     display: block;
     margin: 0 auto;
-    margin-left: -300px;
-    transform: scale(0.6) translate(0, -100%);
     transform-origin: center;
     height: 800px;
     width: 600px;
