@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Box, Button, Chip, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { Alert, AlertTitle, Box, Button, Chip, CircularProgress, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import BackButton from '@components/Layout/BackButton';
@@ -267,7 +267,11 @@ const EditAction = () => {
                                 </FormControl>
                             )}
                         />
-                        
+                        {contextAreas.find((item) => item.attributes.name === action?.attributes?.area) === undefined && (
+                            <Alert severity="warning">
+                                <AlertTitle>A área selecionada não está disponível ou foi removida. Por gentileza, atualize a área desta ação.</AlertTitle>
+                            </Alert>
+                        )}  
                     </Stack>
 
                     <Stack spacing={2} direction={"column"}>
