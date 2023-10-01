@@ -27,10 +27,10 @@ class StoreUpdateStageRequest extends FormRequest
         $rules = [
             'company_id' => 'required',
             'action_id' => 'required',
-            'responsible_id' => 'required',
+            'responsible_id' => 'nullable',
             'name' => [
                 'required',
-                'min:5',
+                'min:3',
                 'max:300',
                 Rule::unique('stages')->where(fn (Builder $query) => $query->where('company_id', $this->company_id)),
             ],
@@ -64,9 +64,8 @@ class StoreUpdateStageRequest extends FormRequest
         return [
             'company_id.required' => 'O ID da empresa deve ser preenchido.',
             'action_id.required' => 'O ID da ação deve ser preenchido.',
-            'responsible_id.required' => 'O campo nome é obrigatório.',
             'name.unique' => 'Este nome já existe.',
-            'name.min' => 'O campo nome deve possuir pelo 5 caracteres.',
+            'name.min' => 'O campo nome deve possuir pelo 3 caracteres.',
             'area.required' => 'O campo área é obrigatório.',
             'what.required' => 'O campo "O que fazer" é obrigatório.',
             'how' => 'O campo "Como fazer" é obrigatório.',
