@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
+import { Alert, AlertTitle, Button, FormControl, InputAdornment, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material";
 
 import BackButton from '@components/Layout/BackButton';
 import Header from "@components/Layout/Header";
@@ -130,6 +130,7 @@ const EditGoal = () => {
                             backgroundColor: '#ffffff',
                         }}
                     />
+
                     <Controller
                         name="area"
                         control={control}
@@ -174,7 +175,12 @@ const EditGoal = () => {
                             </FormControl>
                         )}
                     />
-
+                    {contextAreas.find((item) => item.attributes.name === goal?.attributes?.area) === undefined && (
+                        <Alert severity="warning">
+                            <AlertTitle>A área selecionada não está disponível ou foi removida. Por gentileza, atualize a área desta meta.</AlertTitle>
+                        </Alert>
+                    )}
+                    
                     <div className="flex justify-end">
                         <Button
                             type="submit"
