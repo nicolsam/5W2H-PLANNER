@@ -6,6 +6,9 @@ use App\Http\Requests\StoreUpdateAreaRequest;
 use App\Http\Resources\AreaResource;
 use App\Models\Company;
 use App\Models\Area;
+use App\Models\Goal;
+use App\Models\Action;
+use App\Models\Stage;
 use App\Traits\HttpResponses;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -85,6 +88,22 @@ class AreaController extends Controller
         try {
 
             $area = Area::findOrFail($id);
+            
+            $goalsUsingArea = goal::where('area', '=', $area->name)->get();
+            $actionsUsingArea = Action::where('area', '=', $area->name)->get();
+            $stagesUsingArea = Stage::where('area', '=', $area->name)->get();
+
+            foreach($goalsUsingArea as $goal) {
+                $goal->update(['area' => $data['name']]);
+            }
+
+            foreach($actionsUsingArea as $action) {
+                $action->update(['area' => $data['name']]);
+            }
+
+            foreach($stagesUsingArea as $stage) {
+                $stage->update(['area' => $data['name']]);
+            }
 
         } catch(ModelNotFoundException $exception) {
 
