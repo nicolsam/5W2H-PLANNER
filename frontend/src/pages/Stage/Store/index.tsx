@@ -49,7 +49,7 @@ const ITEM_PADDING_TOP = 8;
 
 const StoreStage = () => {
     
-    const { company, currentAction, contextAreas, contextResponsibles } = useContext(GlobalContext);
+    const { company, currentAction, currentGoal, contextAreas, contextResponsibles } = useContext(GlobalContext);
 
     const [responsiblesSelect, setResponsiblesSelect] = useState<ResponsibleType[]>([]);
 
@@ -108,11 +108,11 @@ const StoreStage = () => {
                 closeButton: true,
             });
 
-            navigate(`/planning/action/${currentAction.id}`);
+            navigate(`/planning/action/${currentGoal.id}`);
 
         } catch(error:any) {
             toast(error.message);
-            navigate(`/planning/action/${currentAction.id}`);
+            navigate(`/planning/action/${currentGoal.id}`);
         }
     }
 

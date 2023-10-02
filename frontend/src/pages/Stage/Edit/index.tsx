@@ -112,10 +112,11 @@ const EditStage = () => {
                 closeButton: true,
             });
 
-            navigate(`/planning/action/${currentAction.id}`);
+            navigate(`/planning/action/${currentGoal.id}`);
 
         } catch(error:any) {
             toast(error.message);
+            navigate(`/planning/action/${currentGoal.id}`);
         }
     }
     
