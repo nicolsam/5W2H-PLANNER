@@ -36,5 +36,6 @@ class Handler extends ExceptionHandler
                 'message' => 'Você não tem permissão para executar esta ação.'
             ], 403);
         }
+        return parent::render($request, $e);
     }
 }
