@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::patch('/{id}', [GoalsController::class, 'update'])
-            ->middleware(['auth:sanctum', 'ability:admin']);
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::delete('/{id}', [GoalsController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::patch('/{id}', [ActionController::class, 'update'])
-            ->middleware(['auth:sanctum', 'ability:admin']);
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::delete('/{id}', [ActionController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
@@ -102,7 +102,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::patch('/{id}', [StageController::class, 'update'])
-            ->middleware(['auth:sanctum', 'ability:admin']);
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::delete('/{id}', [StageController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
@@ -121,7 +121,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::patch('/{id}', [ResponsibleController::class, 'update'])
-            ->middleware(['auth:sanctum', 'ability:admin']);
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::delete('/{id}', [ResponsibleController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::patch('/{id}', [AreaController::class, 'update'])
-            ->middleware(['auth:sanctum', 'ability:admin']);
+            ->middleware(['auth:sanctum', 'ability:admin,company']);
 
         Route::delete('/{id}', [AreaController::class, 'destroy'])
             ->middleware(['auth:sanctum', 'ability:admin']);
