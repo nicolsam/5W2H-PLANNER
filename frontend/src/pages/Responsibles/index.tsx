@@ -114,7 +114,14 @@ const Responsibles = () => {
                                     icon: <DeleteIcon className="text-danger" />,
                                     click: () => deleteResponsible(responsible.id)
                                 }
-                            ] : []} 
+                            ] : [
+                                {
+                                    name: 'Editar',
+                                    ariaLabel: 'editar',
+                                    icon: <EditIcon className="text-main-color" />,
+                                    click: () => editResponsible(responsible.id)
+                                }
+                            ]} 
                             key={index}
                         >
                             {responsible.attributes.name}

@@ -111,7 +111,14 @@ const Goals = () => {
                                         icon: <DeleteIcon className="text-danger" />,
                                         click: () => deleteGoal(goal.id)
                                     }
-                                ] : []
+                                ] : [
+                                    {
+                                        name: 'Editar',
+                                        ariaLabel: 'editar',
+                                        icon: <EditIcon className="text-main-color" />,
+                                        click: () => editGoal(goal.id)
+                                    }
+                                ]
                             } 
                             badges={[
                                 {

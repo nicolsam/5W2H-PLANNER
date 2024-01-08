@@ -135,7 +135,7 @@ const Actions = () => {
                 redirect='planning/action/store'
             >{currentGoal.attributes.name}</Header>
 
-            <BackButton />
+            <BackButton link="/planning" />
 
             <ListContainer>
                 {actions ? 
@@ -161,7 +161,14 @@ const Actions = () => {
                                         icon: <DeleteIcon className="text-danger" />,
                                         click: () => deleteAction(action.id)
                                     }
-                                ] : []
+                                ] : [
+                                    {
+                                        name: 'Editar',
+                                        ariaLabel: 'editar',
+                                        icon: <EditIcon className="text-main-color" />,
+                                        click: () => editAction(action.id)
+                                    }
+                                ]
                             } 
                             badges={[
                                 {
@@ -212,7 +219,14 @@ const Actions = () => {
                                                             icon: <DeleteIcon className="text-danger" />,
                                                             click: () => deleteStage(stage.id)
                                                         }
-                                                    ]: []
+                                                    ]: [
+                                                        {
+                                                            name: 'Editar',
+                                                            ariaLabel: 'editar',
+                                                            icon: <EditIcon className="text-main-color" />,
+                                                            click: () => editStage(action, stage.id)
+                                                        }
+                                                    ]
                                                 }
                                                 badges={[
                                                     {

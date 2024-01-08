@@ -114,7 +114,14 @@ const Areas = () => {
                                     icon: <DeleteIcon className="text-danger" />,
                                     click: () => deleteArea(area.id)
                                 }
-                            ] : []} 
+                            ] : [
+                                {
+                                    name: 'Editar',
+                                    ariaLabel: 'editar',
+                                    icon: <EditIcon className="text-main-color" />,
+                                    click: () => editArea(area.id)
+                                }
+                            ]} 
                             key={index}
                         >
                             {area.attributes.name}
