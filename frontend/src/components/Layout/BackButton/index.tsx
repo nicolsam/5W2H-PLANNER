@@ -1,11 +1,30 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Button } from '@mui/material';
 
-const BackButton = () => {
+interface Props {
+    link?: string;
+}
+
+const BackButton = ({ link }: Props) => {
     const navigate = useNavigate();
+
+    /**
+     * Return to a specific page if a link is provided,
+     * otherwise return one page backwards
+     */
+    const back = (link = '') => {
+
+        if(!link) {
+            navigate(-1)
+            return;
+        }
+        
+        navigate(link);
+
+    };
 
     return (
         <Button 
@@ -13,7 +32,7 @@ const BackButton = () => {
             variant="secondary"
             size="medium"
             disableElevation
-            onClick={() => navigate(-1)}
+            onClick={() => back(link)}
             startIcon={<ArrowBackIosIcon />}
         >
             <span className="py-1 text-lg">Voltar</span>
