@@ -23,8 +23,9 @@ class ActionController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
+    {   
+        $actions = Action::all();
+        return ActionsResource::collection($actions);
     }
 
     /**
