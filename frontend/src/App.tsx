@@ -8,6 +8,7 @@ import Menu from '@components/Menu';
 
 import RequireAdminAccess from '@components/Authentication/Admin';
 import Actions from '@pages/Action';
+import AllActions from '@pages/Action/All';
 import EditAction from '@pages/Action/Edit';
 import ShowAction from '@pages/Action/Show';
 import StoreAction from '@pages/Action/Store';
@@ -30,6 +31,7 @@ import Responsibles from '@pages/Responsibles';
 import EditResponsible from '@pages/Responsibles/Edit';
 import ShowResponsible from '@pages/Responsibles/Show';
 import StoreResponsible from '@pages/Responsibles/Store';
+import AllStages from '@pages/Stage/All';
 import EditStage from '@pages/Stage/Edit';
 import ShowStage from '@pages/Stage/Show';
 import StoreStage from '@pages/Stage/Store';
@@ -120,6 +122,16 @@ function App() {
             </RequireAuth>
           }
         />
+        
+        <Route
+          path="/planning/action/all"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <AllActions />
+            </RequireAuth>
+          }
+          errorElement={<NotFound />}
+        />
 
         <Route
           path="/planning/action/:goal_id"
@@ -154,6 +166,15 @@ function App() {
           element={
             <RequireAuth loginPath="/company/login">
               <EditAction />
+            </RequireAuth>
+          }
+        />
+        
+        <Route
+          path="/planning/stage/all"
+          element={
+            <RequireAuth loginPath="/company/login">
+              <AllStages />
             </RequireAuth>
           }
         />
