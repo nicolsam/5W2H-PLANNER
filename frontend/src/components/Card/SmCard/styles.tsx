@@ -8,4 +8,8 @@ export const Card = styled.div`
     @media (max-width: 768px) {
         min-width: 0;
     }
+
+    &:hover { 
+        cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
+    }
 `;

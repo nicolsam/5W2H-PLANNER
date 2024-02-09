@@ -11,10 +11,12 @@ import api from '@utils/api';
 import getToken from '@utils/getToken';
 import { useContext, useEffect, useState } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
 
     const { company } = useContext(GlobalContext);
+    const navigate = useNavigate();
 
     const auth = useAuthHeader()
 
@@ -189,16 +191,48 @@ const Dashboard = () => {
 
             <div className="mt-5 grid grid-rows-auto gap-2 grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 lg:gap-3">
                 <div className="2xl:cols-span-2 h-fit">
-                    <SmCard description="Total de metas" amount={goalCount.total} type="number" />
+                    <SmCard 
+                        description="Total de metas" 
+                        amount={goalCount.total} 
+                        type="number" 
+                        onClick={() => {
+                            navigate('/planning');
+                        }} 
+                        tooltip="Visualizar todas as metas"
+                    />
                 </div>
                 <div className="2xl:cols-span-2 h-fit">
-                    <SmCard description="Total de ações" amount={actionCount.total} type="number" />
+                    <SmCard 
+                        description="Total de ações" 
+                        amount={actionCount.total} 
+                        type="number" 
+                        onClick={() => {
+                            navigate('/planning/action/all');
+                        }} 
+                        tooltip="Visualizar todas as ações"
+                    />
                 </div>
                 <div className="2xl:cols-span-2 h-fit">
-                    <SmCard description="Total de etapas" amount={stageCount.total} type="number" />
+                    <SmCard 
+                        description="Total de etapas" 
+                        amount={stageCount.total} 
+                        type="number" 
+                        onClick={() => {
+                            navigate('/planning/stage/all');
+                        }} 
+                        tooltip="Visualizar todas as etapas"
+                    />
                 </div>
                 <div className="2xl:cols-span-2 h-fit">
-                    <SmCard description="Total de responsáveis" amount={responsibleCount} type="number" />
+                    <SmCard 
+                        description="Total de responsáveis" 
+                        amount={responsibleCount} 
+                        type="number" 
+                        onClick={() => {
+                            navigate('/responsibles');
+                        }} 
+                        tooltip="Visualizar todos os responsáveis"
+                    />
                 </div>
                 <div className="col-span-1 md:col-span-1 lg:row-span-1 lg:col-span-2 xl:row-span-1 xl:col-span-1 2xl:col-span-2">
                     <MdCard name="Ações" charts={actionChart} />
