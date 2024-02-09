@@ -425,7 +425,28 @@ const api = {
     },
 
     actions: {
-        
+        all: async () => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/actions/`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
+
         show: async (id: number) => {
             try {
 
@@ -579,6 +600,27 @@ const api = {
 
     stages: {
         
+        all: async () => {
+            try {
+
+                const headers = { 'Authorization': `Bearer ${getCookie('_auth')}` }; // auth header with bearer token
+                
+                const response: AxiosResponse = await https.get(`/stages/`, { headers })
+                
+                return ApiResponse(true, response.data.data, response.data.message);
+
+            } catch(error: any) {
+                if(error.response) {
+                    return ApiResponse(false, [], error.response.data.message); 
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an error
+                    console.log('Error', error.message);
+                }
+            }
+        },
         show: async (id: number) => {
             try {
 
