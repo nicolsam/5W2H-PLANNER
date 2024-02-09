@@ -20,7 +20,8 @@ class StageController extends Controller
      */
     public function index()
     {
-        //
+        $stages = Stage::all();
+        return StagesResource::collection($stages);
     }
 
     /**
