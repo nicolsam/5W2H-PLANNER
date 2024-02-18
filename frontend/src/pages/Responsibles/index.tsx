@@ -1,7 +1,7 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Header from '@components/Layout/Header';
@@ -18,6 +18,7 @@ import api from "@utils/api";
 
 import Loading from '@components/Loading';
 
+import BackButton from '@components/Layout/BackButton';
 import ResponsibleType from '@models/Responsible';
 
 const Responsibles = () => {
@@ -25,6 +26,8 @@ const Responsibles = () => {
     const { isAdminAccess, company, getCompanyResponsibles } = useContext(GlobalContext)
 
     const navigate = useNavigate();
+    const location = useLocation()
+    const HasBackButton = location.state?.HasBackButton || null;
 
     const [responsibles, setResponsibles] = useState<ResponsibleType[] | null>(null);
     const [userActions, setUserActions] = useState<any>([])
@@ -93,6 +96,10 @@ const Responsibles = () => {
                 storeText='Responsável'
                 redirect='responsibles/store'
             >Responsáveis</Header>
+            
+            {HasBackButton && (
+                <BackButton link={HasBackButton} />
+            )}
 
             <ListContainer>
                 {responsibles ? 

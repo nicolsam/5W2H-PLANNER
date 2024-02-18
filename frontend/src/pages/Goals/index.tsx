@@ -1,20 +1,21 @@
 import { GlobalContext } from '@contexts/Context';
 import { useContext, useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Header from '@components/Layout/Header';
 import Item from '@components/Layout/List/Item';
 import Main from '@components/Layout/Main';
 
-import { Alert, AlertTitle, Stack } from '@mui/material';
+import { Alert, AlertTitle } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import api from "@utils/api";
 
+import BackButton from '@components/Layout/BackButton';
 import ListContainer from '@components/Layout/List';
 import Loading from '@components/Loading';
 import GoalType from '@models/Goal';
@@ -24,6 +25,8 @@ const Goals = () => {
     const { isAdminAccess, company, setGoal } = useContext(GlobalContext)
 
     const navigate = useNavigate();
+    const location = useLocation()
+    const HasBackButton = location.state?.HasBackButton || null;
 
     const [goals, setGoals] = useState<GoalType[] | null>(null);
     const [userActions, setUserActions] = useState<any>([])
@@ -89,6 +92,10 @@ const Goals = () => {
                 storeText='Meta'
                 redirect='planning/store'
             >Planejamento</Header>
+
+            {HasBackButton && (
+                <BackButton link={HasBackButton} />
+            )}
 
             <ListContainer>
                 {goals ? 
