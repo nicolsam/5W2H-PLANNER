@@ -11,5 +11,7 @@ export const Card = styled.div`
 
     &:hover { 
         cursor: ${({onClick}) => onClick ? 'pointer' : 'normal'};
+
+        box-shadow: 3px 5px 5px rgba(0, 0, 0, .3);
     }
 `;

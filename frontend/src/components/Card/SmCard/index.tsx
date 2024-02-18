@@ -27,7 +27,7 @@ const SmCard = ({ type, amount, description, onClick, tooltip }: Props) => {
                 arrow
         >
             <Card 
-                className="h-full px-2 py-5 md:py-3 lg:px-4 lg:py-5 bg-main-color text-white rounded"
+                className="group h-full px-2 py-5 md:py-3 lg:px-4 lg:py-5 bg-main-color text-white rounded"
                 onClick={onClick}
             >
                 
@@ -37,7 +37,9 @@ const SmCard = ({ type, amount, description, onClick, tooltip }: Props) => {
                         {type == 'percent' && '%'}
                     </h2>
                     {onClick && (
-                        <KeyboardArrowRightIcon sx={{ fontSize: 35 }} />
+                        <div className="group-hover:bg-secondary-color rounded">
+                            <KeyboardArrowRightIcon sx={{ fontSize: 35 }} />
+                        </div>
                     )}
                 </div>
             
