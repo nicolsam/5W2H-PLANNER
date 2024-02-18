@@ -196,7 +196,11 @@ const Dashboard = () => {
                         amount={goalCount.total} 
                         type="number" 
                         onClick={() => {
-                            navigate('/planning');
+                            navigate('/planning', {
+                                state: {
+                                    HasBackButton: "/dashboard"
+                                }
+                            })
                         }} 
                         tooltip="Visualizar todas as metas"
                     />
@@ -229,7 +233,11 @@ const Dashboard = () => {
                         amount={responsibleCount} 
                         type="number" 
                         onClick={() => {
-                            navigate('/responsibles');
+                            navigate('/responsibles', {
+                                state: {
+                                    HasBackButton: "/dashboard"
+                                }
+                            });
                         }} 
                         tooltip="Visualizar todos os responsáveis"
                     />
