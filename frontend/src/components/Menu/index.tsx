@@ -105,75 +105,79 @@ const Menu: FC = () => {
             </div>
             <div className="max-w-xs hidden lg:block box-border z-20 h-screen bg-main-color p-5 lg:py-24 xl:py-12 top-0 sticky flex flex-col items-center gap-4">
                 <div className="h-4/5">
-                <div className="lg:hidden w-full flex mb-5">
-                    <div className="cursor-pointer bg-secondary-color rounded-full p-2">
-                    <MenuIcon
-                        className="fill-white text-3xl"
-                        onClick={handleToggleMenu}
-                    />
+                    <div className="lg:hidden w-full flex mb-5">
+                        <div className="cursor-pointer bg-secondary-color rounded-full p-2">
+                            <MenuIcon
+                                className="fill-white text-3xl"
+                                onClick={handleToggleMenu}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="flex flex-col gap-3 text-white">
-                    {location.pathname === '/companies' ? (
-                    <MenuItem
-                        title="Empresas"
-                        link="/companies"
-                        icon={<BusinessIcon />}
-                        active={'/companies'}
-                        key={6}
-                    />
-                    ) : (
-                    MenuItems.map((item: any, index: number) => {
-                        return (
+                    <div className="flex flex-col gap-3 text-white">
+                        {location.pathname === '/companies' ? (
                         <MenuItem
-                            title={item.title}
-                            link={item.link}
-                            icon={item.icon}
-                            active={
-                            active === currentLocation
-                                ? active
-                                : '/' + currentLocation
-                            }
-                            changeActive={(link: string) => setActive(link)}
-                            key={index}
+                            title="Empresas"
+                            link="/companies"
+                            icon={<BusinessIcon />}
+                            active={'/companies'}
+                            key={6}
                         />
-                        );
-                    })
-                    )}
-                </div>
-                </div>
-                <div className="h-1/5 flex items-end">
-                {location.pathname === '/companies' ? (
-                    <button
-                        className="w-full flex flex-row items-center justify-center gap-2 py-3 rounded uppercase text-2xl text-white bg-danger hover:bg-danger-hover"
-                        onClick={logout}
-                    >
-                        <LogoutIcon className="text-2xl" />
-
-                        <p>Sair</p>
-                    </button>
-                ) : (
-                    <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
-                    <div>
-                        {company.attributes.name ? (
-                        <p className="px-3 py-2 text-white font-semibold text-lg text-center break-words">
-                            {company.attributes.name}
-                        </p>
                         ) : (
-                        <Loading color="white" />
+                        MenuItems.map((item: any, index: number) => {
+                            return (
+                            <MenuItem
+                                title={item.title}
+                                link={item.link}
+                                icon={item.icon}
+                                active={
+                                active === currentLocation
+                                    ? active
+                                    : '/' + currentLocation
+                                }
+                                changeActive={(link: string) => setActive(link)}
+                                key={index}
+                            />
+                            );
+                        })
                         )}
                     </div>
+                </div>
+                <div className="h-1/5 flex items-end">
+                    {location.pathname === '/companies' ? (
+                        <button
+                            className="w-full flex flex-row items-center justify-center gap-2 py-3 rounded uppercase text-2xl text-white bg-danger hover:bg-danger-hover"
+                            onClick={logout}
+                        >
+                            <LogoutIcon className="text-2xl" />
 
-                    <button
-                        className="flex flex-row items-center gap-2 px-5 py-2 rounded uppercase text-lg text-white bg-danger hover:bg-danger-hover"
-                        onClick={back}
-                    >
-                        <LogoutIcon className="text-2xl" />
+                            <p>Sair</p>
+                        </button>
+                    ) : (
+                        <div className="w-full rounded bg-secondary-color flex items-center justify-center flex-col gap-3 px-4 py-4">
+                        <div>
+                            {company.attributes.name ? (
+                            <p className="px-3 py-2 text-white font-semibold text-lg text-center break-words">
+                                {company.attributes.name}
+                            </p>
+                            ) : (
+                            <Loading color="white" />
+                            )}
+                        </div>
 
-                        <p>Sair</p>
-                    </button>
-                    </div>
-                )}
+                        <button
+                            className="flex flex-row items-center gap-2 px-5 py-2 rounded uppercase text-lg text-white bg-danger hover:bg-danger-hover"
+                            onClick={back}
+                        >
+                            <LogoutIcon className="text-2xl" />
+
+                            <p>Sair</p>
+                        </button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="text-white text-center">
+                    v{import.meta.env.VITE_APP_VERSION}
                 </div>
             </div>
 
@@ -227,7 +231,7 @@ const Menu: FC = () => {
                     )}
                     </div>
                 </div>
-                <div className="h-1/5 flex items-end">
+                <div className="h-1/5 flex gap-1 items-center flex-col">
                     {location.pathname === '/companies' ? (
                     <button
                         className="w-full flex flex-row items-center justify-center gap-2 py-3 rounded uppercase text-2xl text-white bg-danger hover:bg-danger-hover"
@@ -256,7 +260,12 @@ const Menu: FC = () => {
                             <p>Voltar</p>
                         </button>
                     </div>
+                    
                     )}
+
+                    <div className="text-white text-center">
+                        v{import.meta.env.VITE_APP_VERSION}
+                    </div>
                 </div>
                 </motion.div>
             </div>
