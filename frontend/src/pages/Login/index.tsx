@@ -129,7 +129,7 @@ const Login = () => {
                             className="rounded text-xl"
                             type={showPasswordType}
                             {...register("password", {
-                                required: "Senha é obrigatório."
+                                required: "Senha é obrigatória."
                             })}
                             error={!!errors.password}
                             helperText={errors.password?.message}
