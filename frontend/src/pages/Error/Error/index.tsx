@@ -26,9 +26,11 @@ const ErrorPage = ({ code, description, button }: Props) => {
                     </div>
                 </div>
                 <div className="h-auto flex justify-center">
-                    <Button variant="main" disableElevation className="my-2 w-fit">
-                        <Link to={button.url}>{button.text}</Link>
-                    </Button>
+                    <Link to={button.url}>
+                        <Button variant="main" disableElevation className="my-2 w-fit">
+                            {button.text}
+                        </Button>
+                    </Link>
                 </div>
                 <div className="h-auto scale-50 flex justify-center items-start">
                     <ErrorRobot />

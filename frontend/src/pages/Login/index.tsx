@@ -163,9 +163,15 @@ const Login = () => {
                         </Button>
                         
                         <div className="flex justify-center">
-                            <Button variant="secondary" disableElevation className="my-2 w-fit">
-                                <Link to="/company/login">Logar como empresa</Link>
-                            </Button>
+                            <Link to="/company/login">
+                                <Button 
+                                    variant="secondary" 
+                                    disableElevation 
+                                    className="my-2 w-fit"
+                                >
+                                    Logar como empresa
+                                </Button>
+                            </Link>
                         </div>
                     </Stack>
                 </Stack>
