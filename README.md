@@ -24,6 +24,7 @@ O ambiente de desenvolvimento é totalmente containerizado com **Docker**, garan
   - [Módulo Administrativo](#modulo-administrativo)
   - [Módulo da Empresa (Cliente)](#modulo-da-empresa-cliente)
 - [Estrutura de pastas](#estrutura-pastas)
+- [Autor](#autor)
 
 ## Tecnologias Utilizadas
 
@@ -92,3 +93,16 @@ O projeto foi construído utilizando as seguintes tecnologias e bibliotecas:
 │   │   └── ...
 └── docker-compose.yml  # Orquestração dos containers
 ```
+
+## Autor
+
+[Nicolas Samuel](https://www.linkedin.com/in/nicolas-samuel-veras/)
+
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Behance][behance-shield]][behance-url]
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin-white&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/nicolas-samuel-veras/
+[behance-shield]: https://img.shields.io/badge/Behance-0054F7?style=for-the-badge&logo=behance&colorB=555
+[behance-url]: https://www.behance.net/nicolsam
