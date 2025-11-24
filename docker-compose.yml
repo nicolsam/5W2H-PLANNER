@@ -16,7 +16,7 @@ services:
     environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE=phpmyadmin
-        - MYSQL_USER=nicolas
+        - MYSQL_USER=myuser
         - MYSQL_PASSWORD=150a
   
   phpmyadmin:
