@@ -39,7 +39,7 @@ O projeto foi construído utilizando as seguintes tecnologias e bibliotecas:
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 ### Módulo Administrativo
 - Login exclusivo para administradores do sistema.
