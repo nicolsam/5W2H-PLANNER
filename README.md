@@ -13,6 +13,17 @@ Desenvolvido com uma arquitetura moderna separando responsabilidades, o projeto 
 
 O ambiente de desenvolvimento é totalmente containerizado com **Docker**, garantindo consistência e facilidade na implantação.
 
+## Sumário
+
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+  - [Backend (API)](#backend-api)
+  - [Frontend (SPA)](#frontend-spa)
+  - [DevOps & Infraestrutura](#devops-&-infraestrutura)
+- [Funcionalidades](#funcionalidades)
+  - [Módulo Administrativo](#modulo-administrativo)
+  - [Módulo da Empresa (Cliente)](#modulo-da-empresa-cliente)
+- [Estrutura de pastas](#estrutura-pastas)
+
 ## Tecnologias Utilizadas
 
 O projeto foi construído utilizando as seguintes tecnologias e bibliotecas:
